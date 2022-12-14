@@ -8,6 +8,8 @@ const login = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
+    console.log(event.currentTarget)
+    console.log(data.get('email'))
     const axiosInstance = axios.create({
       baseURL: `http://localhost:3001/api/v1/`,
       headers: {
@@ -25,20 +27,28 @@ const login = () => {
           Cookies.set('uid', response.headers['uid'])
           Cookies.set('client', response.headers['client'])
           Cookies.set('access-token', response.headers['access-token'])
-          router.push('/index')
+          router.push('/')
         })
     })()
   }
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <div>
-        <input type="text" placeholder="Emailを入力してください。" />
+        <input
+          type="text"
+          name="email"
+          placeholder="Emailを入力してください。"
+        />
       </div>
       <div>
-        <input type="text" placeholder="passwordを入力してください。" />
+        <input
+          type="text"
+          name="password"
+          placeholder="passwordを入力してください。"
+        />
       </div>
-      <button onSubmit={handleSubmit}>sign in</button>
-    </>
+      <button type="submit">sign in</button>
+    </form>
   )
 }
 export default login
