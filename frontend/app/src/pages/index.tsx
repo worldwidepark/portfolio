@@ -2,8 +2,11 @@ import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import React from 'react'
-import { withAuthServerSideProps } from '../services/auth/signin'
+import { loginCheck } from '../services/auth/signin'
 import Cookies from 'js-cookie'
+import { signOutServerSideProps } from '../services/auth/signout'
+import Link from 'next/link'
+import Header from '../components/organisms/Header'
 // export const getServerSideProps = withAuthServerSideProps('auth/sessions')
 
 // export const withAuthServerSideProps = (url) => {
@@ -12,15 +15,17 @@ import Cookies from 'js-cookie'
 //     .then((data) => console.log(data))
 // }
 
-withAuthServerSideProps('auth/sessions')
+loginCheck('auth/sessions')
 console.log(Cookies.get('client'))
 console.log(Cookies.get('access-token'))
+const signout = () => {
+  signOutServerSideProps('auth/sign_out')
+}
 
 const index = () => {
   return (
     <>
-      <div>これ見れます？</div>
-      <button>sign in</button>
+      <Header></Header>
     </>
   )
 }

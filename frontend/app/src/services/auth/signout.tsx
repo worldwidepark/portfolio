@@ -1,8 +1,9 @@
 import { GetServerSideProps } from 'next'
 import Cookies from 'js-cookie'
 
-export const loginCheck = (url) => {
+export const signOutServerSideProps = (url) => {
   fetch(`http://localhost:3001/api/v1/${url}`, {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       uid: Cookies.get('uid'),
@@ -11,5 +12,5 @@ export const loginCheck = (url) => {
     },
   })
     .then((response) => response.json())
-    .then((data) => console.log(data.is_login))
+    .then((data) => console.log(data))
 }
