@@ -31,9 +31,10 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 gem 'font-awesome-rails'
 gem 'pry-rails'
-gem 'slim-rails'
 gem 'devise'
-gem 'html2slim'
+gem 'rack-cors'
+gem 'devise_token_auth'
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
