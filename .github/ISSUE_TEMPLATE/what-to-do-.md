@@ -1,5 +1,5 @@
 ---
-name: Issue
+name: 'What to do '
 about: Suggest an idea for this project
 title: ''
 labels: ''
