@@ -18,9 +18,6 @@ import Header from '../components/organisms/Header'
 loginCheck('auth/sessions')
 console.log(Cookies.get('client'))
 console.log(Cookies.get('access-token'))
-const signout = () => {
-  signOutServerSideProps('auth/sign_out')
-}
 
 const index = () => {
   return (

@@ -1,7 +1,12 @@
 import Link from 'next/link'
 import React from 'react'
+import { signOutServerSideProps } from '../../../services/auth/signout'
 
 const Header = () => {
+  const signout = () => {
+    signOutServerSideProps('auth/sign_out')
+  }
+
   return (
     <div>
       {' '}
@@ -21,9 +26,10 @@ const Header = () => {
       <Link href="/">
         <button>メッセージ</button>
       </Link>
-      <Link href="/">
+      <Link href="/userprofile">
         <button>profile</button>
       </Link>
+      <button onClick={signout}>sign out</button>
     </div>
   )
 }
