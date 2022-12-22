@@ -16,9 +16,9 @@ class Api::V1::WorkExperiencesController < ApplicationController
   end
 
   def update
-    work_experience = @user.work_experiences.find_by(work_experience_params[:id])
+    work_experience = WorkExperience.find(params[:id])
     if work_experience.update(work_experience_params)
-      render json: work_experiences
+      render json: work_experience
     else
       render json: {alret:"what are you doing" }
     end
@@ -26,7 +26,7 @@ class Api::V1::WorkExperiencesController < ApplicationController
 
   private
   def work_experience_params
-    params.require(:work_experience).permit(:id,:job_title, :duties, :dates_of_employment,:achievements)
+    params.require(:work_experience).permit(:job_title, :duties, :dates_of_employment,:achievements)
   end
 
   def user_finder

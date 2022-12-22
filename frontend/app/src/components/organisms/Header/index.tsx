@@ -1,18 +1,18 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
-import { signOutServerSideProps } from '../../../services/auth/signout'
+import { signout } from '../../../services/auth/signout'
 
 const Header = () => {
-  const signout = () => {
-    signOutServerSideProps('auth/sign_out')
+  const router = useRouter()
+  const signoutt = () => {
+    signout()
+    router.reload()
   }
 
   return (
     <div>
       {' '}
-      <Link href="/signin">
-        <button>Sign in</button>
-      </Link>
       <Link href="/">
         <button>Top</button>
       </Link>
@@ -29,7 +29,7 @@ const Header = () => {
       <Link href="/userprofile">
         <button>profile</button>
       </Link>
-      <button onClick={signout}>sign out</button>
+      <button onClick={signoutt}>sign out</button>
     </div>
   )
 }

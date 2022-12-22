@@ -29,7 +29,7 @@ const signInBox = () => {
     <>
       <button onClick={handleSubmit}>a</button>
       {data.map((item, index) => (
-        <div>{item.id}</div>
+        <div>{item.job_title}</div>
       ))}
     </>
   )
