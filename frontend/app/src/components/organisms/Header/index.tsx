@@ -1,13 +1,18 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
+import { signout } from '../../../services/auth/signout'
 
 const Header = () => {
+  const router = useRouter()
+  const signoutt = () => {
+    signout()
+    router.reload()
+  }
+
   return (
     <div>
       {' '}
-      <Link href="/signin">
-        <button>Sign in</button>
-      </Link>
       <Link href="/">
         <button>Top</button>
       </Link>
@@ -21,9 +26,10 @@ const Header = () => {
       <Link href="/">
         <button>メッセージ</button>
       </Link>
-      <Link href="/">
+      <Link href="/userprofile">
         <button>profile</button>
       </Link>
+      <button onClick={signoutt}>sign out</button>
     </div>
   )
 }
