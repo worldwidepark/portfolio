@@ -20,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
         setIsSignedIn(true)
         setCurrentUser(res.data.data)
         console.log(res?.data.data)
+        console.log('_app handleGetCurrentUser')
       } else {
         console.log('No current user')
       }
@@ -35,13 +36,6 @@ export default function App({ Component, pageProps }: AppProps) {
     handleGetCurrentUser()
   }, [isSignedIn])
 
-  const HeaderTag = () => {
-    if (isSignedIn) return <Header />
-    else {
-      return <></>
-    }
-  }
-
   return (
     <>
       <AuthContext.Provider
@@ -56,7 +50,6 @@ export default function App({ Component, pageProps }: AppProps) {
           setAuthMessage,
         }}
       >
-        <HeaderTag />
         <Component {...pageProps} />
       </AuthContext.Provider>
     </>

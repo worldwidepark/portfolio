@@ -4,7 +4,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import Link from 'next/link'
 
-const signInBox = () => {
+export const UserProfileInputForm = () => {
   const router = useRouter()
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -18,7 +18,7 @@ const signInBox = () => {
     })
     ;(async () => {
       return await axiosInstance
-        .post('users/20/work_experiences', {
+        .post('users/23/work_experiences', {
           job_title: data.get('job_title'),
           duties: data.get('duties'),
         })
@@ -48,4 +48,3 @@ const signInBox = () => {
     </>
   )
 }
-export default signInBox
