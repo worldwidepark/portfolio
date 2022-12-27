@@ -1,8 +1,10 @@
-import { GetServerSideProps } from 'next'
+import { fetcher } from '../../utlis'
 import Cookies from 'js-cookie'
-
-export const signOutServerSideProps = (url) => {
-  fetch(`http://localhost:3001/api/v1/${url}`, {
+import { useRouter } from 'next/router'
+import { DEFAULT_API } from '../../urls'
+// 練習のためfetchでも実装を行なった。
+export const signout = () => {
+  fetch(`${DEFAULT_API}/auth/sign_out`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -11,6 +13,6 @@ export const signOutServerSideProps = (url) => {
       'access-token': Cookies.get('access-token'),
     },
   })
+    // cookie clear 必要
     .then((response) => response.json())
-    .then((data) => console.log(data))
 }

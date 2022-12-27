@@ -1,59 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
-import axios from 'axios'
-import Cookies from 'js-cookie'
 import Link from 'next/link'
+import SigninForm from '../components/organisms/SigninForm'
+import { AuthContext } from '../contexts/AuthContext'
+import Layout from '../components/templates/Layout'
 
-const signInBox = () => {
+const signin = () => {
   const router = useRouter()
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    const baseURL = `http://localhost:3001/api/v1/`
-    console.log(data.get('email'))
-    const axiosInstance = axios.create({
-      baseURL,
-      headers: {
-        'content-type': 'application/json',
-      },
-    })
-    ;(async () => {
-      return await axiosInstance
-        .post('auth/sign_in', {
-          email: data.get('email'),
-          password: data.get('password'),
-        })
-        .then(function (response) {
-          Cookies.set('uid', response.headers['uid'])
-          Cookies.set('client', response.headers['client'])
-          Cookies.set('access-token', response.headers['access-token'])
-          router.push('/')
-        })
-    })()
-  }
+  const { isSignedIn } = useContext(AuthContext)
+  if (isSignedIn) router.push('/')
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            type="text"
-            name="email"
-            placeholder="Emailを入力してください。"
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="password"
-            placeholder="passwordを入力してください。"
-          />
-        </div>
-        <button type="submit">sign in</button>
-      </form>
-      <Link href="/">
-        <button>TOP</button>
+    <Layout>
+      <SigninForm />
+      <Link href="/signup">
+        <button>Sign up</button>
       </Link>
-    </>
+    </Layout>
   )
 }
-export default signInBox
+export default signin
