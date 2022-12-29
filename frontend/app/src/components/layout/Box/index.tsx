@@ -1,10 +1,11 @@
 import React from 'react'
 
 export const Box = (props) => {
-  const { width, backgroundColor = 'wheat', children, onClick } = props
+  const { width, height, backgroundColor = 'wheat', children, onClick } = props
 
   const boxStyle = {
     width: width,
+    height: height,
     background: backgroundColor,
     border: 'none',
     borderRadius: '5px',

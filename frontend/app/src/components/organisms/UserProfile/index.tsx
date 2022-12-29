@@ -7,7 +7,7 @@ import { Box } from '../../layout/Box'
 import { Flex } from '../../layout/Flex'
 import { UserProfile } from './userProfile'
 
-export const UserProfileList = () => {
+export const UserProfileList = (activeLists) => {
   const [userProfiles, setUserProfiles] = useState([])
   const [userId, setUserId] = useState()
   const [modalId, setModalId] = useState(0)

@@ -1,17 +1,18 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import React from 'react'
-import Cookies from 'js-cookie'
-import Link from 'next/link'
-import Header from '../components/organisms/Header'
-import SignInForm from '../components/organisms/SigninForm'
+import React, { useState } from 'react'
 import { UserProfileList } from '../components/organisms/UserProfile'
 import Layout from '../components/templates/Layout'
+import Sidebar from '../components/organisms/Sidebar/ index'
+import { Flex } from '../components/layout/Flex'
 const index = () => {
+  const [activeLists, setActiveLists] = useState('users')
+
   return (
     <Layout>
-      <UserProfileList />
-      {/* <UserProfile userId=/> */}
+      <Flex flexDirection="row">
+        <Sidebar setActiveLists={setActiveLists} />
+        <UserProfileList activeLists={activeLists} />
+        {/* <UserProfile userId=/> */}
+      </Flex>
     </Layout>
   )
 }
