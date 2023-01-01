@@ -22,16 +22,18 @@ const Sidebar = ({ setActiveLists }) => {
   return (
     <>
       <SidebarBox>
-        <SidebarList onClick={() => setActiveLists('users')}>
-          人材一覧
+        <SidebarList onClick={() => setActiveLists('dailyReports')}>
+          日報
         </SidebarList>
-        <SidebarList onClick={() => setActiveLists('jobs')}>
-          会社一覧
+        <SidebarList onClick={() => setActiveLists('achives')}>
+          成果
         </SidebarList>
-        <SidebarList onClick={() => setActiveLists('likes')}>
-          お気に入り
+        <SidebarList onClick={() => setActiveLists('showMyAchives')}>
+          出力画面の見出し
         </SidebarList>
-        <SidebarList></SidebarList>
+        <SidebarList>
+          ユーザープロフィール<h3>プログラミング言語</h3>
+        </SidebarList>
       </SidebarBox>
     </>
   )

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_17_043340) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_01_160229) do
   create_table "bookmarks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "bookmarker_id"
     t.integer "bookmarked_id"
@@ -36,29 +36,33 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_17_043340) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "job_openings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "daily_reports", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "text"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_daily_reports_on_user_id"
+  end
+
+  create_table "programming_Languages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "rates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "employer_id", null: false
-    t.integer "rate", null: false
+  create_table "programming_language_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "programming_Language_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["programming_Language_id"], name: "index_programming_language_users_on_programming_Language_id"
+    t.index ["user_id"], name: "index_programming_language_users_on_user_id"
   end
 
   create_table "rooms", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "employer_id", null: false
     t.boolean "got_chat_offer", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
