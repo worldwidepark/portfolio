@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
 import { Box } from '../../layout/Box'
@@ -22,9 +23,9 @@ const Sidebar = ({ setActiveLists }) => {
   return (
     <>
       <SidebarBox>
-        <SidebarList onClick={() => setActiveLists('dailyReports')}>
-          日報
-        </SidebarList>
+        <Link href="mystudy">
+          <SidebarList>日報</SidebarList>
+        </Link>
         <SidebarList onClick={() => setActiveLists('achives')}>
           成果
         </SidebarList>
@@ -34,6 +35,7 @@ const Sidebar = ({ setActiveLists }) => {
         <SidebarList>
           ユーザープロフィール<h3>プログラミング言語</h3>
         </SidebarList>
+        <SidebarList>学習者一覧</SidebarList>
       </SidebarBox>
     </>
   )
