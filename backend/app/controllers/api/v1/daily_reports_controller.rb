@@ -2,7 +2,7 @@ class Api::V1::DailyReportsController < ApplicationController
   before_action :user_finder
 
   def index
-    daily_reports = @user.daily_reports
+    daily_reports = @user.daily_reports.order(id: :DESC)
     render json: daily_reports
   end
 
@@ -14,6 +14,13 @@ class Api::V1::DailyReportsController < ApplicationController
       render json: daily_reports.errors, status: 422
     end
   end
+
+  def destroy
+    if @user.daily_reports.find(params[:id]).destroy
+      render json: { messege: "削除しました。"}
+    end
+  end
+
 
   private
   def daily_report_params

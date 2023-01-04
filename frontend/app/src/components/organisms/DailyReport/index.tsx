@@ -1,30 +1,19 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { useRouter } from 'next/router'
-import axios from 'axios'
-import Cookies from 'js-cookie'
-import Link from 'next/link'
-import uuid from 'react-uuid'
+import React, { useContext, useEffect, useState } from 'react'
 
 import {
+  deleteDailyReport,
   getDailyReportsList,
   postDailyReport,
 } from '../../../services/dailyReport/dailyReport'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
 
-export const DailyReportsList = ({}) => {
+export const DailyReportsList = () => {
   const [dailyReports, setDailyReports] = useState([])
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const { currentUserId } = useContext(AuthContext)
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    postDailyReport(userId, data)
-    getDailyReportsList(userId).then((dailyReportsData) => {
-      setDailyReports(dailyReportsData)
-    })
-  }
+
   useEffect(() => {
     setUserId(currentUserId)
     console.log(currentUserId, 'current')
@@ -39,6 +28,31 @@ export const DailyReportsList = ({}) => {
       setLoading(false)
     }
   }, [userId])
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    const postAndGet = async () => {
+      await postDailyReport(userId, data)
+      getDailyReportsList(userId).then((dailyReportsData) => {
+        setDailyReports(dailyReportsData)
+      })
+    }
+    postAndGet()
+  }
+  const onDeleteReport = (reportId) => {
+    const deleteAndGet = async () => {
+      await deleteDailyReport(userId, reportId)
+      getDailyReportsList(userId).then((dailyReportsData) => {
+        setDailyReports(dailyReportsData)
+      })
+    }
+    deleteAndGet()
+  }
+  // useRef
+  const onEditReportInput = (reportId) => {
+    console.log(dailyReports)
+  }
 
   return (
     <>
@@ -58,7 +72,15 @@ export const DailyReportsList = ({}) => {
         ) : (
           <>
             {dailyReports.map((dailyReport) => (
-              <div key={dailyReport.id}>{dailyReport.text}</div>
+              <div key={dailyReport.id}>
+                <div>{dailyReport.text}</div>
+                <button onClick={() => onDeleteReport(dailyReport.id)}>
+                  x
+                </button>
+                <button onClick={() => onEditReportInput(dailyReport.id)}>
+                  edit
+                </button>
+              </div>
             ))}
           </>
         )}

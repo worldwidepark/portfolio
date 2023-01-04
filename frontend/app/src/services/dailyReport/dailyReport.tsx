@@ -33,3 +33,17 @@ export const postDailyReport = async (userId, data) => {
       console.log(response, 'response')
     })
 }
+
+export const deleteDailyReport = async (userId, reportId) => {
+  return await axios.delete(
+    `${DEFAULT_API}/users/${userId}/daily_reports/${reportId}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        uid: Cookies.get('uid'),
+        client: Cookies.get('client'),
+        'access-token': Cookies.get('access-token'),
+      },
+    }
+  )
+}
