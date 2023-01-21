@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import {
   deleteDailyReport,
+  editDailyReport,
   getDailyReportsList,
   postDailyReport,
 } from '../../../services/dailyReport/dailyReport'
@@ -13,7 +14,6 @@ export const DailyReportsList = () => {
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const [editedId, setEditedId] = useState(false)
-
   const { currentUserId } = useContext(AuthContext)
 
   const editInputRef = useRef(null)
@@ -52,7 +52,16 @@ export const DailyReportsList = () => {
     setDailyReports(updatedDailyReportArray)
   }
   // todo fetch update.
-  const onEditReport = () => {}
+  const onEditReport = (reportId) => {
+    const editAndGet = async () => {
+      await editDailyReport(userId, reportId, editInputRef.current.value)
+      getDailyReportsList(userId).then((dailyReportsData) => {
+        setDailyReports(dailyReportsData)
+      })
+    }
+    setEditedId(false)
+    editAndGet()
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -63,6 +72,7 @@ export const DailyReportsList = () => {
         setDailyReports(dailyReportsData)
       })
     }
+
     postAndGet()
   }
   const onDeleteReport = (reportId) => {
@@ -107,7 +117,9 @@ export const DailyReportsList = () => {
                       ref={editInputRef}
                       onChange={() => onChangeEditInput(dailyReport.id)}
                     />
-                    <button onClick={() => onEditReport}>edit</button>
+                    <button onClick={() => onEditReport(dailyReport.id)}>
+                      edit
+                    </button>
                   </>
                 ) : (
                   <>
