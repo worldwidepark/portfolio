@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import {
   deleteDailyReport,
@@ -12,7 +12,11 @@ export const DailyReportsList = () => {
   const [dailyReports, setDailyReports] = useState([])
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [editedId, setEditedId] = useState(false)
+
   const { currentUserId } = useContext(AuthContext)
+
+  const editInputRef = useRef(null)
 
   useEffect(() => {
     setUserId(currentUserId)
@@ -28,6 +32,27 @@ export const DailyReportsList = () => {
       setLoading(false)
     }
   }, [userId])
+
+  useEffect(() => {
+    if (editedId) {
+      editInputRef.current.focus()
+      console.log(editInputRef.current)
+    }
+  }, [editedId])
+
+  const onChangeEditInput = (updatedDailyReportId) => {
+    const updatedDailyReportArray = dailyReports.map((dailyReport) => {
+      if (dailyReport.id === updatedDailyReportId) {
+        dailyReport.text = editInputRef.current.value
+        return dailyReport
+      } else {
+        return dailyReport
+      }
+    })
+    setDailyReports(updatedDailyReportArray)
+  }
+  // todo fetch update.
+  const onEditReport = () => {}
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -49,15 +74,16 @@ export const DailyReportsList = () => {
     }
     deleteAndGet()
   }
-  // useRef
+  // todo: useRefを使う
   const onEditReportInput = (reportId) => {
-    console.log(dailyReports)
+    setEditedId(reportId)
   }
 
   return (
     <>
       <form onSubmit={handleSubmit}>
         <div>
+          {/* todo: 初期focusを当てたい */}
           <input
             type="text"
             name="text"
@@ -73,13 +99,27 @@ export const DailyReportsList = () => {
           <>
             {dailyReports.map((dailyReport) => (
               <div key={dailyReport.id}>
-                <div>{dailyReport.text}</div>
-                <button onClick={() => onDeleteReport(dailyReport.id)}>
-                  x
-                </button>
-                <button onClick={() => onEditReportInput(dailyReport.id)}>
-                  edit
-                </button>
+                {editedId === dailyReport.id ? (
+                  <>
+                    <input
+                      type="text"
+                      value={dailyReport.text}
+                      ref={editInputRef}
+                      onChange={() => onChangeEditInput(dailyReport.id)}
+                    />
+                    <button onClick={() => onEditReport}>edit</button>
+                  </>
+                ) : (
+                  <>
+                    <div>{dailyReport.text}</div>{' '}
+                    <button onClick={() => onDeleteReport(dailyReport.id)}>
+                      x
+                    </button>
+                    <button onClick={() => onEditReportInput(dailyReport.id)}>
+                      edit
+                    </button>
+                  </>
+                )}
               </div>
             ))}
           </>
