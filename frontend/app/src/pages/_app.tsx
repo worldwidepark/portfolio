@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
   const [currentUser, setCurrentUser] = useState()
   const [authMessage, setAuthMessage] = useState('')
-
+  const [currentUserId, setCurrentUserId] = useState(false)
   const router = useRouter()
   const handleGetCurrentUser = async () => {
     try {
@@ -19,7 +19,8 @@ export default function App({ Component, pageProps }: AppProps) {
       if (res.data.is_login === true) {
         setIsSignedIn(true)
         setCurrentUser(res.data.data)
-        console.log(res?.data.data)
+        setCurrentUserId(res.data.data.id)
+        console.log('_app handleGetCurrentUser')
       } else {
         console.log('No current user')
       }
@@ -35,13 +36,6 @@ export default function App({ Component, pageProps }: AppProps) {
     handleGetCurrentUser()
   }, [isSignedIn])
 
-  const HeaderTag = () => {
-    if (isSignedIn) return <Header />
-    else {
-      return <></>
-    }
-  }
-
   return (
     <>
       <AuthContext.Provider
@@ -52,11 +46,12 @@ export default function App({ Component, pageProps }: AppProps) {
           setIsSignedIn,
           currentUser,
           setCurrentUser,
+          currentUserId,
+          setCurrentUserId,
           authMessage,
           setAuthMessage,
         }}
       >
-        <HeaderTag />
         <Component {...pageProps} />
       </AuthContext.Provider>
     </>

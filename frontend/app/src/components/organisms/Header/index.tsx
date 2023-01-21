@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { signout } from '../../../services/auth/signout'
+import { Button } from '../../atoms/Button'
 
 const Header = () => {
   const router = useRouter()
@@ -14,22 +15,22 @@ const Header = () => {
     <div>
       {' '}
       <Link href="/">
-        <button>Top</button>
+        <Button buttonColor="salmon">Top</Button>
       </Link>
       <span>
         <input />
       </span>
       <button>検索</button>
       <Link href="/">
-        <button>お気に入り</button>
+        <Button buttonColor="salmon">お気に入り</Button>
       </Link>
       <Link href="/">
-        <button>メッセージ</button>
+        <Button>メッセージ</Button>
       </Link>
       <Link href="/userprofile">
-        <button>profile</button>
+        <Button>profile</Button>
       </Link>
-      <button onClick={signoutt}>sign out</button>
+      <Button onClick={signoutt}>sign out</Button>
     </div>
   )
 }
