@@ -126,6 +126,7 @@ export const AchivementsList = () => {
             value={inputText.title}
             onChange={(e) => onChangeInputText('title', e.target.value)}
             placeholder="題名を記入してください。"
+            required
           />
           <input
             type="text"
@@ -133,6 +134,7 @@ export const AchivementsList = () => {
             value={inputText.text}
             onChange={(e) => onChangeInputText('text', e.target.value)}
             placeholder="内容を記入してください。"
+            required
           />
           {/* todo +ボタンでurlが追加できるようにする。 */}
           <UrlsInputForm />
