@@ -14,6 +14,7 @@ export const DailyReportsList = () => {
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const [editedId, setEditedId] = useState(false)
+  const [inputText, setInputText] = useState('')
   const { currentUserId } = useContext(AuthContext)
 
   const editInputRef = useRef(null)
@@ -32,6 +33,10 @@ export const DailyReportsList = () => {
       setLoading(false)
     }
   }, [userId])
+
+  const onChangeInputText = (value) => {
+    setInputText(value)
+  }
 
   useEffect(() => {
     if (editedId) {
@@ -72,8 +77,8 @@ export const DailyReportsList = () => {
         setDailyReports(dailyReportsData)
       })
     }
-
     postAndGet()
+    setInputText('')
   }
   // todo: fix
   const onDeleteReport = (reportId) => {
@@ -98,6 +103,8 @@ export const DailyReportsList = () => {
           <input
             type="text"
             name="text"
+            value={inputText}
+            onChange={(e) => onChangeInputText(e.target.value)}
             placeholder="日報を記入してください。"
           />
         </div>
