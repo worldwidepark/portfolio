@@ -26,7 +26,7 @@ class Api::V1::DailyReportsController < ApplicationController
   end
 
   def destroy
-    if @user.daily_report.find(params[:id]).destroy
+    if @user.daily_reports.find(params[:id]).destroy
       render json: { messege: "削除しました。"}
     end
   end
