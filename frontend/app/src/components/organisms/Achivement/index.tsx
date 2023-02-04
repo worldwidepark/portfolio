@@ -17,7 +17,7 @@ export const AchivementsList = () => {
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const [editedId, setEditedId] = useState(false)
-  const [secondInput, setSecondInput] = useState(false)
+  const [inputText, setInputText] = useState({ title: '', text: '' })
   const { currentUserId } = useContext(AuthContext)
 
   const editInputRef = useRef(null)
@@ -46,6 +46,11 @@ export const AchivementsList = () => {
   const getEditedAchivement = () => {
     return achivements.find((achivement) => achivement.id === editedId)
   }
+
+  const onChangeInputText = (element, value) => {
+    setInputText({ ...inputText, [element]: value })
+  }
+
   const onChangeEditInput = (key, value) => {
     const editAchivement = getEditedAchivement()
     const onUpdateAchivement = { ...editAchivement, [key]: value }
@@ -59,7 +64,7 @@ export const AchivementsList = () => {
     setAchivements(updatedAchivementArray)
   }
   // todo fetch update.
-  const onEditReport = (achivement) => {
+  const onEditAchivement = (achivement) => {
     const editAndGet = async () => {
       await editAchivement(userId, achivement)
       getAchivementsList(userId).then((achivementsData) => {
@@ -94,11 +99,12 @@ export const AchivementsList = () => {
         console.log(achivementsData)
       })
     }
+    setInputText({ title: '', text: '' })
     postAndGet()
   }
-  const onDeleteReport = (reportId) => {
+  const onDeleteAchivement = (achivementId) => {
     const deleteAndGet = async () => {
-      await deleteAchivement(userId, reportId)
+      await deleteAchivement(userId, achivementId)
       getAchivementsList(userId).then((achivementsData) => {
         setAchivements(achivementsData)
       })
@@ -106,22 +112,9 @@ export const AchivementsList = () => {
     deleteAndGet()
   }
   // todo: useRefを使う
-  const onEditReportInput = (reportId) => {
-    setEditedId(reportId)
+  const onEditAchivementInput = (achivementId) => {
+    setEditedId(achivementId)
   }
-  const onAddUrlInput = () => {
-    setSecondInput(true)
-  }
-
-  const urlValue = (name, value, achivement) => {
-    if (name === 'firstUrl') {
-      achivement.urls[0] = value
-    } else if (name === 'secondUrl') {
-      achivement.urls[1] = value
-    }
-    return achivement.urls
-  }
-
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -130,11 +123,15 @@ export const AchivementsList = () => {
           <input
             type="text"
             name="title"
+            value={inputText.title}
+            onChange={(e) => onChangeInputText('title', e.target.value)}
             placeholder="題名を記入してください。"
           />
           <input
             type="text"
             name="text"
+            value={inputText.text}
+            onChange={(e) => onChangeInputText('text', e.target.value)}
             placeholder="内容を記入してください。"
           />
           {/* todo +ボタンでurlが追加できるようにする。 */}
@@ -175,7 +172,7 @@ export const AchivementsList = () => {
                       value={achivement.urls}
                       onChange={(e) => onChangeEditInput('url', e.target.value)}
                     /> */}
-                    <button onClick={() => onEditReport(achivement)}>
+                    <button onClick={() => onEditAchivement(achivement)}>
                       edit
                     </button>
                   </>
@@ -184,10 +181,12 @@ export const AchivementsList = () => {
                     <div>{achivement.title}</div>
                     <div>{achivement.text}</div>
                     {achivement.urls.map((url) => url)}
-                    <button onClick={() => onDeleteReport(achivement.id)}>
+                    <button onClick={() => onDeleteAchivement(achivement.id)}>
                       x
                     </button>
-                    <button onClick={() => onEditReportInput(achivement.id)}>
+                    <button
+                      onClick={() => onEditAchivementInput(achivement.id)}
+                    >
                       edit
                     </button>
                   </>

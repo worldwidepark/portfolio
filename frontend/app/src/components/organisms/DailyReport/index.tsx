@@ -75,6 +75,7 @@ export const DailyReportsList = () => {
 
     postAndGet()
   }
+  // todo: fix
   const onDeleteReport = (reportId) => {
     const deleteAndGet = async () => {
       await deleteDailyReport(userId, reportId)
