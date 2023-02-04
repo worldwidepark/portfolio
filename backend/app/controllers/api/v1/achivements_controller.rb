@@ -9,6 +9,7 @@ class Api::V1::AchivementsController < ApplicationController
   def create
     achivement = @user.achivements.new(achivement_params)
     if achivement.save
+      achivement.presentations.create(user:@user)
       render json: achivement
     else
       render json: achivement.errors, status: 422

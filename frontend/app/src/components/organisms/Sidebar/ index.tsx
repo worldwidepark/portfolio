@@ -29,9 +29,9 @@ const Sidebar = ({ setActiveLists }) => {
         <Link href="achivement">
           <SidebarList>成果</SidebarList>
         </Link>
-        <SidebarList onClick={() => setActiveLists('showMyAchives')}>
-          出力画面の見出し
-        </SidebarList>
+        <Link href="presentation">
+          <SidebarList>出力画面の見出し</SidebarList>
+        </Link>
         <SidebarList>
           ユーザープロフィール<h3>プログラミング言語</h3>
         </SidebarList>

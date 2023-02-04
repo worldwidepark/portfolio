@@ -60,7 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_063249) do
     t.bigint "user_id", null: false
     t.string "target_type", null: false
     t.bigint "target_id", null: false
-    t.boolean "present"
+    t.boolean "present", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["target_type", "target_id"], name: "index_presentations_on_target"
