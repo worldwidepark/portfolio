@@ -8,12 +8,16 @@ import {
 } from '../../../services/achivement/achivement'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
+import { UrlsInputForm } from './urlsInputForm'
+import { type } from 'os'
+import { EditUrlsInputForm } from './editUrlsInputForm'
 
 export const AchivementsList = () => {
   const [achivements, setAchivements] = useState([])
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const [editedId, setEditedId] = useState(false)
+  const [secondInput, setSecondInput] = useState(false)
   const { currentUserId } = useContext(AuthContext)
 
   const editInputRef = useRef(null)
@@ -52,7 +56,6 @@ export const AchivementsList = () => {
         return achivement
       }
     })
-    console.log(updatedAchivementArray, 'arry')
     setAchivements(updatedAchivementArray)
   }
   // todo fetch update.
@@ -67,16 +70,30 @@ export const AchivementsList = () => {
     editAndGet()
   }
 
+  const urls = (firstUrl, secondUrl) => {
+    if (firstUrl !== '' && secondUrl !== '' && typeof secondUrl == 'string') {
+      return [firstUrl, secondUrl]
+    } else if (firstUrl !== '') {
+      return [firstUrl]
+    } else if (secondUrl !== '') {
+      return [secondUrl]
+    }
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     const postAndGet = async () => {
-      await postAchivement(userId, data)
+      await postAchivement(
+        userId,
+        data,
+        urls(data.get('firstUrl'), data.get('secondUrl'))
+      )
       getAchivementsList(userId).then((achivementsData) => {
         setAchivements(achivementsData)
+        console.log(achivementsData)
       })
     }
-
     postAndGet()
   }
   const onDeleteReport = (reportId) => {
@@ -91,6 +108,18 @@ export const AchivementsList = () => {
   // todo: useRefを使う
   const onEditReportInput = (reportId) => {
     setEditedId(reportId)
+  }
+  const onAddUrlInput = () => {
+    setSecondInput(true)
+  }
+
+  const urlValue = (name, value, achivement) => {
+    if (name === 'firstUrl') {
+      achivement.urls[0] = value
+    } else if (name === 'secondUrl') {
+      achivement.urls[1] = value
+    }
+    return achivement.urls
   }
 
   return (
@@ -108,7 +137,8 @@ export const AchivementsList = () => {
             name="text"
             placeholder="内容を記入してください。"
           />
-          <input type="text" name="url" placeholder="urlを記入してください。" />
+          {/* todo +ボタンでurlが追加できるようにする。 */}
+          <UrlsInputForm />
         </div>
         <button type="submit">登録</button>
       </form>
@@ -132,17 +162,19 @@ export const AchivementsList = () => {
                     <input
                       type="text"
                       value={achivement.text}
-                      ref={editInputRef}
                       onChange={(e) =>
                         onChangeEditInput('text', e.target.value)
                       }
                     />
-                    <input
-                      type="text"
-                      value={achivement.url}
-                      ref={editInputRef}
-                      onChange={(e) => onChangeEditInput('url', e.target.value)}
+                    <EditUrlsInputForm
+                      achivement={achivement}
+                      onChangeEditInput={onChangeEditInput}
                     />
+                    {/* <input
+                      type="text"
+                      value={achivement.urls}
+                      onChange={(e) => onChangeEditInput('url', e.target.value)}
+                    /> */}
                     <button onClick={() => onEditReport(achivement)}>
                       edit
                     </button>
@@ -151,7 +183,7 @@ export const AchivementsList = () => {
                   <>
                     <div>{achivement.title}</div>
                     <div>{achivement.text}</div>
-                    <div>{achivement.url}</div>
+                    {achivement.urls.map((url) => url)}
                     <button onClick={() => onDeleteReport(achivement.id)}>
                       x
                     </button>
@@ -167,4 +199,7 @@ export const AchivementsList = () => {
       </Flex>
     </>
   )
+}
+function elseif() {
+  throw new Error('Function not implemented.')
 }

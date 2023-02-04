@@ -18,7 +18,7 @@ export const getAchivementsList = async (userId) => {
     })
 }
 
-export const postAchivement = async (userId, data) => {
+export const postAchivement = async (userId, data, urls) => {
   return await axios
     .post(`${DEFAULT_API}/users/${userId}/achivements`, {
       headers: {
@@ -30,7 +30,7 @@ export const postAchivement = async (userId, data) => {
       achivement: {
         title: data.get('title'),
         text: data.get('text'),
-        url: data.get('url'),
+        urls: urls,
       },
     })
     .then((response) => {

@@ -26,7 +26,7 @@ class Api::V1::AchivementsController < ApplicationController
   end
 
   def destroy
-    if @user.achivement.find(params[:id]).destroy
+    if @user.achivements.find(params[:id]).destroy
       render json: { messege: "削除しました。"}
     end
   end
@@ -34,7 +34,7 @@ class Api::V1::AchivementsController < ApplicationController
 
   private
   def achivement_params
-    params.require(:achivement).permit(:title,:text,:url)
+    params.require(:achivement).permit(:title,:text,urls: [])
   end
 
   def user_finder
