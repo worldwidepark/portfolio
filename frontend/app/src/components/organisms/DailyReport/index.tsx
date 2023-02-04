@@ -106,6 +106,7 @@ export const DailyReportsList = () => {
             value={inputText}
             onChange={(e) => onChangeInputText(e.target.value)}
             placeholder="日報を記入してください。"
+            required
           />
         </div>
         <button type="submit">登録</button>
