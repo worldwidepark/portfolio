@@ -52,18 +52,22 @@ export const getPresentationsList = async (userId) => {
 //   )
 // }
 
-// export const editAchivement = async (userId, data) => {
-//   return await axios
-//     .patch(`${DEFAULT_API}/users/${userId}/achivements/${data.id}`, {
-//       headers: {
-//         'Content-Type': 'application/json',
-//         uid: Cookies.get('uid'),
-//         client: Cookies.get('client'),
-//         'access-token': Cookies.get('access-token'),
-//       },
-//       achivement: data,
-//     })
-//     .then((response) => {
-//       console.log(response, 'response')
-//     })
-// }
+export const closedPresentation = async (
+  userId,
+  presentationId,
+  presentState
+) => {
+  return await axios
+    .patch(`${DEFAULT_API}/users/${userId}/presentations/${presentationId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        uid: Cookies.get('uid'),
+        client: Cookies.get('client'),
+        'access-token': Cookies.get('access-token'),
+      },
+      presentation: { present: presentState },
+    })
+    .then((response) => {
+      console.log(response, 'response')
+    })
+}

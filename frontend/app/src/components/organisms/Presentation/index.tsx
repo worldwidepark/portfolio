@@ -2,7 +2,9 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { getPresentationsList } from '../../../services/presentation/presentation'
+import { Box } from '../../layout/Box'
 import { Flex } from '../../layout/Flex'
+import { PresentElement } from './presentElement'
 
 export const PresentationsList = () => {
   const [dailyReports, setDailyReports] = useState([])
@@ -27,6 +29,18 @@ export const PresentationsList = () => {
     }
   }, [userId])
 
+  const onChangeEditPresent = (key, value) => {
+    const editAchivement = getEditedAchivement()
+    const onUpdateAchivement = { ...editAchivement, [key]: value }
+    const updatedAchivementArray = achivements.map((achivement) => {
+      if (achivement.id === onUpdateAchivement.id) {
+        return onUpdateAchivement
+      } else {
+        return achivement
+      }
+    })
+    setAchivements(updatedAchivementArray)
+  }
   return (
     <>
       <Flex flexDirection="column">
@@ -34,19 +48,28 @@ export const PresentationsList = () => {
           <h1>ロード中。。</h1>
         ) : (
           <>
-            {achivements.map((element) => (
-              <>
-                <div key={element.id}></div>
-                <div>{element.title}</div>
-                <div>{element.text}</div>
-              </>
-            ))}
-            {dailyReports.map((element) => (
-              <>
-                <div key={element.id}></div>
-                <div>{element.text}</div>
-              </>
-            ))}
+            <Box width="100vh" backgroundColor="green">
+              {achivements.map((element) => (
+                <>
+                  <PresentElement
+                    userId={currentUserId}
+                    element={element}
+                    elementName={'achivement'}
+                  />
+                </>
+              ))}
+            </Box>
+            <Box width="100vh" backgroundColor="blue">
+              {dailyReports.map((element) => (
+                <>
+                  <PresentElement
+                    userId={currentUserId}
+                    element={element}
+                    elementName={'dailyReport'}
+                  />
+                </>
+              ))}
+            </Box>
           </>
         )}
       </Flex>

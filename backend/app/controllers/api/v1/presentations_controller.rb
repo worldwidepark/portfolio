@@ -4,11 +4,11 @@ class Api::V1::PresentationsController < ApplicationController
   def index
     # presentations = @user.presentations.order(id: :DESC)
     daily_reports = @user.presentations.where(target_type: "DailyReport").map do |e|
-      {id: e.target.id, text: e.target.text, present: e.present}
+      {id: e.id, text: e.target.text, present: e.present}
     end
 
     achivements = @user.presentations.where(target_type: "Achivement").map do |e|
-      {id: e.target.id, title: e.target.title, text: e.target.text, urls: e.target.urls, present: e.present}
+      {id: e.id, title: e.target.title, text: e.target.text, urls: e.target.urls, present: e.present}
     end
     # achievements = @user.achivements.where(present: true)
     render json: {dailyReports: daily_reports, achivements: achivements}
@@ -23,15 +23,15 @@ class Api::V1::PresentationsController < ApplicationController
   #   end
   # end
 
-  # def update
-  #   achivement = @user.achivements.find(params[:id])
+  def update
+    presentation = @user.presentations.find(params[:id])
 
-  #   if achivement.update(achivement_params)
-  #     render json: achivement
-  #   else
-  #     render json: achivement.errors, status: 422
-  #   end
-  # end
+    if presentation.update(presentation_params)
+      render json: presentation
+    else
+      render json: presentation.errors, status: 422
+    end
+  end
 
   # def destroy
   #   if @user.achivements.find(params[:id]).destroy
@@ -41,9 +41,9 @@ class Api::V1::PresentationsController < ApplicationController
 
 
   private
-  # def achivement_params
-  #   params.require(:achivement).permit(:title,:text,urls: [])
-  # end
+  def presentation_params
+    params.require(:presentation).permit(:present)
+  end
 
   def user_finder
     @user = User.find(params[:user_id])

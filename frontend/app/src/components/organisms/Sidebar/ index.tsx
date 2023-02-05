@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Box } from '../../layout/Box'
 
-const Sidebar = ({ setActiveLists }) => {
+const Sidebar = () => {
   // const sortedNotes = notes.sort((a, b) => b.modDate - a.modDate)
 
   const SidebarBox = styled.div`
