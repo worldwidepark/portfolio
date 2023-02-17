@@ -29,6 +29,7 @@ export const MakePresentElements = ({
       ) : (
         <Box width="80vh" backgroundColor={element.present ? 'black' : 'grey'}>
           <div>{element.text}</div>
+          <div>{element.time}</div>
         </Box>
       )}
 

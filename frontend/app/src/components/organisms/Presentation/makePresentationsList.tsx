@@ -16,6 +16,7 @@ export const MakePresentationsList = ({
   achivementsPresent,
   setAchivementsPresent,
   onChangePresentState,
+  wholeTime,
 }) => {
   return (
     <>
@@ -36,6 +37,7 @@ export const MakePresentationsList = ({
               ))}
             </Box>
             <Box width="100vh" backgroundColor="blue">
+              <span>総時間: {wholeTime}</span>
               {dailyReports.map((element) => (
                 <div key={element.id}>
                   <MakePresentElements

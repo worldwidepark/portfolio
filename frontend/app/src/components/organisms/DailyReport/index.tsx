@@ -48,6 +48,7 @@ export const DailyReportsList = () => {
       console.log(editInputRef.current)
     }
   }, [editedId])
+
   useEffect(() => {
     let wholeTimeCalc = 0
     dailyReports.map((dailyReport) => {
@@ -55,6 +56,7 @@ export const DailyReportsList = () => {
     })
     setWholeTime(wholeTimeCalc)
   }, [dailyReports])
+
   const onChangeEditInput = (updatedDailyReportId) => {
     const updatedDailyReportArray = dailyReports.map((dailyReport) => {
       if (dailyReport.id === updatedDailyReportId) {
