@@ -15,8 +15,9 @@ export const DailyReportsList = () => {
   const [loading, setLoading] = useState(true)
   const [editedId, setEditedId] = useState(false)
   const [inputText, setInputText] = useState('')
+  const [inputTime, setInputTime] = useState(0)
+  const [wholeTime, setWholeTime] = useState(0)
   const { currentUserId } = useContext(AuthContext)
-
   const editInputRef = useRef(null)
 
   useEffect(() => {
@@ -37,6 +38,9 @@ export const DailyReportsList = () => {
   const onChangeInputText = (value) => {
     setInputText(value)
   }
+  const onChangeInputTime = (value) => {
+    setInputTime(value)
+  }
 
   useEffect(() => {
     if (editedId) {
@@ -44,7 +48,13 @@ export const DailyReportsList = () => {
       console.log(editInputRef.current)
     }
   }, [editedId])
-
+  useEffect(() => {
+    let wholeTimeCalc = 0
+    dailyReports.map((dailyReport) => {
+      wholeTimeCalc = wholeTimeCalc + dailyReport.time
+    })
+    setWholeTime(wholeTimeCalc)
+  }, [dailyReports])
   const onChangeEditInput = (updatedDailyReportId) => {
     const updatedDailyReportArray = dailyReports.map((dailyReport) => {
       if (dailyReport.id === updatedDailyReportId) {
@@ -97,15 +107,30 @@ export const DailyReportsList = () => {
 
   return (
     <>
+      <div>総学習時間:</div>
+      {wholeTime}
       <form onSubmit={handleSubmit}>
         <div>
           {/* todo: 初期focusを当てたい */}
+          {/* todo: labelをつける */}
           <input
             type="text"
             name="text"
             value={inputText}
             onChange={(e) => onChangeInputText(e.target.value)}
             placeholder="日報を記入してください。"
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="number"
+            name="time"
+            step="0.1"
+            min="0"
+            max="24"
+            onChange={(e) => onChangeInputTime(e.target.value)}
+            placeholder="時間を記入してください。"
             required
           />
         </div>
@@ -132,7 +157,7 @@ export const DailyReportsList = () => {
                   </>
                 ) : (
                   <>
-                    <div>{dailyReport.text}</div>{' '}
+                    <div>{dailyReport.text}</div> <div>{dailyReport.time}</div>{' '}
                     <button onClick={() => onDeleteReport(dailyReport.id)}>
                       x
                     </button>

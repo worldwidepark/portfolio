@@ -27,7 +27,7 @@ export const postDailyReport = async (userId, data) => {
         client: Cookies.get('client'),
         'access-token': Cookies.get('access-token'),
       },
-      daily_report: { text: data.get('text') },
+      daily_report: { text: data.get('text'), time: data.get('time') },
     })
     .then((response) => {
       console.log(response, 'response')
