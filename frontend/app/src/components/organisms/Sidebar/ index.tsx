@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Box } from '../../layout/Box'
 
-const Sidebar = ({ setActiveLists }) => {
+const Sidebar = () => {
   // const sortedNotes = notes.sort((a, b) => b.modDate - a.modDate)
 
   const SidebarBox = styled.div`
@@ -29,9 +29,9 @@ const Sidebar = ({ setActiveLists }) => {
         <Link href="achivement">
           <SidebarList>成果</SidebarList>
         </Link>
-        <SidebarList onClick={() => setActiveLists('showMyAchives')}>
-          出力画面の見出し
-        </SidebarList>
+        <Link href="presentation">
+          <SidebarList>出力画面の見出し</SidebarList>
+        </Link>
         <SidebarList>
           ユーザープロフィール<h3>プログラミング言語</h3>
         </SidebarList>

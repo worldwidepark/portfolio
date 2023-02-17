@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_21_152618) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_04_063249) do
   create_table "achivements", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.string "text"
@@ -54,6 +54,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_21_152618) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_daily_reports_on_user_id"
+  end
+
+  create_table "presentations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "target_type", null: false
+    t.bigint "target_id", null: false
+    t.boolean "present", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["target_type", "target_id"], name: "index_presentations_on_target"
+    t.index ["user_id"], name: "index_presentations_on_user_id"
   end
 
   create_table "programming_Languages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

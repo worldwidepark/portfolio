@@ -8,7 +8,9 @@ class Api::V1::DailyReportsController < ApplicationController
 
   def create
     daily_report = @user.daily_reports.new(daily_report_params)
+
     if daily_report.save
+      daily_report.presentations.create(user:@user)
       render json: daily_report
     else
       render json: daily_report.errors, status: 422

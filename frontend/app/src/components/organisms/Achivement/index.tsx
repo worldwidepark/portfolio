@@ -111,7 +111,6 @@ export const AchivementsList = () => {
     }
     deleteAndGet()
   }
-  // todo: useRefを使う
   const onEditAchivementInput = (achivementId) => {
     setEditedId(achivementId)
   }
