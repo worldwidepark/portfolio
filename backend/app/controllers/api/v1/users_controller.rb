@@ -1,5 +1,7 @@
 class Api::V1::UsersController < ApplicationController
+  # todo 修正
   # before_action :authenticate_api_v1_user!, unless: :devise_controller?
+  # todo 修正
   def index
     users = User.all
     user_info = []
@@ -10,7 +12,7 @@ class Api::V1::UsersController < ApplicationController
     end
     render json: {data: user_info}
   end
-
+  # todo 修正
   def show
     user = User.find(params[:id])
     # user_info = {}

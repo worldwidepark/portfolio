@@ -8,6 +8,7 @@ import {
 } from '../../../services/dailyReport/dailyReport'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
+import { getUserProfileData } from '../../../services/userprofile/userInfo'
 
 export const DailyReportsList = () => {
   const [dailyReports, setDailyReports] = useState([])
@@ -15,8 +16,8 @@ export const DailyReportsList = () => {
   const [loading, setLoading] = useState(true)
   const [editedId, setEditedId] = useState(false)
   const [inputText, setInputText] = useState('')
-  const [inputTime, setInputTime] = useState(0)
-  const [wholeTime, setWholeTime] = useState(0)
+  const [inputTime, setInputTime] = useState(false)
+  const [combinedTime, setCombinedTime] = useState(0)
   const { currentUserId } = useContext(AuthContext)
   const editInputRef = useRef(null)
 
@@ -49,12 +50,13 @@ export const DailyReportsList = () => {
     }
   }, [editedId])
 
+  // todo combined_time → usecontextを使う
   useEffect(() => {
-    let wholeTimeCalc = 0
-    dailyReports.map((dailyReport) => {
-      wholeTimeCalc += dailyReport.time
-    })
-    setWholeTime(wholeTimeCalc)
+    if (typeof userId == 'number') {
+      getUserProfileData(userId).then((data) => {
+        setCombinedTime(data.user.combined_time)
+      })
+    }
   }, [dailyReports])
 
   const getEditedDailyReport = () => {
@@ -96,6 +98,7 @@ export const DailyReportsList = () => {
     }
     postAndGet()
     setInputText('')
+    setInputTime(false)
   }
   // todo: fix
   const onDeleteReport = (reportId) => {
@@ -115,7 +118,7 @@ export const DailyReportsList = () => {
   return (
     <>
       <div>総学習時間:</div>
-      {wholeTime}
+      {combinedTime}
       <form onSubmit={handleSubmit}>
         <div>
           {/* todo: 初期focusを当てたい */}
@@ -136,6 +139,7 @@ export const DailyReportsList = () => {
             step="0.1"
             min="0"
             max="24"
+            value={inputTime}
             onChange={(e) => onChangeInputTime(e.target.value)}
             placeholder="時間を記入してください。"
             required

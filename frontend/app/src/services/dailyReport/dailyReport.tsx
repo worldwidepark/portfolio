@@ -30,7 +30,7 @@ export const postDailyReport = async (userId, data) => {
       daily_report: { text: data.get('text'), time: data.get('time') },
     })
     .then((response) => {
-      console.log(response, 'response')
+      console.log(response, 'response_post')
     })
 }
 

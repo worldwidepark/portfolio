@@ -11,7 +11,9 @@ class Api::V1::DailyReportsController < ApplicationController
 
     if daily_report.save
       daily_report.presentations.create(user:@user)
-      render json: daily_report
+      @user.combined_time += daily_report.time
+      @user.save
+      render json: [daily_report, {combined_time: @user.combined_time}]
     else
       render json: daily_report.errors, status: 422
     end
@@ -19,16 +21,22 @@ class Api::V1::DailyReportsController < ApplicationController
 
   def update
     daily_report = @user.daily_reports.find(params[:id])
-
+    previous_time = daily_report.time
     if daily_report.update(daily_report_params)
-      render json: daily_report
+      @user.combined_time = @user.combined_time - previous_time + daily_report.time
+      @user.save
+      render json: [daily_report, {combined_time: @user.combined_time}]
     else
       render json: daily_report.errors, status: 422
     end
   end
 
   def destroy
-    if @user.daily_reports.find(params[:id]).destroy
+    daily_report = @user.daily_reports.find(params[:id])
+    previous_time = daily_report.time
+    if daily_report.destroy
+      @user.combined_time -= previous_time
+      @user.save
       render json: { messege: "削除しました。"}
     end
   end
