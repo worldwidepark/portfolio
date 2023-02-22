@@ -4,7 +4,7 @@ class Api::V1::PresentationsController < ApplicationController
   def index
     # presentations = @user.presentations.order(id: :DESC)
     daily_reports = @user.presentations.where(target_type: "DailyReport").map do |e|
-      {id: e.id, text: e.target.text, present: e.present}
+      {id: e.id, text: e.target.text, time: e.target.time, present: e.present}
     end
 
     achivements = @user.presentations.where(target_type: "Achivement").map do |e|

@@ -43,6 +43,7 @@ export const AchivementsList = () => {
       console.log(editInputRef.current)
     }
   }, [editedId])
+
   const getEditedAchivement = () => {
     return achivements.find((achivement) => achivement.id === editedId)
   }
@@ -148,7 +149,7 @@ export const AchivementsList = () => {
             {achivements.map((achivement) => (
               <div key={achivement.id}>
                 {editedId === achivement.id ? (
-                  <>
+                  <form onSubmit={() => onEditAchivement(achivement)}>
                     <input
                       type="text"
                       value={achivement.title}
@@ -173,10 +174,8 @@ export const AchivementsList = () => {
                       value={achivement.urls}
                       onChange={(e) => onChangeEditInput('url', e.target.value)}
                     /> */}
-                    <button onClick={() => onEditAchivement(achivement)}>
-                      edit
-                    </button>
-                  </>
+                    <button type="submit">edit</button>
+                  </form>
                 ) : (
                   <>
                     <div>{achivement.title}</div>

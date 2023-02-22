@@ -8,6 +8,7 @@ import {
 } from '../../../services/dailyReport/dailyReport'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
+import { getUserProfileData } from '../../../services/userprofile/userInfo'
 
 export const DailyReportsList = () => {
   const [dailyReports, setDailyReports] = useState([])
@@ -15,8 +16,9 @@ export const DailyReportsList = () => {
   const [loading, setLoading] = useState(true)
   const [editedId, setEditedId] = useState(false)
   const [inputText, setInputText] = useState('')
-  const { currentUserId } = useContext(AuthContext)
-
+  const [inputTime, setInputTime] = useState(false)
+  const { currentUserId, combinedTime, setCombinedTime } =
+    useContext(AuthContext)
   const editInputRef = useRef(null)
 
   useEffect(() => {
@@ -37,6 +39,9 @@ export const DailyReportsList = () => {
   const onChangeInputText = (value) => {
     setInputText(value)
   }
+  const onChangeInputTime = (value) => {
+    setInputTime(value)
+  }
 
   useEffect(() => {
     if (editedId) {
@@ -45,11 +50,25 @@ export const DailyReportsList = () => {
     }
   }, [editedId])
 
-  const onChangeEditInput = (updatedDailyReportId) => {
+  // todo combined_time → usecontextを使う
+  useEffect(() => {
+    if (typeof userId == 'number') {
+      getUserProfileData(userId).then((data) => {
+        setCombinedTime(data.user.combined_time)
+      })
+    }
+  }, [dailyReports])
+
+  const getEditedDailyReport = () => {
+    return dailyReports.find((dailyReport) => dailyReport.id === editedId)
+  }
+
+  const onChangeEditInput = (key, value) => {
+    const editDailyReport = getEditedDailyReport()
+    const onUpdateDailyreport = { ...editDailyReport, [key]: value }
     const updatedDailyReportArray = dailyReports.map((dailyReport) => {
-      if (dailyReport.id === updatedDailyReportId) {
-        dailyReport.text = editInputRef.current.value
-        return dailyReport
+      if (dailyReport.id === editedId) {
+        return onUpdateDailyreport
       } else {
         return dailyReport
       }
@@ -57,9 +76,9 @@ export const DailyReportsList = () => {
     setDailyReports(updatedDailyReportArray)
   }
   // todo fetch update.
-  const onEditReport = (reportId) => {
+  const onEditReport = (dailyReport) => {
     const editAndGet = async () => {
-      await editDailyReport(userId, reportId, editInputRef.current.value)
+      await editDailyReport(userId, dailyReport)
       getDailyReportsList(userId).then((dailyReportsData) => {
         setDailyReports(dailyReportsData)
       })
@@ -79,6 +98,7 @@ export const DailyReportsList = () => {
     }
     postAndGet()
     setInputText('')
+    setInputTime(false)
   }
   // todo: fix
   const onDeleteReport = (reportId) => {
@@ -97,15 +117,31 @@ export const DailyReportsList = () => {
 
   return (
     <>
+      <div>総学習時間:</div>
+      {combinedTime}
       <form onSubmit={handleSubmit}>
         <div>
           {/* todo: 初期focusを当てたい */}
+          {/* todo: labelをつける */}
           <input
             type="text"
             name="text"
             value={inputText}
             onChange={(e) => onChangeInputText(e.target.value)}
             placeholder="日報を記入してください。"
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="number"
+            name="time"
+            step="0.1"
+            min="0"
+            max="24"
+            value={inputTime}
+            onChange={(e) => onChangeInputTime(e.target.value)}
+            placeholder="時間を記入してください。"
             required
           />
         </div>
@@ -119,20 +155,33 @@ export const DailyReportsList = () => {
             {dailyReports.map((dailyReport) => (
               <div key={dailyReport.id}>
                 {editedId === dailyReport.id ? (
-                  <>
+                  <form onSubmit={() => onEditReport(dailyReport)}>
                     <input
                       type="text"
                       value={dailyReport.text}
                       ref={editInputRef}
-                      onChange={() => onChangeEditInput(dailyReport.id)}
+                      onChange={(e) =>
+                        onChangeEditInput('text', e.target.value)
+                      }
                     />
-                    <button onClick={() => onEditReport(dailyReport.id)}>
-                      edit
-                    </button>
-                  </>
+                    <input
+                      type="number"
+                      name="time"
+                      step="0.1"
+                      min="0"
+                      max="24"
+                      onChange={(e) =>
+                        onChangeEditInput('time', e.target.value)
+                      }
+                      placeholder="時間を記入してください。"
+                      value={dailyReport.time}
+                      required
+                    />
+                    <button type="submit">edit</button>
+                  </form>
                 ) : (
                   <>
-                    <div>{dailyReport.text}</div>{' '}
+                    <div>{dailyReport.text}</div> <div>{dailyReport.time}</div>{' '}
                     <button onClick={() => onDeleteReport(dailyReport.id)}>
                       x
                     </button>

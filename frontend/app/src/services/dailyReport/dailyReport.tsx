@@ -27,10 +27,10 @@ export const postDailyReport = async (userId, data) => {
         client: Cookies.get('client'),
         'access-token': Cookies.get('access-token'),
       },
-      daily_report: { text: data.get('text') },
+      daily_report: { text: data.get('text'), time: data.get('time') },
     })
     .then((response) => {
-      console.log(response, 'response')
+      console.log(response, 'response_post')
     })
 }
 
@@ -48,16 +48,16 @@ export const deleteDailyReport = async (userId, reportId) => {
   )
 }
 
-export const editDailyReport = async (userId, reportId, data) => {
+export const editDailyReport = async (userId, data) => {
   return await axios
-    .patch(`${DEFAULT_API}/users/${userId}/daily_reports/${reportId}`, {
+    .patch(`${DEFAULT_API}/users/${userId}/daily_reports/${data.id}`, {
       headers: {
         'Content-Type': 'application/json',
         uid: Cookies.get('uid'),
         client: Cookies.get('client'),
         'access-token': Cookies.get('access-token'),
       },
-      daily_report: { text: data },
+      daily_report: data,
     })
     .then((response) => {
       console.log(response, 'response')

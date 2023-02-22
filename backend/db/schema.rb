@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_04_063249) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_20_134213) do
   create_table "achivements", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.string "text"
@@ -53,6 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_063249) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "time", null: false
     t.index ["user_id"], name: "index_daily_reports_on_user_id"
   end
 
@@ -111,6 +112,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_063249) do
     t.datetime "updated_at", null: false
     t.integer "age"
     t.string "gender"
+    t.float "combined_time", default: 0.0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

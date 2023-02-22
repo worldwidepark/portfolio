@@ -35,6 +35,7 @@ export const PresentElements = ({ userId, element, elementName }) => {
       ) : (
         <Box width="80vh" backgroundColor={present ? 'black' : 'grey'}>
           <div>{element.text}</div>
+          <div>{element.time}</div>
         </Box>
       )}
     </>

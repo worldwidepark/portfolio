@@ -22,6 +22,7 @@ const presentation = () => {
   const [achivementsPresent, setAchivementsPresent] = useState([])
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [wholeTime, setWholeTime] = useState(0)
   const { currentUserId } = useContext(AuthContext)
 
   useEffect(() => {
