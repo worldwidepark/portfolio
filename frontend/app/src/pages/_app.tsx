@@ -5,6 +5,7 @@ import { getCurrentUser } from '../services/auth/isLogin'
 import Router, { useRouter } from 'next/router'
 import Header from '../components/organisms/Header'
 import { AuthContext } from '../contexts/AuthContext'
+import { getUserProfileData } from '../services/userprofile/userInfo'
 
 export default function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState<boolean>(true)
@@ -12,6 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [currentUser, setCurrentUser] = useState()
   const [authMessage, setAuthMessage] = useState('')
   const [currentUserId, setCurrentUserId] = useState(false)
+  const [combinedTime, setCombinedTime] = useState(0)
   const router = useRouter()
   const handleGetCurrentUser = async () => {
     try {
@@ -31,7 +33,13 @@ export default function App({ Component, pageProps }: AppProps) {
 
     setLoading(false)
   }
-
+  useEffect(() => {
+    if (typeof currentUserId == 'number') {
+      getUserProfileData(currentUserId).then((data) => {
+        setCombinedTime(data.user.combined_time)
+      })
+    }
+  })
   useEffect(() => {
     handleGetCurrentUser()
   }, [isSignedIn])
@@ -50,6 +58,8 @@ export default function App({ Component, pageProps }: AppProps) {
           setCurrentUserId,
           authMessage,
           setAuthMessage,
+          combinedTime,
+          setCombinedTime,
         }}
       >
         <Component {...pageProps} />

@@ -17,8 +17,8 @@ export const DailyReportsList = () => {
   const [editedId, setEditedId] = useState(false)
   const [inputText, setInputText] = useState('')
   const [inputTime, setInputTime] = useState(false)
-  const [combinedTime, setCombinedTime] = useState(0)
-  const { currentUserId } = useContext(AuthContext)
+  const { currentUserId, combinedTime, setCombinedTime } =
+    useContext(AuthContext)
   const editInputRef = useRef(null)
 
   useEffect(() => {

@@ -10,5 +10,7 @@ export const AuthContext = createContext(
     setCurrentUser: React.Dispatch<React.SetStateAction<undefined>>
     authMessage: string
     setAuthMessage: React.Dispatch<React.SetStateAction<string>>
+    combinedTime: number
+    setCombinedTime: React.Dispatch<React.SetStateAction<number>>
   }
 )

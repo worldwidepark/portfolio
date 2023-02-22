@@ -16,8 +16,8 @@ export const MakePresentationsList = ({
   achivementsPresent,
   setAchivementsPresent,
   onChangePresentState,
-  wholeTime,
 }) => {
+  const { combinedTime } = useContext(AuthContext)
   return (
     <>
       <Flex flexDirection="column">
@@ -37,7 +37,7 @@ export const MakePresentationsList = ({
               ))}
             </Box>
             <Box width="100vh" backgroundColor="blue">
-              <span>総時間: {wholeTime}</span>
+              <span>総時間: {combinedTime}</span>
               {dailyReports.map((element) => (
                 <div key={element.id}>
                   <MakePresentElements

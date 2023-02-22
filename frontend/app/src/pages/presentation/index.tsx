@@ -39,13 +39,6 @@ const presentation = () => {
       setLoading(false)
     }
   }, [userId])
-  useEffect(() => {
-    let wholeTimeCalc = 0
-    dailyReports.map((dailyReport) => {
-      wholeTimeCalc = wholeTimeCalc + dailyReport.time
-    })
-    setWholeTime(wholeTimeCalc)
-  }, [dailyReports])
 
   const reversePresent = (present) => {
     return !present
@@ -100,7 +93,6 @@ const presentation = () => {
           achivementsPresent={achivementsPresent}
           setAchivementsPresent={setAchivementsPresent}
           onChangePresentState={onChangePresentState}
-          wholeTime={wholeTime}
         />
         <PresentationsList
           dailyReports={dailyReports}
@@ -112,7 +104,6 @@ const presentation = () => {
           setDailyReportsPresent={setDailyReportsPresent}
           achivementsPresent={achivementsPresent}
           setAchivementsPresent={setAchivementsPresent}
-          wholeTime={wholeTime}
         />
       </Flex>
     </Layout>
