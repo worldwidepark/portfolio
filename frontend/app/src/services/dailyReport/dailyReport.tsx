@@ -18,7 +18,7 @@ export const getDailyReportsList = async (userId) => {
     })
 }
 
-export const postDailyReport = async (userId, data) => {
+export const postDailyReport = async (userId, data, inputDate) => {
   return await axios
     .post(`${DEFAULT_API}/users/${userId}/daily_reports`, {
       headers: {
@@ -27,7 +27,11 @@ export const postDailyReport = async (userId, data) => {
         client: Cookies.get('client'),
         'access-token': Cookies.get('access-token'),
       },
-      daily_report: { text: data.get('text'), time: data.get('time') },
+      daily_report: {
+        text: data.get('text'),
+        time: data.get('time'),
+        report_date_on: inputDate,
+      },
     })
     .then((response) => {
       console.log(response, 'response_post')

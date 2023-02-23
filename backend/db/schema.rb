@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_20_134213) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_23_143003) do
   create_table "achivements", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.string "text"
@@ -20,6 +20,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_134213) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "start_date_on", null: false
+    t.date "end_date_on", null: false
     t.index ["user_id"], name: "index_achivements_on_user_id"
   end
 
@@ -54,6 +56,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_134213) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "time", null: false
+    t.date "report_date_on", null: false
     t.index ["user_id"], name: "index_daily_reports_on_user_id"
   end
 

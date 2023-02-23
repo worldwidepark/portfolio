@@ -9,14 +9,18 @@ import {
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
 import { getUserProfileData } from '../../../services/userprofile/userInfo'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 export const DailyReportsList = () => {
+  const Today = new Date()
   const [dailyReports, setDailyReports] = useState([])
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const [editedId, setEditedId] = useState(false)
   const [inputText, setInputText] = useState('')
   const [inputTime, setInputTime] = useState(false)
+  const [inputDate, setInputDate] = useState(Today)
   const { currentUserId, combinedTime, setCombinedTime } =
     useContext(AuthContext)
   const editInputRef = useRef(null)
@@ -31,6 +35,7 @@ export const DailyReportsList = () => {
     if (typeof userId == 'number') {
       getDailyReportsList(userId).then((dailyReportsData) => {
         setDailyReports(dailyReportsData)
+        console.log(dailyReportsData)
       })
       setLoading(false)
     }
@@ -91,7 +96,7 @@ export const DailyReportsList = () => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     const postAndGet = async () => {
-      await postDailyReport(userId, data)
+      await postDailyReport(userId, data, inputDate)
       getDailyReportsList(userId).then((dailyReportsData) => {
         setDailyReports(dailyReportsData)
       })
@@ -99,6 +104,7 @@ export const DailyReportsList = () => {
     postAndGet()
     setInputText('')
     setInputTime(false)
+    setInputDate(Today)
   }
   // todo: fix
   const onDeleteReport = (reportId) => {
@@ -145,6 +151,14 @@ export const DailyReportsList = () => {
             required
           />
         </div>
+        <DatePicker
+          dateFormat="yyyy/MM/dd"
+          maxDate={Today}
+          selected={inputDate}
+          onChange={(selectedDate) => {
+            setInputDate(selectedDate || Today)
+          }}
+        />
         <button type="submit">登録</button>
       </form>
       <Flex flexDirection="column">
@@ -181,7 +195,8 @@ export const DailyReportsList = () => {
                   </form>
                 ) : (
                   <>
-                    <div>{dailyReport.text}</div> <div>{dailyReport.time}</div>{' '}
+                    <div>{dailyReport.text}</div> <div>{dailyReport.time}</div>
+                    <div>{dailyReport.report_date_on}</div>
                     <button onClick={() => onDeleteReport(dailyReport.id)}>
                       x
                     </button>

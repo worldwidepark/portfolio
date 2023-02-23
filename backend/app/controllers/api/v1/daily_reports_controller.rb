@@ -44,7 +44,7 @@ class Api::V1::DailyReportsController < ApplicationController
 
   private
   def daily_report_params
-    params.require(:daily_report).permit(:text,:time)
+    params.require(:daily_report).permit(:text,:time,:report_date_on )
   end
 
   def user_finder
