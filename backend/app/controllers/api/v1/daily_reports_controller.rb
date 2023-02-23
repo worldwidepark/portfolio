@@ -2,7 +2,7 @@ class Api::V1::DailyReportsController < ApplicationController
   before_action :user_finder
 
   def index
-    daily_reports = @user.daily_reports.order(id: :DESC)
+    daily_reports = @user.daily_reports.order(report_date_on: :DESC)
     render json: daily_reports
   end
 
