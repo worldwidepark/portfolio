@@ -61,7 +61,11 @@ export const editDailyReport = async (userId, data) => {
         client: Cookies.get('client'),
         'access-token': Cookies.get('access-token'),
       },
-      daily_report: data,
+      daily_report: {
+        text: data.text,
+        time: data.time,
+        report_date_on: data.reportDateOn,
+      },
     })
     .then((response) => {
       console.log(response, 'response')

@@ -59,7 +59,7 @@ export const DailyReportsList = () => {
   useEffect(() => {
     if (typeof userId == 'number') {
       getUserProfileData(userId).then((data) => {
-        setCombinedTime(data.user.combined_time)
+        setCombinedTime(data.user.combinedTime)
       })
     }
   }, [dailyReports])
@@ -191,12 +191,24 @@ export const DailyReportsList = () => {
                       value={dailyReport.time}
                       required
                     />
+                    <DatePicker
+                      dateFormat="yyyy/MM/dd"
+                      maxDate={Today}
+                      selected={new Date(dailyReport.reportDateOn)}
+                      onChange={(selectedDate) => {
+                        onChangeEditInput(
+                          'reportDateOn',
+                          selectedDate.toLocaleDateString('ja-JP')
+                        )
+                      }}
+                    />
                     <button type="submit">edit</button>
                   </form>
                 ) : (
                   <>
-                    <div>{dailyReport.text}</div> <div>{dailyReport.time}</div>
-                    <div>{dailyReport.report_date_on}</div>
+                    <div>{dailyReport.text}</div>
+                    <div>{dailyReport.time}</div>
+                    <div>{dailyReport.reportDateOn}</div>
                     <button onClick={() => onDeleteReport(dailyReport.id)}>
                       x
                     </button>
