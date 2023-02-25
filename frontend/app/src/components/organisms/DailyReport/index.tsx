@@ -18,9 +18,14 @@ export const DailyReportsList = () => {
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const [editedId, setEditedId] = useState(false)
-  const [inputText, setInputText] = useState('')
-  const [inputTime, setInputTime] = useState(false)
-  const [inputDate, setInputDate] = useState(Today)
+  const [inputData, setInputData] = useState({
+    text: '',
+    time: '',
+    reportDateOn: Today.toLocaleDateString('ja-JP'),
+  })
+  // const [inputText, setInputText] = useState('')
+  // const [inputTime, setInputTime] = useState(false)
+  // const [inputDate, setInputDate] = useState(Today)
   const { currentUserId, combinedTime, setCombinedTime } =
     useContext(AuthContext)
   const editInputRef = useRef(null)
@@ -41,12 +46,12 @@ export const DailyReportsList = () => {
     }
   }, [userId])
 
-  const onChangeInputText = (value) => {
-    setInputText(value)
-  }
-  const onChangeInputTime = (value) => {
-    setInputTime(value)
-  }
+  // const onChangeInputText = (value) => {
+  //   setInputText(value)
+  // }
+  // const onChangeInputTime = (value) => {
+  //   setInputTime(value)
+  // }
 
   useEffect(() => {
     if (editedId) {
@@ -61,11 +66,16 @@ export const DailyReportsList = () => {
       getUserProfileData(userId).then((data) => {
         setCombinedTime(data.user.combinedTime)
       })
+      console.log(dailyReports, 'dailyReportssssss')
     }
   }, [dailyReports])
 
   const getEditedDailyReport = () => {
     return dailyReports.find((dailyReport) => dailyReport.id === editedId)
+  }
+  const onChangeInputData = (key, value) => {
+    setInputData({ ...inputData, [key]: value })
+    console.log(inputData, 'inpuDataaaaaa')
   }
 
   const onChangeEditInput = (key, value) => {
@@ -91,20 +101,21 @@ export const DailyReportsList = () => {
     setEditedId(false)
     editAndGet()
   }
+  const sortedByDate = (data) =>
+    data
+      .slice()
+      .sort((a, b) => new Date(b.reportDateOn) - new Date(a.reportDateOn))
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    const postAndGet = async () => {
-      await postDailyReport(userId, data, inputDate)
-      getDailyReportsList(userId).then((dailyReportsData) => {
-        setDailyReports(dailyReportsData)
-      })
-    }
-    postAndGet()
-    setInputText('')
-    setInputTime(false)
-    setInputDate(Today)
+    postDailyReport(userId, inputData).then((dailyReportData) => {
+      setDailyReports(sortedByDate([...dailyReports, dailyReportData]))
+    })
+    setInputData({
+      text: '',
+      time: '',
+      reportDateOn: Today.toLocaleDateString('ja-JP'),
+    })
   }
   // todo: fix
   const onDeleteReport = (reportId) => {
@@ -132,8 +143,8 @@ export const DailyReportsList = () => {
           <input
             type="text"
             name="text"
-            value={inputText}
-            onChange={(e) => onChangeInputText(e.target.value)}
+            value={inputData.text}
+            onChange={(e) => onChangeInputData('text', e.target.value)}
             placeholder="日報を記入してください。"
             required
           />
@@ -145,8 +156,8 @@ export const DailyReportsList = () => {
             step="0.1"
             min="0"
             max="24"
-            value={inputTime}
-            onChange={(e) => onChangeInputTime(e.target.value)}
+            value={inputData.time}
+            onChange={(e) => onChangeInputData('time', e.target.value)}
             placeholder="時間を記入してください。"
             required
           />
@@ -154,9 +165,13 @@ export const DailyReportsList = () => {
         <DatePicker
           dateFormat="yyyy/MM/dd"
           maxDate={Today}
-          selected={inputDate}
+          selected={new Date(inputData.reportDateOn)}
           onChange={(selectedDate) => {
-            setInputDate(selectedDate || Today)
+            onChangeInputData(
+              'reportDateOn',
+              selectedDate.toLocaleDateString('ja-JP')
+            )
+            // setInputDate(selectedDate || Today)
           }}
         />
         <button type="submit">登録</button>
