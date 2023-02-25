@@ -23,9 +23,7 @@ export const DailyReportsList = () => {
     time: '',
     reportDateOn: Today.toLocaleDateString('ja-JP'),
   })
-  // const [inputText, setInputText] = useState('')
-  // const [inputTime, setInputTime] = useState(false)
-  // const [inputDate, setInputDate] = useState(Today)
+
   const { currentUserId, combinedTime, setCombinedTime } =
     useContext(AuthContext)
   const editInputRef = useRef(null)
@@ -45,13 +43,6 @@ export const DailyReportsList = () => {
       setLoading(false)
     }
   }, [userId])
-
-  // const onChangeInputText = (value) => {
-  //   setInputText(value)
-  // }
-  // const onChangeInputTime = (value) => {
-  //   setInputTime(value)
-  // }
 
   useEffect(() => {
     if (editedId) {
@@ -171,7 +162,6 @@ export const DailyReportsList = () => {
               'reportDateOn',
               selectedDate.toLocaleDateString('ja-JP')
             )
-            // setInputDate(selectedDate || Today)
           }}
         />
         <button type="submit">登録</button>
