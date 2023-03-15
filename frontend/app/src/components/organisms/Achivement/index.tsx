@@ -58,9 +58,6 @@ export const AchivementsList = () => {
     return achivements.find((achivement) => achivement.id === editedId)
   }
 
-  const onChangeInputText = (element, value) => {
-    setInputText({ ...inputText, [element]: value })
-  }
   const onChangeEditInput = (key, value) => {
     const editAchivement = getEditedAchivement()
     const onUpdateAchivement = { ...editAchivement, [key]: value }
@@ -167,20 +164,6 @@ export const AchivementsList = () => {
           />
           {/* todo +ボタンでurlが追加できるようにする。 */}
           <UrlsInputForm />
-          {/* いいUXを探す。 */}
-          {/* <DatePicker
-            dateFormat="yyyy/MM/dd"
-            maxDate={Today}
-            selected={new Date(inputData.startDateOn)}
-            onChange={onChangeDate}
-            startDate={new Date(inputData.startDateOn)}
-            endDate={inputData.endDateOn}
-            selectsRange
-            inline
-            // onChange={(selectedDate) => {
-            //   onChange(selectedDate)
-            // }}
-          /> */}
           <DatePicker
             dateFormat="yyyy/MM/dd"
             maxDate={Today}
@@ -191,29 +174,6 @@ export const AchivementsList = () => {
             selectsRange
             inline
           />
-
-          {/* <DatePicker
-            dateFormat="yyyy/MM/dd"
-            maxDate={Today}
-            selected={new Date(inputData.startDateOn)}
-            onChange={(selectedDate) => {
-              onChangeInputData(
-                'startDateOn',
-                selectedDate.toLocaleDateString('ja-JP')
-              )
-            }}
-          />
-          <DatePicker
-            dateFormat="yyyy/MM/dd"
-            maxDate={Today}
-            selected={new Date(inputData.endDateOn)}
-            onChange={(selectedDate) => {
-              onChangeInputData(
-                'endDateOn',
-                selectedDate.toLocaleDateString('ja-JP')
-              )
-            }}
-          /> */}
         </div>
         <button type="submit">登録</button>
       </form>
@@ -256,7 +216,11 @@ export const AchivementsList = () => {
                   <>
                     <div>{achivement.title}</div>
                     <div>{achivement.text}</div>
-                    {achivement.urls.map((url) => url)}
+                    {achivement.urls.map((url) => (
+                      <div>{url}</div>
+                    ))}
+                    <div>{achivement.startDateOn}</div>
+                    <div>{achivement.endDateOn}</div>
                     <button onClick={() => onDeleteAchivement(achivement.id)}>
                       x
                     </button>

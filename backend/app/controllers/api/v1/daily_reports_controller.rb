@@ -53,7 +53,7 @@ class Api::V1::DailyReportsController < ApplicationController
 
   def make_json_list(daily_reports)
     daily_reports.map do |e|
-      {id: e.id, reportDateOn: e.report_date_on, text: e.text, time: e.time}
+      make_json(e)
     end
   end
 
