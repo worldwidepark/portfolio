@@ -174,6 +174,7 @@ export const AchivementsList = () => {
             endDate={endDate}
             selectsRange
             inline
+            required
           />
         </div>
         <button type="submit">登録</button>
@@ -215,6 +216,7 @@ export const AchivementsList = () => {
                       endDate={editEndDate}
                       selectsRange
                       inline
+                      required
                     />
                     <button type="submit">edit</button>
                   </form>

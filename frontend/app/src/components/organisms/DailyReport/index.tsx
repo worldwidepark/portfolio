@@ -157,6 +157,7 @@ export const DailyReportsList = () => {
           dateFormat="yyyy/MM/dd"
           maxDate={Today}
           selected={new Date(inputData.reportDateOn)}
+          required
           onChange={(selectedDate) => {
             onChangeInputData(
               'reportDateOn',
@@ -200,6 +201,7 @@ export const DailyReportsList = () => {
                       dateFormat="yyyy/MM/dd"
                       maxDate={Today}
                       selected={new Date(dailyReport.reportDateOn)}
+                      required
                       onChange={(selectedDate) => {
                         onChangeEditInput(
                           'reportDateOn',

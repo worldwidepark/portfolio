@@ -4,11 +4,11 @@ class Api::V1::PresentationsController < ApplicationController
   def index
     # presentations = @user.presentations.order(id: :DESC)
     daily_reports = @user.presentations.where(target_type: "DailyReport").map do |e|
-      {id: e.id, text: e.target.text, time: e.target.time, present: e.present}
+      {id: e.id, text: e.target.text, time: e.target.time, present: e.present, reportDateOn: e.target.report_date_on}
     end
 
     achivements = @user.presentations.where(target_type: "Achivement").map do |e|
-      {id: e.id, title: e.target.title, text: e.target.text, urls: e.target.urls, present: e.present}
+      {id: e.id, title: e.target.title, text: e.target.text, urls: e.target.urls, present: e.present, startDateOn: e.target.start_date_on, endDateOn: e.target.end_date_on}
     end
     # achievements = @user.achivements.where(present: true)
     render json: {dailyReports: daily_reports, achivements: achivements}

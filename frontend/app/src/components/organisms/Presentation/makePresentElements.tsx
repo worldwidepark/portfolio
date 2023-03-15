@@ -13,6 +13,8 @@ export const MakePresentElements = ({
         <Box width="80vh" backgroundColor={element.present ? 'pink' : 'grey'}>
           <div>title:{element.title}</div>
           <div>text:{element.text}</div>
+          <div>start date:{element.startDateOn}</div>
+          <div>end date:{element.endDateOn}</div>
           <div>
             url:
             {element.urls.length == 0 ? (
@@ -30,6 +32,7 @@ export const MakePresentElements = ({
         <Box width="80vh" backgroundColor={element.present ? 'black' : 'grey'}>
           <div>{element.text}</div>
           <div>{element.time}</div>
+          <div>{element.reportDateOn}</div>
         </Box>
       )}
 
