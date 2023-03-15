@@ -10,13 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_23_143003) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_15_034356) do
   create_table "achivements", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.string "text"
     t.string "urls"
-    t.datetime "start_time"
-    t.datetime "finished_time"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
