@@ -11,15 +11,25 @@ import { Flex } from '../../layout/Flex'
 import { UrlsInputForm } from './urlsInputForm'
 import { type } from 'os'
 import { EditUrlsInputForm } from './editUrlsInputForm'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import { start } from 'repl'
 
 export const AchivementsList = () => {
   const [achivements, setAchivements] = useState([])
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const [editedId, setEditedId] = useState(false)
+  // todo: 削除 inputText,setInputText
   const [inputText, setInputText] = useState({ title: '', text: '' })
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(null)
   const { currentUserId } = useContext(AuthContext)
-
+  const Today = new Date()
+  const [inputData, setInputData] = useState({
+    title: '',
+    text: '',
+  })
   const editInputRef = useRef(null)
 
   useEffect(() => {
@@ -51,7 +61,6 @@ export const AchivementsList = () => {
   const onChangeInputText = (element, value) => {
     setInputText({ ...inputText, [element]: value })
   }
-
   const onChangeEditInput = (key, value) => {
     const editAchivement = getEditedAchivement()
     const onUpdateAchivement = { ...editAchivement, [key]: value }
@@ -75,6 +84,15 @@ export const AchivementsList = () => {
     setEditedId(false)
     editAndGet()
   }
+  const onChangeDate = (dates) => {
+    const [start, end] = dates
+    setStartDate(start)
+    setEndDate(end)
+  }
+
+  const onChangeInputData = (key, value) => {
+    setInputData({ ...inputData, [key]: value })
+  }
 
   const urls = (firstUrl, secondUrl) => {
     if (firstUrl !== '' && secondUrl !== '' && typeof secondUrl == 'string') {
@@ -93,15 +111,26 @@ export const AchivementsList = () => {
       await postAchivement(
         userId,
         data,
-        urls(data.get('firstUrl'), data.get('secondUrl'))
+        // todo:いきなりfirstUrl,secondUrlが出てくるので分かりにくいので、直す
+        // page/achivementの方で管理すべきだと思う。
+        urls(data.get('firstUrl'), data.get('secondUrl')),
+        startDate,
+        endDate
       )
       getAchivementsList(userId).then((achivementsData) => {
         setAchivements(achivementsData)
         console.log(achivementsData)
       })
     }
-    setInputText({ title: '', text: '' })
+    console.log(startDate.toLocaleDateString('ja-JP'))
     postAndGet()
+    console.log(startDate)
+    setInputData({
+      title: '',
+      text: '',
+    })
+    setStartDate(new Date())
+    setEndDate(null)
   }
   const onDeleteAchivement = (achivementId) => {
     const deleteAndGet = async () => {
@@ -123,21 +152,68 @@ export const AchivementsList = () => {
           <input
             type="text"
             name="title"
-            value={inputText.title}
-            onChange={(e) => onChangeInputText('title', e.target.value)}
+            value={inputData.title}
+            onChange={(e) => onChangeInputData('title', e.target.value)}
             placeholder="題名を記入してください。"
             required
           />
           <input
             type="text"
             name="text"
-            value={inputText.text}
-            onChange={(e) => onChangeInputText('text', e.target.value)}
+            value={inputData.text}
+            onChange={(e) => onChangeInputData('text', e.target.value)}
             placeholder="内容を記入してください。"
             required
           />
           {/* todo +ボタンでurlが追加できるようにする。 */}
           <UrlsInputForm />
+          {/* いいUXを探す。 */}
+          {/* <DatePicker
+            dateFormat="yyyy/MM/dd"
+            maxDate={Today}
+            selected={new Date(inputData.startDateOn)}
+            onChange={onChangeDate}
+            startDate={new Date(inputData.startDateOn)}
+            endDate={inputData.endDateOn}
+            selectsRange
+            inline
+            // onChange={(selectedDate) => {
+            //   onChange(selectedDate)
+            // }}
+          /> */}
+          <DatePicker
+            dateFormat="yyyy/MM/dd"
+            maxDate={Today}
+            selected={startDate}
+            onChange={onChangeDate}
+            startDate={startDate}
+            endDate={endDate}
+            selectsRange
+            inline
+          />
+
+          {/* <DatePicker
+            dateFormat="yyyy/MM/dd"
+            maxDate={Today}
+            selected={new Date(inputData.startDateOn)}
+            onChange={(selectedDate) => {
+              onChangeInputData(
+                'startDateOn',
+                selectedDate.toLocaleDateString('ja-JP')
+              )
+            }}
+          />
+          <DatePicker
+            dateFormat="yyyy/MM/dd"
+            maxDate={Today}
+            selected={new Date(inputData.endDateOn)}
+            onChange={(selectedDate) => {
+              onChangeInputData(
+                'endDateOn',
+                selectedDate.toLocaleDateString('ja-JP')
+              )
+            }}
+          /> */}
         </div>
         <button type="submit">登録</button>
       </form>

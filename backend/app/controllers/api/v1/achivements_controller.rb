@@ -35,7 +35,7 @@ class Api::V1::AchivementsController < ApplicationController
 
   private
   def achivement_params
-    params.require(:achivement).permit(:title,:text,urls: [])
+    params.require(:achivement).permit(:title,:text,:start_date_on,:end_date_on,urls: [] )
   end
 
   def user_finder

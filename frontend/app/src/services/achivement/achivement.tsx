@@ -18,7 +18,13 @@ export const getAchivementsList = async (userId) => {
     })
 }
 
-export const postAchivement = async (userId, data, urls) => {
+export const postAchivement = async (
+  userId,
+  data,
+  urls,
+  startDate,
+  endDate
+) => {
   return await axios
     .post(`${DEFAULT_API}/users/${userId}/achivements`, {
       headers: {
@@ -31,6 +37,8 @@ export const postAchivement = async (userId, data, urls) => {
         title: data.get('title'),
         text: data.get('text'),
         urls: urls,
+        start_date_on: startDate,
+        end_date_on: endDate,
       },
     })
     .then((response) => {
