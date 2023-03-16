@@ -1,8 +1,20 @@
 Rails.application.routes.draw do
-  devise_for :employers
-  devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  namespace :api do
+    namespace :v1 do
+      resources :users do
+        resources :work_experiences , only:[:index,:create,:update]
+        resources :daily_reports , only:[:index,:create,:update, :destroy]
+        resources :achivements , only:[:index,:create,:update, :destroy]
+        resources :presentations , only:[:index,:update]
+
+      end
+      mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+        registrations: 'api/v1/auth/registrations'
+      }
+      namespace :auth do
+        resources :sessions, only: %i[index]
+      end
+    end
+  end
 end
