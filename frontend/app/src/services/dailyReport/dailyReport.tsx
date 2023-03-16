@@ -18,7 +18,7 @@ export const getDailyReportsList = async (userId) => {
     })
 }
 
-export const postDailyReport = async (userId, data) => {
+export const postDailyReport = async (userId, data, reportDateOn) => {
   return await axios
     .post(`${DEFAULT_API}/users/${userId}/daily_reports`, {
       headers: {
@@ -30,7 +30,7 @@ export const postDailyReport = async (userId, data) => {
       daily_report: {
         text: data.text,
         time: data.time,
-        report_date_on: data.reportDateOn,
+        report_date_on: reportDateOn,
       },
     })
     .then((response) => {
@@ -52,7 +52,7 @@ export const deleteDailyReport = async (userId, reportId) => {
   )
 }
 
-export const editDailyReport = async (userId, data) => {
+export const editDailyReport = async (userId, data, reportDateOn) => {
   return await axios
     .patch(`${DEFAULT_API}/users/${userId}/daily_reports/${data.id}`, {
       headers: {
@@ -64,7 +64,7 @@ export const editDailyReport = async (userId, data) => {
       daily_report: {
         text: data.text,
         time: data.time,
-        report_date_on: data.reportDateOn,
+        report_date_on: reportDateOn,
       },
     })
     .then((response) => {
