@@ -68,6 +68,6 @@ export const editDailyReport = async (userId, data, reportDateOn) => {
       },
     })
     .then((response) => {
-      console.log(response, 'response')
+      return response.data
     })
 }

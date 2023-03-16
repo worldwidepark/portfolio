@@ -57,7 +57,6 @@ export const DailyReportsList = () => {
       getUserProfileData(userId).then((data) => {
         setCombinedTime(data.user.combinedTime)
       })
-      console.log(dailyReports, 'dailyReportssssss')
     }
   }, [dailyReports])
 
@@ -84,6 +83,7 @@ export const DailyReportsList = () => {
   const onEditReport = (dailyReport) => {
     editDailyReport(userId, dailyReport, editReportDateOn).then(
       (dailyReportsData) => {
+        console.log(dailyReportsData, 'si')
         updatedDailyReports(dailyReportsData)
       }
     )
@@ -170,10 +170,10 @@ export const DailyReportsList = () => {
             {dailyReports.map((dailyReport) => (
               <div key={dailyReport.id}>
                 {editedDailyReport.id === dailyReport.id ? (
-                  <form onSubmit={() => onEditReport(dailyReport)}>
+                  <form onSubmit={() => onEditReport(editedDailyReport)}>
                     <input
                       type="text"
-                      value={dailyReport.text}
+                      value={editedDailyReport.text}
                       ref={editInputRef}
                       onChange={(e) =>
                         onChangeEditInput('text', e.target.value)
@@ -189,13 +189,13 @@ export const DailyReportsList = () => {
                         onChangeEditInput('time', e.target.value)
                       }
                       placeholder="時間を記入してください。"
-                      value={dailyReport.time}
+                      value={editedDailyReport.time}
                       required
                     />
                     <DatePicker
                       dateFormat="yyyy/MM/dd"
                       maxDate={Today}
-                      selected={editDailyReport}
+                      selected={editReportDateOn}
                       required
                       onChange={(selectedDate) => {
                         setEditReportDateOn(selectedDate)
