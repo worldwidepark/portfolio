@@ -8,9 +8,9 @@ import {
 } from '../../../services/achivement/achivement'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
-import { UrlsInputForm } from './urlsInputForm'
+import { UrlsInputForm } from '../../molecules/Achivement/urlsInputForm'
 import { type } from 'os'
-import { EditUrlsInputForm } from './editUrlsInputForm'
+import { EditUrlsInputForm } from '../../molecules/Achivement/editUrlsInputForm'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { start } from 'repl'
@@ -31,6 +31,7 @@ export const AchivementsList = () => {
   const [inputData, setInputData] = useState({
     title: '',
     text: '',
+    urls: ['', ''],
   })
   const editInputRef = useRef(null)
 
@@ -95,13 +96,22 @@ export const AchivementsList = () => {
     setInputData({ ...inputData, [key]: value })
   }
 
-  const urls = (firstUrl, secondUrl) => {
+  const makeUrls = (urls) => {
+    const firstUrl = urls[0]
+    const secondUrl = urls[1]
     if (firstUrl !== '' && secondUrl !== '' && typeof secondUrl == 'string') {
       return [firstUrl, secondUrl]
     } else if (firstUrl !== '') {
       return [firstUrl]
     } else if (secondUrl !== '') {
       return [secondUrl]
+    }
+  }
+  const urlValue = (name, value) => {
+    if (name === 'firstUrl') {
+      setInputData({ ...inputData, urls: [value, inputData.urls[1]] })
+    } else if (name === 'secondUrl') {
+      setInputData({ ...inputData, urls: [inputData.urls[0], value] })
     }
   }
 
@@ -113,7 +123,7 @@ export const AchivementsList = () => {
       data,
       // todo:いきなりfirstUrl,secondUrlが出てくるので分かりにくいので、直す
       // page/achivementの方で管理すべきだと思う。
-      urls(data.get('firstUrl'), data.get('secondUrl')),
+      makeUrls(inputData.urls),
       startDate,
       endDate
     ).then((achivementsData) => {
@@ -123,6 +133,7 @@ export const AchivementsList = () => {
     setInputData({
       title: '',
       text: '',
+      urls: ['', ''],
     })
     setStartDate(new Date())
     setEndDate(null)
@@ -164,7 +175,11 @@ export const AchivementsList = () => {
             required
           />
           {/* todo +ボタンでurlが追加できるようにする。 */}
-          <UrlsInputForm />
+          <UrlsInputForm
+            makeUrls={makeUrls}
+            urlValue={urlValue}
+            inputData={inputData}
+          />
           <DatePicker
             dateFormat="yyyy/MM/dd"
             maxDate={Today}
