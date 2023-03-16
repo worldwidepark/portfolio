@@ -3,14 +3,14 @@ class Api::V1::AchivementsController < ApplicationController
 
   def index
     achivements = @user.achivements.order(id: :DESC)
-    render json: achivements
+    render json: make_json_list(achivements)
   end
 
   def create
     achivement = @user.achivements.new(achivement_params)
     if achivement.save
       achivement.presentations.create(user:@user)
-      render json: achivement
+      render json: make_json(achivement)
     else
       render json: achivement.errors, status: 422
     end
@@ -20,7 +20,7 @@ class Api::V1::AchivementsController < ApplicationController
     achivement = @user.achivements.find(params[:id])
 
     if achivement.update(achivement_params)
-      render json: achivement
+      render json: make_json(achivement)
     else
       render json: achivement.errors, status: 422
     end
@@ -35,11 +35,23 @@ class Api::V1::AchivementsController < ApplicationController
 
   private
   def achivement_params
-    params.require(:achivement).permit(:title,:text,urls: [])
+    params.require(:achivement).permit(:title,:text,:start_date_on,:end_date_on,urls: [] )
   end
 
   def user_finder
     @user = User.find(params[:user_id])
   end
+
+  def make_json(e)
+    {id: e.id, title: e.title, text: e.text, startDateOn: e.start_date_on, endDateOn: e.end_date_on, urls: e.urls}
+  end
+
+  def make_json_list(daily_reports)
+    daily_reports.map do |e|
+      make_json(e)
+    end
+  end
+
+
 
 end

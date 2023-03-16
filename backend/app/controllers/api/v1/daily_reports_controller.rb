@@ -2,8 +2,8 @@ class Api::V1::DailyReportsController < ApplicationController
   before_action :user_finder
 
   def index
-    daily_reports = @user.daily_reports.order(id: :DESC)
-    render json: daily_reports
+    daily_reports = @user.daily_reports.order(report_date_on: :DESC)
+    render json: make_json_list(daily_reports)
   end
 
   def create
@@ -13,7 +13,7 @@ class Api::V1::DailyReportsController < ApplicationController
       daily_report.presentations.create(user:@user)
       @user.combined_time += daily_report.time
       @user.save
-      render json: [daily_report, {combined_time: @user.combined_time}]
+      render json: make_json(daily_report)
     else
       render json: daily_report.errors, status: 422
     end
@@ -25,7 +25,7 @@ class Api::V1::DailyReportsController < ApplicationController
     if daily_report.update(daily_report_params)
       @user.combined_time = @user.combined_time - previous_time + daily_report.time
       @user.save
-      render json: [daily_report, {combined_time: @user.combined_time}]
+      render json: [daily_report, {combinedTime: @user.combined_time}]
     else
       render json: daily_report.errors, status: 422
     end
@@ -44,11 +44,20 @@ class Api::V1::DailyReportsController < ApplicationController
 
   private
   def daily_report_params
-    params.require(:daily_report).permit(:text,:time)
+    params.require(:daily_report).permit(:text,:time,:report_date_on )
   end
 
   def user_finder
     @user = User.find(params[:user_id])
   end
 
+  def make_json_list(daily_reports)
+    daily_reports.map do |e|
+      make_json(e)
+    end
+  end
+
+  def make_json(e)
+    {id: e.id, reportDateOn: e.report_date_on, text: e.text, time: e.time}
+  end
 end

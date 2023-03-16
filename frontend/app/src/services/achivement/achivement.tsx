@@ -18,7 +18,13 @@ export const getAchivementsList = async (userId) => {
     })
 }
 
-export const postAchivement = async (userId, data, urls) => {
+export const postAchivement = async (
+  userId,
+  data,
+  urls,
+  startDate,
+  endDate
+) => {
   return await axios
     .post(`${DEFAULT_API}/users/${userId}/achivements`, {
       headers: {
@@ -31,10 +37,12 @@ export const postAchivement = async (userId, data, urls) => {
         title: data.get('title'),
         text: data.get('text'),
         urls: urls,
+        start_date_on: startDate,
+        end_date_on: endDate,
       },
     })
     .then((response) => {
-      console.log(response, 'response')
+      return response.data
     })
 }
 
@@ -52,7 +60,7 @@ export const deleteAchivement = async (userId, reportId) => {
   )
 }
 
-export const editAchivement = async (userId, data) => {
+export const editAchivement = async (userId, data, startDate, endDate) => {
   return await axios
     .patch(`${DEFAULT_API}/users/${userId}/achivements/${data.id}`, {
       headers: {
@@ -61,9 +69,15 @@ export const editAchivement = async (userId, data) => {
         client: Cookies.get('client'),
         'access-token': Cookies.get('access-token'),
       },
-      achivement: data,
+      achivement: {
+        title: data.title,
+        text: data.text,
+        urls: data.urls,
+        start_date_on: startDate,
+        end_date_on: endDate,
+      },
     })
     .then((response) => {
-      console.log(response, 'response')
+      return response.data
     })
 }

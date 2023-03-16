@@ -12,7 +12,6 @@ export const PresentElements = ({ userId, element, elementName }) => {
   //   closedPresentation(userId, element.id, reversePresent(present))
   //   setPresent(reversePresent)
   // }
-
   return (
     <>
       {elementName == 'achivement' ? (
@@ -31,11 +30,14 @@ export const PresentElements = ({ userId, element, elementName }) => {
               </>
             )}
           </div>
+          <div>start date:{element.startDateOn}</div>
+          <div>end date:{element.endDateOn}</div>
         </Box>
       ) : (
         <Box width="80vh" backgroundColor={present ? 'black' : 'grey'}>
           <div>{element.text}</div>
           <div>{element.time}</div>
+          <div>{element.reportDateOn}</div>
         </Box>
       )}
     </>

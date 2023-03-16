@@ -11,15 +11,27 @@ import { Flex } from '../../layout/Flex'
 import { UrlsInputForm } from './urlsInputForm'
 import { type } from 'os'
 import { EditUrlsInputForm } from './editUrlsInputForm'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import { start } from 'repl'
 
 export const AchivementsList = () => {
   const [achivements, setAchivements] = useState([])
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [editedId, setEditedId] = useState(false)
+  const [editedAchivement, setEditedAchivement] = useState(false)
+  // todo: 削除 inputText,setInputText
   const [inputText, setInputText] = useState({ title: '', text: '' })
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(null)
+  const [editStartDate, setEditStartDate] = useState(new Date())
+  const [editEndDate, setEditEndDate] = useState(null)
   const { currentUserId } = useContext(AuthContext)
-
+  const Today = new Date()
+  const [inputData, setInputData] = useState({
+    title: '',
+    text: '',
+  })
   const editInputRef = useRef(null)
 
   useEffect(() => {
@@ -38,42 +50,49 @@ export const AchivementsList = () => {
   }, [userId])
 
   useEffect(() => {
-    if (editedId) {
+    if (editedAchivement) {
       editInputRef.current.focus()
       console.log(editInputRef.current)
     }
-  }, [editedId])
-
-  const getEditedAchivement = () => {
-    return achivements.find((achivement) => achivement.id === editedId)
-  }
-
-  const onChangeInputText = (element, value) => {
-    setInputText({ ...inputText, [element]: value })
-  }
+  }, [editedAchivement.id])
 
   const onChangeEditInput = (key, value) => {
-    const editAchivement = getEditedAchivement()
-    const onUpdateAchivement = { ...editAchivement, [key]: value }
+    setEditedAchivement({ ...editedAchivement, [key]: value })
+  }
+
+  const updateAchivements = (updatedAchivementData) => {
     const updatedAchivementArray = achivements.map((achivement) => {
-      if (achivement.id === onUpdateAchivement.id) {
-        return onUpdateAchivement
+      if (achivement.id === updatedAchivementData.id) {
+        return updatedAchivementData
       } else {
         return achivement
       }
     })
     setAchivements(updatedAchivementArray)
   }
+
   // todo fetch update.
   const onEditAchivement = (achivement) => {
-    const editAndGet = async () => {
-      await editAchivement(userId, achivement)
-      getAchivementsList(userId).then((achivementsData) => {
-        setAchivements(achivementsData)
-      })
-    }
-    setEditedId(false)
-    editAndGet()
+    editAchivement(userId, achivement, editStartDate, editEndDate).then(
+      (achivementsData) => {
+        updateAchivements(achivementsData)
+      }
+    )
+    setEditedAchivement(false)
+  }
+  const onChangeDate = (dates) => {
+    const [start, end] = dates
+    setStartDate(start)
+    setEndDate(end)
+  }
+  const onEditChangeDate = (dates) => {
+    const [start, end] = dates
+    setEditStartDate(start)
+    setEditEndDate(end)
+  }
+
+  const onChangeInputData = (key, value) => {
+    setInputData({ ...inputData, [key]: value })
   }
 
   const urls = (firstUrl, secondUrl) => {
@@ -89,20 +108,26 @@ export const AchivementsList = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    const postAndGet = async () => {
-      await postAchivement(
-        userId,
-        data,
-        urls(data.get('firstUrl'), data.get('secondUrl'))
-      )
-      getAchivementsList(userId).then((achivementsData) => {
-        setAchivements(achivementsData)
-        console.log(achivementsData)
-      })
-    }
-    setInputText({ title: '', text: '' })
-    postAndGet()
+    postAchivement(
+      userId,
+      data,
+      // todo:いきなりfirstUrl,secondUrlが出てくるので分かりにくいので、直す
+      // page/achivementの方で管理すべきだと思う。
+      urls(data.get('firstUrl'), data.get('secondUrl')),
+      startDate,
+      endDate
+    ).then((achivementsData) => {
+      setAchivements([...achivements, achivementsData])
+    })
+
+    setInputData({
+      title: '',
+      text: '',
+    })
+    setStartDate(new Date())
+    setEndDate(null)
   }
+
   const onDeleteAchivement = (achivementId) => {
     const deleteAndGet = async () => {
       await deleteAchivement(userId, achivementId)
@@ -112,8 +137,10 @@ export const AchivementsList = () => {
     }
     deleteAndGet()
   }
-  const onEditAchivementInput = (achivementId) => {
-    setEditedId(achivementId)
+  const onEditAchivementInput = (achivement) => {
+    setEditedAchivement(achivement)
+    setEditStartDate(new Date(achivement.startDateOn))
+    setEditEndDate(new Date(achivement.endDateOn))
   }
   return (
     <>
@@ -123,21 +150,32 @@ export const AchivementsList = () => {
           <input
             type="text"
             name="title"
-            value={inputText.title}
-            onChange={(e) => onChangeInputText('title', e.target.value)}
+            value={inputData.title}
+            onChange={(e) => onChangeInputData('title', e.target.value)}
             placeholder="題名を記入してください。"
             required
           />
           <input
             type="text"
             name="text"
-            value={inputText.text}
-            onChange={(e) => onChangeInputText('text', e.target.value)}
+            value={inputData.text}
+            onChange={(e) => onChangeInputData('text', e.target.value)}
             placeholder="内容を記入してください。"
             required
           />
           {/* todo +ボタンでurlが追加できるようにする。 */}
           <UrlsInputForm />
+          <DatePicker
+            dateFormat="yyyy/MM/dd"
+            maxDate={Today}
+            selected={startDate}
+            onChange={onChangeDate}
+            startDate={startDate}
+            endDate={endDate}
+            selectsRange
+            inline
+            required
+          />
         </div>
         <button type="submit">登録</button>
       </form>
@@ -148,11 +186,11 @@ export const AchivementsList = () => {
           <>
             {achivements.map((achivement) => (
               <div key={achivement.id}>
-                {editedId === achivement.id ? (
-                  <form onSubmit={() => onEditAchivement(achivement)}>
+                {editedAchivement.id === achivement.id ? (
+                  <form onSubmit={() => onEditAchivement(editedAchivement)}>
                     <input
                       type="text"
-                      value={achivement.title}
+                      value={editedAchivement.title}
                       ref={editInputRef}
                       onChange={(e) =>
                         onChangeEditInput('title', e.target.value)
@@ -160,7 +198,7 @@ export const AchivementsList = () => {
                     />
                     <input
                       type="text"
-                      value={achivement.text}
+                      value={editedAchivement.text}
                       onChange={(e) =>
                         onChangeEditInput('text', e.target.value)
                       }
@@ -169,24 +207,32 @@ export const AchivementsList = () => {
                       achivement={achivement}
                       onChangeEditInput={onChangeEditInput}
                     />
-                    {/* <input
-                      type="text"
-                      value={achivement.urls}
-                      onChange={(e) => onChangeEditInput('url', e.target.value)}
-                    /> */}
+                    <DatePicker
+                      dateFormat="yyyy/MM/dd"
+                      maxDate={Today}
+                      selected={editStartDate}
+                      onChange={onEditChangeDate}
+                      startDate={editStartDate}
+                      endDate={editEndDate}
+                      selectsRange
+                      inline
+                      required
+                    />
                     <button type="submit">edit</button>
                   </form>
                 ) : (
                   <>
                     <div>{achivement.title}</div>
                     <div>{achivement.text}</div>
-                    {achivement.urls.map((url) => url)}
+                    {achivement.urls.map((url) => (
+                      <div>{url}</div>
+                    ))}
+                    <div>{achivement.startDateOn}</div>
+                    <div>{achivement.endDateOn}</div>
                     <button onClick={() => onDeleteAchivement(achivement.id)}>
                       x
                     </button>
-                    <button
-                      onClick={() => onEditAchivementInput(achivement.id)}
-                    >
+                    <button onClick={() => onEditAchivementInput(achivement)}>
                       edit
                     </button>
                   </>
@@ -198,7 +244,4 @@ export const AchivementsList = () => {
       </Flex>
     </>
   )
-}
-function elseif() {
-  throw new Error('Function not implemented.')
 }

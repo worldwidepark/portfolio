@@ -9,14 +9,21 @@ import {
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
 import { getUserProfileData } from '../../../services/userprofile/userInfo'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 export const DailyReportsList = () => {
+  const Today = new Date()
   const [dailyReports, setDailyReports] = useState([])
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const [editedId, setEditedId] = useState(false)
-  const [inputText, setInputText] = useState('')
-  const [inputTime, setInputTime] = useState(false)
+  const [inputData, setInputData] = useState({
+    text: '',
+    time: '',
+    reportDateOn: Today.toLocaleDateString('ja-JP'),
+  })
+
   const { currentUserId, combinedTime, setCombinedTime } =
     useContext(AuthContext)
   const editInputRef = useRef(null)
@@ -31,17 +38,11 @@ export const DailyReportsList = () => {
     if (typeof userId == 'number') {
       getDailyReportsList(userId).then((dailyReportsData) => {
         setDailyReports(dailyReportsData)
+        console.log(dailyReportsData)
       })
       setLoading(false)
     }
   }, [userId])
-
-  const onChangeInputText = (value) => {
-    setInputText(value)
-  }
-  const onChangeInputTime = (value) => {
-    setInputTime(value)
-  }
 
   useEffect(() => {
     if (editedId) {
@@ -54,13 +55,18 @@ export const DailyReportsList = () => {
   useEffect(() => {
     if (typeof userId == 'number') {
       getUserProfileData(userId).then((data) => {
-        setCombinedTime(data.user.combined_time)
+        setCombinedTime(data.user.combinedTime)
       })
+      console.log(dailyReports, 'dailyReportssssss')
     }
   }, [dailyReports])
 
   const getEditedDailyReport = () => {
     return dailyReports.find((dailyReport) => dailyReport.id === editedId)
+  }
+  const onChangeInputData = (key, value) => {
+    setInputData({ ...inputData, [key]: value })
+    console.log(inputData, 'inpuDataaaaaa')
   }
 
   const onChangeEditInput = (key, value) => {
@@ -86,19 +92,21 @@ export const DailyReportsList = () => {
     setEditedId(false)
     editAndGet()
   }
+  const sortedByDate = (data) =>
+    data
+      .slice()
+      .sort((a, b) => new Date(b.reportDateOn) - new Date(a.reportDateOn))
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    const postAndGet = async () => {
-      await postDailyReport(userId, data)
-      getDailyReportsList(userId).then((dailyReportsData) => {
-        setDailyReports(dailyReportsData)
-      })
-    }
-    postAndGet()
-    setInputText('')
-    setInputTime(false)
+    postDailyReport(userId, inputData).then((dailyReportData) => {
+      setDailyReports(sortedByDate([...dailyReports, dailyReportData]))
+    })
+    setInputData({
+      text: '',
+      time: '',
+      reportDateOn: Today.toLocaleDateString('ja-JP'),
+    })
   }
   // todo: fix
   const onDeleteReport = (reportId) => {
@@ -126,8 +134,8 @@ export const DailyReportsList = () => {
           <input
             type="text"
             name="text"
-            value={inputText}
-            onChange={(e) => onChangeInputText(e.target.value)}
+            value={inputData.text}
+            onChange={(e) => onChangeInputData('text', e.target.value)}
             placeholder="日報を記入してください。"
             required
           />
@@ -139,12 +147,24 @@ export const DailyReportsList = () => {
             step="0.1"
             min="0"
             max="24"
-            value={inputTime}
-            onChange={(e) => onChangeInputTime(e.target.value)}
+            value={inputData.time}
+            onChange={(e) => onChangeInputData('time', e.target.value)}
             placeholder="時間を記入してください。"
             required
           />
         </div>
+        <DatePicker
+          dateFormat="yyyy/MM/dd"
+          maxDate={Today}
+          selected={new Date(inputData.reportDateOn)}
+          required
+          onChange={(selectedDate) => {
+            onChangeInputData(
+              'reportDateOn',
+              selectedDate.toLocaleDateString('ja-JP')
+            )
+          }}
+        />
         <button type="submit">登録</button>
       </form>
       <Flex flexDirection="column">
@@ -177,11 +197,25 @@ export const DailyReportsList = () => {
                       value={dailyReport.time}
                       required
                     />
+                    <DatePicker
+                      dateFormat="yyyy/MM/dd"
+                      maxDate={Today}
+                      selected={new Date(dailyReport.reportDateOn)}
+                      required
+                      onChange={(selectedDate) => {
+                        onChangeEditInput(
+                          'reportDateOn',
+                          selectedDate.toLocaleDateString('ja-JP')
+                        )
+                      }}
+                    />
                     <button type="submit">edit</button>
                   </form>
                 ) : (
                   <>
-                    <div>{dailyReport.text}</div> <div>{dailyReport.time}</div>{' '}
+                    <div>{dailyReport.text}</div>
+                    <div>{dailyReport.time}</div>
+                    <div>{dailyReport.reportDateOn}</div>
                     <button onClick={() => onDeleteReport(dailyReport.id)}>
                       x
                     </button>

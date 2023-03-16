@@ -13,7 +13,7 @@ import Layout from '../../components/templates/Layout'
 import { AuthContext } from '../../contexts/AuthContext'
 import { getUserProfileData } from '../../services/userprofile/userInfo'
 // todo: idの渡し方。
-const mystudy = () => {
+const achivement = () => {
   return (
     <Layout>
       <Flex flexDirection="row">
@@ -25,4 +25,4 @@ const mystudy = () => {
   )
 }
 
-export default mystudy
+export default achivement
