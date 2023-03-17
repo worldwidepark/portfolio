@@ -23,7 +23,7 @@ export const Sidebar = () => {
   return (
     <>
       <SidebarBox>
-        <Link href="mystudy">
+        <Link href="dailyreport">
           <SidebarList>日報</SidebarList>
         </Link>
         <Link href="achivement">
@@ -32,9 +32,11 @@ export const Sidebar = () => {
         <Link href="presentation">
           <SidebarList>出力画面の見出し</SidebarList>
         </Link>
-        <SidebarList>
-          ユーザープロフィール<h3>プログラミング言語</h3>
-        </SidebarList>
+        <Link href="userprofile">
+          <SidebarList>
+            ユーザープロフィール<h3>プログラミング言語</h3>
+          </SidebarList>
+        </Link>
         <SidebarList>学習者一覧</SidebarList>
       </SidebarBox>
     </>

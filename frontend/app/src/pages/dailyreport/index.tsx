@@ -12,7 +12,7 @@ import { DailyReportsList } from '../../components/organisms/DailyReport'
 import { Sidebar } from '../../components/organisms/Sidebar'
 import Layout from '../../components/templates/Layout'
 
-const mystudy = () => {
+const dailyReport = () => {
   const Today = new Date()
   const [dailyReports, setDailyReports] = useState([])
   const [userId, setUserId] = useState(false)
@@ -143,4 +143,4 @@ const mystudy = () => {
   )
 }
 
-export default mystudy
+export default dailyReport
