@@ -44,9 +44,10 @@ export const editUserProfileData = async (userId, data) => {
         client: Cookies.get('client'),
         'access-token': Cookies.get('access-token'),
       },
-      daily_report: {
+      user: {
         name: data.name,
         introduce: data.introduce,
+        occupation: data.occupation,
         image: data.image,
         urls: data.urls,
       },

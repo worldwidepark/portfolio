@@ -11,7 +11,7 @@ const index = () => {
     <Layout>
       <Flex flexDirection="row">
         <Sidebar setActiveLists={setActiveLists} />
-        <UserProfileList activeLists={activeLists} />
+        {/* <UserProfileList activeLists={activeLists} /> */}
         {/* <UserProfile userId=/> */}
       </Flex>
     </Layout>

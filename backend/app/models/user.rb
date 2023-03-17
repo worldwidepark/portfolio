@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
-
+  serialize :urls, Array
   has_many :work_experiences
   has_many :daily_reports
   has_many :achivements
