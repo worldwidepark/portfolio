@@ -6,7 +6,7 @@ import {
   postDailyReport,
 } from '../../services/dailyReport/dailyReport'
 import { AuthContext } from '../../contexts/AuthContext'
-import { getUserProfileData } from '../../services/userprofile/userInfo'
+import { getUserProfileData } from '../../services/userProfile/userProfile'
 import { Flex } from '../../components/layout/Flex'
 import { DailyReportsList } from '../../components/organisms/DailyReport'
 import { Sidebar } from '../../components/organisms/Sidebar'
@@ -54,7 +54,7 @@ const dailyReport = () => {
   useEffect(() => {
     if (typeof userId == 'number') {
       getUserProfileData(userId).then((data) => {
-        setCombinedTime(data.user.combinedTime)
+        setCombinedTime(data.combinedTime)
       })
     }
   }, [dailyReports])
