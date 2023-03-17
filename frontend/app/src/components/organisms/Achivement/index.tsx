@@ -8,20 +8,15 @@ import {
 } from '../../../services/achivement/achivement'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
-import { UrlsInputForm } from '../../molecules/Achivement/urlsInputForm'
-import { type } from 'os'
-import { EditUrlsInputForm } from '../../molecules/Achivement/editUrlsInputForm'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { start } from 'repl'
+import { UrlsInputForms } from '../../molecules/Achivement/urlsInputForms'
 
 export const AchivementsList = () => {
   const [achivements, setAchivements] = useState([])
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const [editedAchivement, setEditedAchivement] = useState(false)
-  // todo: 削除 inputText,setInputText
-  const [inputText, setInputText] = useState({ title: '', text: '' })
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(null)
   const [editStartDate, setEditStartDate] = useState(new Date())
@@ -31,7 +26,7 @@ export const AchivementsList = () => {
   const [inputData, setInputData] = useState({
     title: '',
     text: '',
-    urls: ['', ''],
+    urls: [''],
   })
   const editInputRef = useRef(null)
 
@@ -72,13 +67,16 @@ export const AchivementsList = () => {
     setAchivements(updatedAchivementArray)
   }
 
-  // todo fetch update.
   const onEditAchivement = (achivement) => {
-    editAchivement(userId, achivement, editStartDate, editEndDate).then(
-      (achivementsData) => {
-        updateAchivements(achivementsData)
-      }
-    )
+    editAchivement(
+      userId,
+      achivement,
+      deleteUrlsEmpty(achivement.urls),
+      editStartDate,
+      editEndDate
+    ).then((achivementsData) => {
+      updateAchivements(achivementsData)
+    })
     setEditedAchivement(false)
   }
   const onChangeDate = (dates) => {
@@ -96,7 +94,7 @@ export const AchivementsList = () => {
     setInputData({ ...inputData, [key]: value })
   }
 
-  const makeUrls = (urls) => {
+  const deleteUrlsEmpty = (urls) => {
     const firstUrl = urls[0]
     const secondUrl = urls[1]
     if (firstUrl !== '' && secondUrl !== '' && typeof secondUrl == 'string') {
@@ -107,11 +105,15 @@ export const AchivementsList = () => {
       return [secondUrl]
     }
   }
-  const urlValue = (name, value) => {
-    if (name === 'firstUrl') {
-      setInputData({ ...inputData, urls: [value, inputData.urls[1]] })
+  const onChangeUrl = (name, value, data, setData, achivementLength) => {
+    if (name === 'firstUrl' && data.urls[1]) {
+      setData({ ...data, urls: [value, data.urls[1]] })
+    } else if (name == 'firstUrl' && achivementLength === 2) {
+      setData({ ...data, urls: [value, ''] })
+    } else if (name == 'firstUrl' && achivementLength === 1) {
+      setData({ ...data, urls: [value] })
     } else if (name === 'secondUrl') {
-      setInputData({ ...inputData, urls: [inputData.urls[0], value] })
+      setData({ ...data, urls: [data.urls[0], value] })
     }
   }
 
@@ -121,9 +123,7 @@ export const AchivementsList = () => {
     postAchivement(
       userId,
       data,
-      // todo:いきなりfirstUrl,secondUrlが出てくるので分かりにくいので、直す
-      // page/achivementの方で管理すべきだと思う。
-      makeUrls(inputData.urls),
+      deleteUrlsEmpty(inputData.urls),
       startDate,
       endDate
     ).then((achivementsData) => {
@@ -133,7 +133,7 @@ export const AchivementsList = () => {
     setInputData({
       title: '',
       text: '',
-      urls: ['', ''],
+      urls: [''],
     })
     setStartDate(new Date())
     setEndDate(null)
@@ -174,11 +174,10 @@ export const AchivementsList = () => {
             placeholder="内容を記入してください。"
             required
           />
-          {/* todo +ボタンでurlが追加できるようにする。 */}
-          <UrlsInputForm
-            makeUrls={makeUrls}
-            urlValue={urlValue}
-            inputData={inputData}
+          <UrlsInputForms
+            onChangeUrl={onChangeUrl}
+            achivement={inputData}
+            setAchivement={setInputData}
           />
           <DatePicker
             dateFormat="yyyy/MM/dd"
@@ -218,9 +217,10 @@ export const AchivementsList = () => {
                         onChangeEditInput('text', e.target.value)
                       }
                     />
-                    <EditUrlsInputForm
-                      achivement={achivement}
-                      onChangeEditInput={onChangeEditInput}
+                    <UrlsInputForms
+                      onChangeUrl={onChangeUrl}
+                      achivement={editedAchivement}
+                      setAchivement={setEditedAchivement}
                     />
                     <DatePicker
                       dateFormat="yyyy/MM/dd"
