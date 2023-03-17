@@ -1,5 +1,3 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
 import { Flex } from '../../components/layout/Flex'
@@ -7,7 +5,7 @@ import { PresentationsList } from '../../components/organisms/Presentation/prese
 import { MakePresentationsList } from '../../components/organisms/Presentation/makePresentationsList'
 import { MakePresentElements } from '../../components/organisms/Presentation/makePresentElements'
 import { PresentElements } from '../../components/organisms/Presentation/presentElements'
-import Sidebar from '../../components/organisms/Sidebar/ index'
+import { Sidebar } from '../../components/organisms/Sidebar'
 import Layout from '../../components/templates/Layout'
 import { AuthContext } from '../../contexts/AuthContext'
 import {
@@ -22,7 +20,6 @@ const presentation = () => {
   const [achivementsPresent, setAchivementsPresent] = useState([])
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [wholeTime, setWholeTime] = useState(0)
   const { currentUserId } = useContext(AuthContext)
 
   useEffect(() => {

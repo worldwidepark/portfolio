@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Box } from '../../layout/Box'
 
-const Sidebar = () => {
+export const Sidebar = () => {
   // const sortedNotes = notes.sort((a, b) => b.modDate - a.modDate)
 
   const SidebarBox = styled.div`
@@ -23,7 +23,7 @@ const Sidebar = () => {
   return (
     <>
       <SidebarBox>
-        <Link href="mystudy">
+        <Link href="dailyreport">
           <SidebarList>日報</SidebarList>
         </Link>
         <Link href="achivement">
@@ -32,13 +32,13 @@ const Sidebar = () => {
         <Link href="presentation">
           <SidebarList>出力画面の見出し</SidebarList>
         </Link>
-        <SidebarList>
-          ユーザープロフィール<h3>プログラミング言語</h3>
-        </SidebarList>
+        <Link href="userprofile">
+          <SidebarList>
+            ユーザープロフィール<h3>プログラミング言語</h3>
+          </SidebarList>
+        </Link>
         <SidebarList>学習者一覧</SidebarList>
       </SidebarBox>
     </>
   )
 }
-
-export default Sidebar

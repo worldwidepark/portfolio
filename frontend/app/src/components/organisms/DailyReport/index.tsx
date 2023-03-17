@@ -1,128 +1,27 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-
-import {
-  deleteDailyReport,
-  editDailyReport,
-  getDailyReportsList,
-  postDailyReport,
-} from '../../../services/dailyReport/dailyReport'
+import React, { useContext } from 'react'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
-import { getUserProfileData } from '../../../services/userprofile/userInfo'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-
-export const DailyReportsList = () => {
-  const Today = new Date()
-  const [dailyReports, setDailyReports] = useState([])
-  const [userId, setUserId] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [editedId, setEditedId] = useState(false)
-  const [inputData, setInputData] = useState({
-    text: '',
-    time: '',
-    reportDateOn: Today.toLocaleDateString('ja-JP'),
-  })
-
-  const { currentUserId, combinedTime, setCombinedTime } =
-    useContext(AuthContext)
-  const editInputRef = useRef(null)
-
-  useEffect(() => {
-    setUserId(currentUserId)
-    console.log(currentUserId, 'current')
-  }, [currentUserId])
-
-  useEffect(() => {
-    console.log(typeof userId, 'userId')
-    if (typeof userId == 'number') {
-      getDailyReportsList(userId).then((dailyReportsData) => {
-        setDailyReports(dailyReportsData)
-        console.log(dailyReportsData)
-      })
-      setLoading(false)
-    }
-  }, [userId])
-
-  useEffect(() => {
-    if (editedId) {
-      editInputRef.current.focus()
-      console.log(editInputRef.current)
-    }
-  }, [editedId])
-
-  // todo combined_time → usecontextを使う
-  useEffect(() => {
-    if (typeof userId == 'number') {
-      getUserProfileData(userId).then((data) => {
-        setCombinedTime(data.user.combinedTime)
-      })
-      console.log(dailyReports, 'dailyReportssssss')
-    }
-  }, [dailyReports])
-
-  const getEditedDailyReport = () => {
-    return dailyReports.find((dailyReport) => dailyReport.id === editedId)
-  }
-  const onChangeInputData = (key, value) => {
-    setInputData({ ...inputData, [key]: value })
-    console.log(inputData, 'inpuDataaaaaa')
-  }
-
-  const onChangeEditInput = (key, value) => {
-    const editDailyReport = getEditedDailyReport()
-    const onUpdateDailyreport = { ...editDailyReport, [key]: value }
-    const updatedDailyReportArray = dailyReports.map((dailyReport) => {
-      if (dailyReport.id === editedId) {
-        return onUpdateDailyreport
-      } else {
-        return dailyReport
-      }
-    })
-    setDailyReports(updatedDailyReportArray)
-  }
-  // todo fetch update.
-  const onEditReport = (dailyReport) => {
-    const editAndGet = async () => {
-      await editDailyReport(userId, dailyReport)
-      getDailyReportsList(userId).then((dailyReportsData) => {
-        setDailyReports(dailyReportsData)
-      })
-    }
-    setEditedId(false)
-    editAndGet()
-  }
-  const sortedByDate = (data) =>
-    data
-      .slice()
-      .sort((a, b) => new Date(b.reportDateOn) - new Date(a.reportDateOn))
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    postDailyReport(userId, inputData).then((dailyReportData) => {
-      setDailyReports(sortedByDate([...dailyReports, dailyReportData]))
-    })
-    setInputData({
-      text: '',
-      time: '',
-      reportDateOn: Today.toLocaleDateString('ja-JP'),
-    })
-  }
-  // todo: fix
-  const onDeleteReport = (reportId) => {
-    const deleteAndGet = async () => {
-      await deleteDailyReport(userId, reportId)
-      getDailyReportsList(userId).then((dailyReportsData) => {
-        setDailyReports(dailyReportsData)
-      })
-    }
-    deleteAndGet()
-  }
-  // todo: useRefを使う
-  const onEditReportInput = (reportId) => {
-    setEditedId(reportId)
-  }
-
+export const DailyReportsList = ({
+  combinedTime,
+  dailyReports,
+  editInputRef,
+  editedDailyReport,
+  editReportDateOn,
+  handleSubmit,
+  inputData,
+  loading,
+  onChangeEditInput,
+  onChangeInputData,
+  onDeleteReport,
+  onEditReport,
+  onEditReportInput,
+  reportDateOn,
+  setEditReportDateOn,
+  setReportDateOn,
+  Today,
+}) => {
   return (
     <>
       <div>総学習時間:</div>
@@ -156,13 +55,10 @@ export const DailyReportsList = () => {
         <DatePicker
           dateFormat="yyyy/MM/dd"
           maxDate={Today}
-          selected={new Date(inputData.reportDateOn)}
+          selected={reportDateOn}
           required
           onChange={(selectedDate) => {
-            onChangeInputData(
-              'reportDateOn',
-              selectedDate.toLocaleDateString('ja-JP')
-            )
+            setReportDateOn(selectedDate)
           }}
         />
         <button type="submit">登録</button>
@@ -174,11 +70,11 @@ export const DailyReportsList = () => {
           <>
             {dailyReports.map((dailyReport) => (
               <div key={dailyReport.id}>
-                {editedId === dailyReport.id ? (
-                  <form onSubmit={() => onEditReport(dailyReport)}>
+                {editedDailyReport.id === dailyReport.id ? (
+                  <form onSubmit={() => onEditReport(editedDailyReport)}>
                     <input
                       type="text"
-                      value={dailyReport.text}
+                      value={editedDailyReport.text}
                       ref={editInputRef}
                       onChange={(e) =>
                         onChangeEditInput('text', e.target.value)
@@ -194,19 +90,16 @@ export const DailyReportsList = () => {
                         onChangeEditInput('time', e.target.value)
                       }
                       placeholder="時間を記入してください。"
-                      value={dailyReport.time}
+                      value={editedDailyReport.time}
                       required
                     />
                     <DatePicker
                       dateFormat="yyyy/MM/dd"
                       maxDate={Today}
-                      selected={new Date(dailyReport.reportDateOn)}
+                      selected={editReportDateOn}
                       required
                       onChange={(selectedDate) => {
-                        onChangeEditInput(
-                          'reportDateOn',
-                          selectedDate.toLocaleDateString('ja-JP')
-                        )
+                        setEditReportDateOn(selectedDate)
                       }}
                     />
                     <button type="submit">edit</button>
@@ -219,7 +112,7 @@ export const DailyReportsList = () => {
                     <button onClick={() => onDeleteReport(dailyReport.id)}>
                       x
                     </button>
-                    <button onClick={() => onEditReportInput(dailyReport.id)}>
+                    <button onClick={() => onEditReportInput(dailyReport)}>
                       edit
                     </button>
                   </>

@@ -1,147 +1,32 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-
-import {
-  deleteAchivement,
-  editAchivement,
-  getAchivementsList,
-  postAchivement,
-} from '../../../services/achivement/achivement'
-import { AuthContext } from '../../../contexts/AuthContext'
+import React from 'react'
 import { Flex } from '../../layout/Flex'
-import { UrlsInputForm } from './urlsInputForm'
-import { type } from 'os'
-import { EditUrlsInputForm } from './editUrlsInputForm'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { start } from 'repl'
+import { UrlsInputForms } from '../../molecules/Achivement/urlsInputForms'
 
-export const AchivementsList = () => {
-  const [achivements, setAchivements] = useState([])
-  const [userId, setUserId] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [editedAchivement, setEditedAchivement] = useState(false)
-  // todo: 削除 inputText,setInputText
-  const [inputText, setInputText] = useState({ title: '', text: '' })
-  const [startDate, setStartDate] = useState(new Date())
-  const [endDate, setEndDate] = useState(null)
-  const [editStartDate, setEditStartDate] = useState(new Date())
-  const [editEndDate, setEditEndDate] = useState(null)
-  const { currentUserId } = useContext(AuthContext)
-  const Today = new Date()
-  const [inputData, setInputData] = useState({
-    title: '',
-    text: '',
-  })
-  const editInputRef = useRef(null)
-
-  useEffect(() => {
-    setUserId(currentUserId)
-    console.log(currentUserId, 'current')
-  }, [currentUserId])
-
-  useEffect(() => {
-    console.log(typeof userId, 'userId')
-    if (typeof userId == 'number') {
-      getAchivementsList(userId).then((achivementsData) => {
-        setAchivements(achivementsData)
-      })
-      setLoading(false)
-    }
-  }, [userId])
-
-  useEffect(() => {
-    if (editedAchivement) {
-      editInputRef.current.focus()
-      console.log(editInputRef.current)
-    }
-  }, [editedAchivement.id])
-
-  const onChangeEditInput = (key, value) => {
-    setEditedAchivement({ ...editedAchivement, [key]: value })
-  }
-
-  const updateAchivements = (updatedAchivementData) => {
-    const updatedAchivementArray = achivements.map((achivement) => {
-      if (achivement.id === updatedAchivementData.id) {
-        return updatedAchivementData
-      } else {
-        return achivement
-      }
-    })
-    setAchivements(updatedAchivementArray)
-  }
-
-  // todo fetch update.
-  const onEditAchivement = (achivement) => {
-    editAchivement(userId, achivement, editStartDate, editEndDate).then(
-      (achivementsData) => {
-        updateAchivements(achivementsData)
-      }
-    )
-    setEditedAchivement(false)
-  }
-  const onChangeDate = (dates) => {
-    const [start, end] = dates
-    setStartDate(start)
-    setEndDate(end)
-  }
-  const onEditChangeDate = (dates) => {
-    const [start, end] = dates
-    setEditStartDate(start)
-    setEditEndDate(end)
-  }
-
-  const onChangeInputData = (key, value) => {
-    setInputData({ ...inputData, [key]: value })
-  }
-
-  const urls = (firstUrl, secondUrl) => {
-    if (firstUrl !== '' && secondUrl !== '' && typeof secondUrl == 'string') {
-      return [firstUrl, secondUrl]
-    } else if (firstUrl !== '') {
-      return [firstUrl]
-    } else if (secondUrl !== '') {
-      return [secondUrl]
-    }
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    postAchivement(
-      userId,
-      data,
-      // todo:いきなりfirstUrl,secondUrlが出てくるので分かりにくいので、直す
-      // page/achivementの方で管理すべきだと思う。
-      urls(data.get('firstUrl'), data.get('secondUrl')),
-      startDate,
-      endDate
-    ).then((achivementsData) => {
-      setAchivements([...achivements, achivementsData])
-    })
-
-    setInputData({
-      title: '',
-      text: '',
-    })
-    setStartDate(new Date())
-    setEndDate(null)
-  }
-
-  const onDeleteAchivement = (achivementId) => {
-    const deleteAndGet = async () => {
-      await deleteAchivement(userId, achivementId)
-      getAchivementsList(userId).then((achivementsData) => {
-        setAchivements(achivementsData)
-      })
-    }
-    deleteAndGet()
-  }
-  const onEditAchivementInput = (achivement) => {
-    setEditedAchivement(achivement)
-    setEditStartDate(new Date(achivement.startDateOn))
-    setEditEndDate(new Date(achivement.endDateOn))
-  }
+export const AchivementsList = ({
+  achivements,
+  editEndDate,
+  editInputRef,
+  editedAchivement,
+  editStartDate,
+  endDate,
+  handleSubmit,
+  inputData,
+  loading,
+  onChangeDate,
+  onChangeEditInput,
+  onChangeInputData,
+  onChangeUrl,
+  onDeleteAchivement,
+  onEditAchivement,
+  onEditAchivementInput,
+  onEditChangeDate,
+  setEditedAchivement,
+  setInputData,
+  startDate,
+  Today,
+}) => {
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -163,8 +48,11 @@ export const AchivementsList = () => {
             placeholder="内容を記入してください。"
             required
           />
-          {/* todo +ボタンでurlが追加できるようにする。 */}
-          <UrlsInputForm />
+          <UrlsInputForms
+            onChangeUrl={onChangeUrl}
+            achivement={inputData}
+            setAchivement={setInputData}
+          />
           <DatePicker
             dateFormat="yyyy/MM/dd"
             maxDate={Today}
@@ -203,9 +91,10 @@ export const AchivementsList = () => {
                         onChangeEditInput('text', e.target.value)
                       }
                     />
-                    <EditUrlsInputForm
-                      achivement={achivement}
-                      onChangeEditInput={onChangeEditInput}
+                    <UrlsInputForms
+                      onChangeUrl={onChangeUrl}
+                      achivement={editedAchivement}
+                      setAchivement={setEditedAchivement}
                     />
                     <DatePicker
                       dateFormat="yyyy/MM/dd"

@@ -25,7 +25,7 @@ class Api::V1::DailyReportsController < ApplicationController
     if daily_report.update(daily_report_params)
       @user.combined_time = @user.combined_time - previous_time + daily_report.time
       @user.save
-      render json: [daily_report, {combinedTime: @user.combined_time}]
+      render json: make_json(daily_report)
     else
       render json: daily_report.errors, status: 422
     end

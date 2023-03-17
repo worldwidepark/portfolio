@@ -60,7 +60,13 @@ export const deleteAchivement = async (userId, reportId) => {
   )
 }
 
-export const editAchivement = async (userId, data, startDate, endDate) => {
+export const editAchivement = async (
+  userId,
+  data,
+  urls,
+  startDate,
+  endDate
+) => {
   return await axios
     .patch(`${DEFAULT_API}/users/${userId}/achivements/${data.id}`, {
       headers: {
@@ -72,7 +78,7 @@ export const editAchivement = async (userId, data, startDate, endDate) => {
       achivement: {
         title: data.title,
         text: data.text,
-        urls: data.urls,
+        urls: urls,
         start_date_on: startDate,
         end_date_on: endDate,
       },

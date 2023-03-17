@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { UserProfileList } from '../components/organisms/UserProfile'
 import Layout from '../components/templates/Layout'
-import Sidebar from '../components/organisms/Sidebar/ index'
+import { Sidebar } from '../components/organisms/Sidebar'
 import { Flex } from '../components/layout/Flex'
 import { DailyReportInputForm } from '../components/organisms/DailyReport'
 const index = () => {
