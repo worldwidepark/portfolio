@@ -9,7 +9,7 @@ import { AuthContext } from '../../contexts/AuthContext'
 import { getUserProfileData } from '../../services/userprofile/userInfo'
 import { Flex } from '../../components/layout/Flex'
 import { DailyReportsList } from '../../components/organisms/DailyReport'
-import Sidebar from '../../components/organisms/Sidebar/ index'
+import { Sidebar } from '../../components/organisms/Sidebar'
 import Layout from '../../components/templates/Layout'
 
 const mystudy = () => {
@@ -77,7 +77,6 @@ const mystudy = () => {
     setDailyReports(sortedByDate(updatedDailyReportArray))
   }
 
-  // todo fetch update.
   const onEditReport = (dailyReport) => {
     editDailyReport(userId, dailyReport, editReportDateOn).then(
       (dailyReportsData) => {
@@ -102,7 +101,6 @@ const mystudy = () => {
       time: '',
     })
   }
-  // todo: fix
   const onDeleteReport = (reportId) => {
     const deleteAndGet = async () => {
       await deleteDailyReport(userId, reportId)
@@ -112,7 +110,6 @@ const mystudy = () => {
     }
     deleteAndGet()
   }
-  // todo: useRefを使う
   const onEditReportInput = (dailyReport) => {
     setEditedDailyReport(dailyReport)
     setEditReportDateOn(new Date(dailyReport.reportDateOn))

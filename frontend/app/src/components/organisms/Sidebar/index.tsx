@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Box } from '../../layout/Box'
 
-const Sidebar = () => {
+export const Sidebar = () => {
   // const sortedNotes = notes.sort((a, b) => b.modDate - a.modDate)
 
   const SidebarBox = styled.div`
@@ -40,5 +40,3 @@ const Sidebar = () => {
     </>
   )
 }
-
-export default Sidebar
