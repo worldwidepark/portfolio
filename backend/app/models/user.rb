@@ -13,4 +13,7 @@ class User < ActiveRecord::Base
   has_many :presentations
   has_many :programming_language_users
   has_many :programming_Languages, through: :programming_language_users
+
+  has_one_attached :image
 end
+
