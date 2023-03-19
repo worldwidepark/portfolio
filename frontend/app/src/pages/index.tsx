@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { UserProfileList } from '../components/organisms/UserProfile'
+import { UserProfileList } from '../components/organisms/UserProfile/index dump'
 import Layout from '../components/templates/Layout'
 import { Sidebar } from '../components/organisms/Sidebar'
 import { Flex } from '../components/layout/Flex'

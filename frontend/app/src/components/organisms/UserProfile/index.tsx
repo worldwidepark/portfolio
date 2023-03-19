@@ -1,46 +1,80 @@
-// import Link from 'next/link'
-// import React, { useEffect } from 'react'
-// import { useState } from 'react'
-// import { getUserProfileListData } from '../../../services/userprofile/userInfo'
-// import { Text } from '../../atoms/Text'
-// import { Box } from '../../layout/Box'
-// import { Flex } from '../../layout/Flex'
-// import { UserProfile } from './userProfile'
+import React, { useContext } from 'react'
+import { AuthContext } from '../../../contexts/AuthContext'
+import { Flex } from '../../layout/Flex'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+export const UserProfile = ({
+  userProfileData,
+  loading,
+  userId,
+  currentUserId,
+  onEditUserProfile,
+  setOnEditUserProfile,
+  editedUserProfileData,
+  setEditedUserProfileData,
+  onChangeUserProfileData,
+  onClickEdit,
+  onSubmitUserProfile,
+}) => {
+  return (
+    <Flex flexDirection="column">
+      {loading ? (
+        <h1>ロード中。。</h1>
+      ) : (
+        <>
+          {onEditUserProfile ? (
+            <>
+              <form onSubmit={onSubmitUserProfile}>
+                <div>
+                  <input
+                    type="text"
+                    name="name"
+                    onChange={(e) =>
+                      onChangeUserProfileData('name', e.target.value)
+                    }
+                    value={editedUserProfileData.name}
+                  />
+                </div>
+                <div>
+                  <textarea
+                    name="introduce"
+                    onChange={(e) =>
+                      onChangeUserProfileData('introduce', e.target.value)
+                    }
+                    value={editedUserProfileData.introduce}
+                  ></textarea>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="occupation"
+                    onChange={(e) =>
+                      onChangeUserProfileData('occupation', e.target.value)
+                    }
+                    value={editedUserProfileData.occupation}
+                  />
+                </div>
+                <button type="submit">編集</button>
+              </form>
+            </>
+          ) : (
+            <>
+              <div>{userProfileData.name}</div>
+              <div>{userProfileData.introduce}</div>
+              <div>{userProfileData.occupation}</div>
 
-// export const UserProfileList = (activeLists) => {
-//   const [userProfiles, setUserProfiles] = useState([])
-//   const [userId, setUserId] = useState()
-//   const [modalId, setModalId] = useState(0)
-//   useEffect(() => {
-//     UserProfileData()
-//   }, [])
-
-//   const UserProfileData = () => {
-//     getUserProfileListData().then((userProfileList) => {
-//       setUserProfiles(userProfileList)
-//       console.log(userProfileList)
-//     })
-//   }
-//   const getUserProfile = (id) => {
-//     setUserId(id)
-//     setModalId(id)
-//   }
-
-//   return (
-//     <Flex flexDirection="row">
-//       <Flex flexDirection="column">
-//         {userProfiles.map((userProfile) => (
-//           <div onClick={() => getUserProfile(userProfile.id)}>
-//             <Box width="70%" backgroundColor="green">
-//               <Text fontSize="sm">{userProfile.email}</Text>
-//               <Text fontSize="sm">{userProfile.provider}</Text>
-//             </Box>
-//           </div>
-//         ))}
-//       </Flex>
-//       <Flex flexDirection="column">
-//         <Box>{modalId === userId ? <UserProfile userId={userId} /> : null}</Box>
-//       </Flex>
-//     </Flex>
-//   )
-// }
+              {/* <div>
+            {userProfileData.urls.map((url) => (
+              <div>{url}</div>
+            ))}
+          </div> */}
+              {currentUserId == userId && (
+                <button onClick={() => onClickEdit()}>edit</button>
+              )}
+            </>
+          )}
+        </>
+      )}
+    </Flex>
+  )
+}

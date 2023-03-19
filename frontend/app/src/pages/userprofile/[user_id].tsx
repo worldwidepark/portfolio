@@ -1,5 +1,9 @@
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
+import { Flex } from '../../components/layout/Flex'
+import { Sidebar } from '../../components/organisms/Sidebar'
+import { UserProfile } from '../../components/organisms/UserProfile'
+import Layout from '../../components/templates/Layout'
 import { AuthContext } from '../../contexts/AuthContext'
 import {
   editUserProfileData,
@@ -50,59 +54,24 @@ const userProfile = () => {
   }
 
   return (
-    <>
-      {loading ? (
-        <h1>ロード中。。</h1>
-      ) : (
-        <>
-          {onEditUserProfile ? (
-            <>
-              <form onSubmit={onSubmitUserProfile}>
-                <input
-                  type="text"
-                  name="name"
-                  onChange={(e) =>
-                    onChangeUserProfileData('name', e.target.value)
-                  }
-                  value={editedUserProfileData.name}
-                />
-                <textarea
-                  name="introduce"
-                  onChange={(e) =>
-                    onChangeUserProfileData('introduce', e.target.value)
-                  }
-                  value={editedUserProfileData.introduce}
-                ></textarea>
-                <input
-                  type="text"
-                  name="occupation"
-                  onChange={(e) =>
-                    onChangeUserProfileData('occupation', e.target.value)
-                  }
-                  value={editedUserProfileData.occupation}
-                />
-                <button type="submit">編集</button>
-              </form>
-            </>
-          ) : (
-            <>
-              <div>{userProfileData.name}</div>
-              <div>{userProfileData.introduce}</div>
-              <div>{userProfileData.occupation}</div>
-
-              {/* <div>
-            {userProfileData.urls.map((url) => (
-              <div>{url}</div>
-            ))}
-          </div> */}
-              {currentUserId == userId && (
-                <button onClick={() => onClickEdit()}>edit</button>
-              )}
-            </>
-          )}
-        </>
-      )}
-    </>
+    <Layout>
+      <Flex flexDriection="row">
+        <Sidebar />
+        <UserProfile
+          userProfileData={userProfileData}
+          loading={loading}
+          userId={userId}
+          currentUserId={currentUserId}
+          onEditUserProfile={onEditUserProfile}
+          setOnEditUserProfile={setOnEditUserProfile}
+          editedUserProfileData={editedUserProfileData}
+          setEditedUserProfileData={setEditedUserProfileData}
+          onChangeUserProfileData={onChangeUserProfileData}
+          onClickEdit={onClickEdit}
+          onSubmitUserProfile={onSubmitUserProfile}
+        />
+      </Flex>
+    </Layout>
   )
 }
 
