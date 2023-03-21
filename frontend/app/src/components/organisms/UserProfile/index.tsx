@@ -3,16 +3,22 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { UrlsInputForms } from '../../molecules/UserProfile/urlsInputForms'
 export const UserProfile = ({
   userProfileData,
   loading,
   userId,
+  urlItem,
   currentUserId,
   onEditUserProfile,
   setOnEditUserProfile,
+  preview,
   editedUserProfileData,
   setEditedUserProfileData,
+  onChangeFile,
   onChangeUserProfileData,
+  onSubmitUserProfileImage,
+  onChangeUrl,
   onClickEdit,
   onSubmitUserProfile,
 }) => {
@@ -54,20 +60,34 @@ export const UserProfile = ({
                     value={editedUserProfileData.occupation}
                   />
                 </div>
+                <UrlsInputForms
+                  onChangeUrl={onChangeUrl}
+                  editedUserProfileData={editedUserProfileData}
+                  setEditedUserProfileData={setEditedUserProfileData}
+                />
                 <button type="submit">編集</button>
               </form>
             </>
           ) : (
             <>
+              <form onSubmit={onSubmitUserProfileImage}>
+                <img src={preview} />
+                <input
+                  name="image"
+                  type="file"
+                  onChange={onChangeFile}
+                  accept="image/*"
+                />
+                <button type="submit">編集</button>
+              </form>
+              <div>
+                <img src={userProfileData.image} />
+              </div>
               <div>{userProfileData.name}</div>
               <div>{userProfileData.introduce}</div>
               <div>{userProfileData.occupation}</div>
+              <div>{urlItem}</div>
 
-              {/* <div>
-            {userProfileData.urls.map((url) => (
-              <div>{url}</div>
-            ))}
-          </div> */}
               {currentUserId == userId && (
                 <button onClick={() => onClickEdit()}>edit</button>
               )}

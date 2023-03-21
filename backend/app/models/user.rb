@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
-  serialize :urls, Array
   has_many :work_experiences
   has_many :daily_reports
   has_many :achivements
@@ -15,5 +14,8 @@ class User < ActiveRecord::Base
   has_many :programming_Languages, through: :programming_language_users
 
   has_one_attached :image
+  def image_url
+    Rails.application.routes.url_helpers.url_for(image) if image.attached?
+  end
 end
 

@@ -9,19 +9,22 @@ class Api::V1::UsersController < ApplicationController
 
   def show
     user = User.find(params[:id])
-    render json: user
+    render json: make_json(user)
   end
 #  todo: current userのみ修正できるようにする。
   def update
     user = User.find(params[:id])
     if user.update(user_params)
-      render json: user
+      render json: make_json(user)
     end
   end
 
   private
   def user_params
-    params.require(:user).permit(:name,:introduce,:image,:occupation,urls: [])
+    params.require(:user).permit(:name,:introduce,:occupation,:image,url:{})
+  end
+  def make_json(e)
+    {id: e.id, name: e.name, introduce: e.introduce, occupation: e.occupation,url:e.url,image:e.image_url}
   end
 end
 

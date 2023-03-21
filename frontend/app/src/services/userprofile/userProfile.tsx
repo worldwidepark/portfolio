@@ -35,6 +35,23 @@ export const getUserProfileData = async (userId) => {
       return response.data
     })
 }
+export const editUserProfileImage = async (userId, image) => {
+  const formData = new FormData()
+  formData.append('user[image]', image)
+
+  return await axios
+    .patch(`${DEFAULT_API}/users/${userId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        uid: Cookies.get('uid'),
+        client: Cookies.get('client'),
+        'access-token': Cookies.get('access-token'),
+      },
+    })
+    .then((response) => {
+      return response.data
+    })
+}
 export const editUserProfileData = async (userId, data) => {
   return await axios
     .patch(`${DEFAULT_API}/users/${userId}`, {
@@ -48,8 +65,7 @@ export const editUserProfileData = async (userId, data) => {
         name: data.name,
         introduce: data.introduce,
         occupation: data.occupation,
-        image: data.image,
-        urls: data.urls,
+        url: data.url,
       },
     })
     .then((response) => {
