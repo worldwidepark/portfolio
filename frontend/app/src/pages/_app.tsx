@@ -5,7 +5,7 @@ import { getCurrentUser } from '../services/auth/isLogin'
 import Router, { useRouter } from 'next/router'
 import Header from '../components/organisms/Header'
 import { AuthContext } from '../contexts/AuthContext'
-import { getUserProfileData } from '../services/userprofile/userInfo'
+import { getUserProfileData } from '../services/userprofile/userProfile'
 
 export default function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState<boolean>(true)
@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (typeof currentUserId == 'number') {
       getUserProfileData(currentUserId).then((data) => {
-        setCombinedTime(data.user.combined_time)
+        setCombinedTime(data.combined_time)
       })
     }
   })

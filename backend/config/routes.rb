@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users do
+      end
+      resources :users do
         resources :work_experiences , only:[:index,:create,:update]
         resources :daily_reports , only:[:index,:create,:update, :destroy]
         resources :achivements , only:[:index,:create,:update, :destroy]

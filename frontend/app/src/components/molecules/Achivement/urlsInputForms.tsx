@@ -21,6 +21,7 @@ export const UrlsInputForms = ({ onChangeUrl, achivement, setAchivement }) => {
     <>
       <input
         name="firstUrl"
+        type="url"
         value={achivement.urls[0]}
         onChange={(e) =>
           onChangeUrl(
@@ -38,6 +39,7 @@ export const UrlsInputForms = ({ onChangeUrl, achivement, setAchivement }) => {
         <>
           <input
             name="secondUrl"
+            type="url"
             value={achivement.urls[1]}
             onChange={(e) =>
               onChangeUrl(
