@@ -79,29 +79,35 @@ const presentation = () => {
     <Layout>
       <Flex flexDirection="row">
         <Sidebar />
-        <MakePresentationsList
-          dailyReports={dailyReports}
-          achivements={achivements}
-          loading={loading}
-          userId={userId}
-          MakePresentElements={MakePresentElements}
-          dailyReportsPresent={dailyReportsPresent}
-          setDailyReportsPresent={setDailyReportsPresent}
-          achivementsPresent={achivementsPresent}
-          setAchivementsPresent={setAchivementsPresent}
-          onChangePresentState={onChangePresentState}
-        />
-        <PresentationsList
-          dailyReports={dailyReports}
-          achivements={achivements}
-          loading={loading}
-          userId={userId}
-          PresentElements={PresentElements}
-          dailyReportsPresent={dailyReportsPresent}
-          setDailyReportsPresent={setDailyReportsPresent}
-          achivementsPresent={achivementsPresent}
-          setAchivementsPresent={setAchivementsPresent}
-        />
+        {loading ? (
+          <h1>ロード中。。</h1>
+        ) : (
+          <>
+            <MakePresentationsList
+              dailyReports={dailyReports}
+              achivements={achivements}
+              loading={loading}
+              userId={userId}
+              MakePresentElements={MakePresentElements}
+              dailyReportsPresent={dailyReportsPresent}
+              setDailyReportsPresent={setDailyReportsPresent}
+              achivementsPresent={achivementsPresent}
+              setAchivementsPresent={setAchivementsPresent}
+              onChangePresentState={onChangePresentState}
+            />
+            <PresentationsList
+              dailyReports={dailyReports}
+              achivements={achivements}
+              loading={loading}
+              userId={userId}
+              PresentElements={PresentElements}
+              dailyReportsPresent={dailyReportsPresent}
+              setDailyReportsPresent={setDailyReportsPresent}
+              achivementsPresent={achivementsPresent}
+              setAchivementsPresent={setAchivementsPresent}
+            />
+          </>
+        )}
       </Flex>
     </Layout>
   )

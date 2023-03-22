@@ -21,35 +21,29 @@ export const MakePresentationsList = ({
   return (
     <>
       <Flex flexDirection="column">
-        {loading ? (
-          <h1>ロード中。。</h1>
-        ) : (
-          <>
-            <Box width="100vh" backgroundColor="green">
-              {achivements.map((element) => (
-                <div key={element.id}>
-                  <MakePresentElements
-                    element={element}
-                    elementName={'achivement'}
-                    onChangePresentState={onChangePresentState}
-                  />
-                </div>
-              ))}
-            </Box>
-            <Box width="100vh" backgroundColor="blue">
-              <span>総時間: {combinedTime}</span>
-              {dailyReports.map((element) => (
-                <div key={element.id}>
-                  <MakePresentElements
-                    element={element}
-                    elementName={'dailyReport'}
-                    onChangePresentState={onChangePresentState}
-                  />
-                </div>
-              ))}
-            </Box>
-          </>
-        )}
+        <Box width="100vh" backgroundColor="green">
+          {achivements.map((element) => (
+            <div key={element.id}>
+              <MakePresentElements
+                element={element}
+                elementName={'achivement'}
+                onChangePresentState={onChangePresentState}
+              />
+            </div>
+          ))}
+        </Box>
+        <Box width="100vh" backgroundColor="blue">
+          <span>総時間: {combinedTime}</span>
+          {dailyReports.map((element) => (
+            <div key={element.id}>
+              <MakePresentElements
+                element={element}
+                elementName={'dailyReport'}
+                onChangePresentState={onChangePresentState}
+              />
+            </div>
+          ))}
+        </Box>
       </Flex>
     </>
   )

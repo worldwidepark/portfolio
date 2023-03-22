@@ -157,30 +157,36 @@ const achivement = () => {
     <Layout>
       <Flex flexDirection="row">
         <Sidebar />
-        {/* todo データがない時の対応 */}
-        <AchivementsList
-          achivements={achivements}
-          editEndDate={editEndDate}
-          editedAchivement={editedAchivement}
-          editInputRef={editInputRef}
-          editStartDate={editStartDate}
-          endDate={endDate}
-          handleSubmit={handleSubmit}
-          inputData={inputData}
-          loading={loading}
-          onChangeDate={onChangeDate}
-          onChangeEditInput={onChangeEditInput}
-          onChangeInputData={onChangeInputData}
-          onChangeUrl={onChangeUrl}
-          onDeleteAchivement={onDeleteAchivement}
-          onEditAchivement={onEditAchivement}
-          onEditAchivementInput={onEditAchivementInput}
-          onEditChangeDate={onEditChangeDate}
-          setEditedAchivement={setEditedAchivement}
-          setInputData={setInputData}
-          startDate={startDate}
-          Today={Today}
-        />
+        {loading ? (
+          <h1>ロード中。。</h1>
+        ) : (
+          <>
+            {/* todo データがない時の対応 */}
+            <AchivementsList
+              achivements={achivements}
+              editEndDate={editEndDate}
+              editedAchivement={editedAchivement}
+              editInputRef={editInputRef}
+              editStartDate={editStartDate}
+              endDate={endDate}
+              handleSubmit={handleSubmit}
+              inputData={inputData}
+              loading={loading}
+              onChangeDate={onChangeDate}
+              onChangeEditInput={onChangeEditInput}
+              onChangeInputData={onChangeInputData}
+              onChangeUrl={onChangeUrl}
+              onDeleteAchivement={onDeleteAchivement}
+              onEditAchivement={onEditAchivement}
+              onEditAchivementInput={onEditAchivementInput}
+              onEditChangeDate={onEditChangeDate}
+              setEditedAchivement={setEditedAchivement}
+              setInputData={setInputData}
+              startDate={startDate}
+              Today={Today}
+            />
+          </>
+        )}
       </Flex>
     </Layout>
   )

@@ -64,63 +64,55 @@ export const DailyReportsList = ({
         <button type="submit">登録</button>
       </form>
       <Flex flexDirection="column">
-        {loading ? (
-          <h1>ロード中。。</h1>
-        ) : (
-          <>
-            {dailyReports.map((dailyReport) => (
-              <div key={dailyReport.id}>
-                {editedDailyReport.id === dailyReport.id ? (
-                  <form onSubmit={() => onEditReport(editedDailyReport)}>
-                    <input
-                      type="text"
-                      value={editedDailyReport.text}
-                      ref={editInputRef}
-                      onChange={(e) =>
-                        onChangeEditInput('text', e.target.value)
-                      }
-                    />
-                    <input
-                      type="number"
-                      name="time"
-                      step="0.1"
-                      min="0"
-                      max="24"
-                      onChange={(e) =>
-                        onChangeEditInput('time', e.target.value)
-                      }
-                      placeholder="時間を記入してください。"
-                      value={editedDailyReport.time}
-                      required
-                    />
-                    <DatePicker
-                      dateFormat="yyyy/MM/dd"
-                      maxDate={Today}
-                      selected={editReportDateOn}
-                      required
-                      onChange={(selectedDate) => {
-                        setEditReportDateOn(selectedDate)
-                      }}
-                    />
-                    <button type="submit">edit</button>
-                  </form>
-                ) : (
-                  <>
-                    <div>{dailyReport.text}</div>
-                    <div>{dailyReport.time}</div>
-                    <div>{dailyReport.reportDateOn}</div>
-                    <button onClick={() => onDeleteReport(dailyReport.id)}>
-                      x
-                    </button>
-                    <button onClick={() => onEditReportInput(dailyReport)}>
-                      edit
-                    </button>
-                  </>
-                )}
-              </div>
-            ))}
-          </>
-        )}
+        <>
+          {dailyReports.map((dailyReport) => (
+            <div key={dailyReport.id}>
+              {editedDailyReport.id === dailyReport.id ? (
+                <form onSubmit={() => onEditReport(editedDailyReport)}>
+                  <input
+                    type="text"
+                    value={editedDailyReport.text}
+                    ref={editInputRef}
+                    onChange={(e) => onChangeEditInput('text', e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    name="time"
+                    step="0.1"
+                    min="0"
+                    max="24"
+                    onChange={(e) => onChangeEditInput('time', e.target.value)}
+                    placeholder="時間を記入してください。"
+                    value={editedDailyReport.time}
+                    required
+                  />
+                  <DatePicker
+                    dateFormat="yyyy/MM/dd"
+                    maxDate={Today}
+                    selected={editReportDateOn}
+                    required
+                    onChange={(selectedDate) => {
+                      setEditReportDateOn(selectedDate)
+                    }}
+                  />
+                  <button type="submit">edit</button>
+                </form>
+              ) : (
+                <>
+                  <div>{dailyReport.text}</div>
+                  <div>{dailyReport.time}</div>
+                  <div>{dailyReport.reportDateOn}</div>
+                  <button onClick={() => onDeleteReport(dailyReport.id)}>
+                    x
+                  </button>
+                  <button onClick={() => onEditReportInput(dailyReport)}>
+                    edit
+                  </button>
+                </>
+              )}
+            </div>
+          ))}
+        </>
       </Flex>
     </>
   )
