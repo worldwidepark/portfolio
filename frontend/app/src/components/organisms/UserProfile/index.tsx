@@ -70,19 +70,6 @@ export const UserProfile = ({
             </>
           ) : (
             <>
-              <form onSubmit={onSubmitUserProfileImage}>
-                <img src={preview} />
-                <input
-                  name="image"
-                  type="file"
-                  onChange={onChangeFile}
-                  accept="image/*"
-                />
-                <button type="submit">編集</button>
-              </form>
-              <div>
-                <img src={userProfileData.image} />
-              </div>
               <div>{userProfileData.name}</div>
               <div>{userProfileData.introduce}</div>
               <div>{userProfileData.occupation}</div>
