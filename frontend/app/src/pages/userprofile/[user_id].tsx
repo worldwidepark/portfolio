@@ -126,32 +126,38 @@ const userProfile = () => {
     <Layout>
       <Flex flexDriection="row">
         <Sidebar />
-        <ImageInputForm
-          userProfileData={userProfileData}
-          onSubmitUserProfileImage={onSubmitUserProfileImage}
-          preview={preview}
-          onChangeFile={onChangeFile}
-          onEditImage={onEditImage}
-          setOnEditImage={setOnEditImage}
-        />
-        <UserProfile
-          userProfileData={userProfileData}
-          loading={loading}
-          userId={userId}
-          urlItem={urlItem}
-          currentUserId={currentUserId}
-          onEditUserProfile={onEditUserProfile}
-          setOnEditUserProfile={setOnEditUserProfile}
-          editedUserProfileData={editedUserProfileData}
-          setEditedUserProfileData={setEditedUserProfileData}
-          preview={preview}
-          onChangeFile={onChangeFile}
-          onChangeUserProfileData={onChangeUserProfileData}
-          onSubmitUserProfileImage={onSubmitUserProfileImage}
-          onChangeUrl={onChangeUrl}
-          onClickEdit={onClickEdit}
-          onSubmitUserProfile={onSubmitUserProfile}
-        />
+        {loading ? (
+          <h1>ロード中。。</h1>
+        ) : (
+          <>
+            <ImageInputForm
+              userProfileData={userProfileData}
+              onSubmitUserProfileImage={onSubmitUserProfileImage}
+              preview={preview}
+              onChangeFile={onChangeFile}
+              onEditImage={onEditImage}
+              setOnEditImage={setOnEditImage}
+            />
+            <UserProfile
+              userProfileData={userProfileData}
+              loading={loading}
+              userId={userId}
+              urlItem={urlItem}
+              currentUserId={currentUserId}
+              onEditUserProfile={onEditUserProfile}
+              setOnEditUserProfile={setOnEditUserProfile}
+              editedUserProfileData={editedUserProfileData}
+              setEditedUserProfileData={setEditedUserProfileData}
+              preview={preview}
+              onChangeFile={onChangeFile}
+              onChangeUserProfileData={onChangeUserProfileData}
+              onSubmitUserProfileImage={onSubmitUserProfileImage}
+              onChangeUrl={onChangeUrl}
+              onClickEdit={onClickEdit}
+              onSubmitUserProfile={onSubmitUserProfile}
+            />
+          </>
+        )}
       </Flex>
     </Layout>
   )
