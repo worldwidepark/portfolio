@@ -12,6 +12,7 @@ import {
 } from '../../services/userprofile/userProfile'
 import { FaGithub, FaTwitter, FaBlogger, FaHome } from 'react-icons/fa'
 import { setPriority } from 'os'
+import { ImageInputForm } from '../../components/organisms/UserProfile/imageInputForm'
 
 const userProfile = () => {
   const router = useRouter()
@@ -24,6 +25,7 @@ const userProfile = () => {
   const [onEditUserProfile, setOnEditUserProfile] = useState(false)
   const { currentUserId } = useContext(AuthContext)
   const [urlItem, setUrlItem] = useState('')
+  const [onEditImage, setOnEditImage] = useState(false)
 
   useEffect(() => {
     if (router.isReady) {
@@ -105,7 +107,8 @@ const userProfile = () => {
     const image = event.target.image.files[0]
     editUserProfileImage(currentUserId, image).then((userProfileData) => {
       setUserProfileData(userProfileData)
-      // setOnEditUserProfile(false)
+      setOnEditImage(false)
+      setPreview(false)
     })
   }
 
@@ -123,24 +126,38 @@ const userProfile = () => {
     <Layout>
       <Flex flexDriection="row">
         <Sidebar />
-        <UserProfile
-          userProfileData={userProfileData}
-          loading={loading}
-          userId={userId}
-          urlItem={urlItem}
-          currentUserId={currentUserId}
-          onEditUserProfile={onEditUserProfile}
-          setOnEditUserProfile={setOnEditUserProfile}
-          editedUserProfileData={editedUserProfileData}
-          setEditedUserProfileData={setEditedUserProfileData}
-          preview={preview}
-          onChangeFile={onChangeFile}
-          onChangeUserProfileData={onChangeUserProfileData}
-          onSubmitUserProfileImage={onSubmitUserProfileImage}
-          onChangeUrl={onChangeUrl}
-          onClickEdit={onClickEdit}
-          onSubmitUserProfile={onSubmitUserProfile}
-        />
+        {loading ? (
+          <h1>ロード中。。</h1>
+        ) : (
+          <>
+            <ImageInputForm
+              userProfileData={userProfileData}
+              onSubmitUserProfileImage={onSubmitUserProfileImage}
+              preview={preview}
+              onChangeFile={onChangeFile}
+              onEditImage={onEditImage}
+              setOnEditImage={setOnEditImage}
+            />
+            <UserProfile
+              userProfileData={userProfileData}
+              loading={loading}
+              userId={userId}
+              urlItem={urlItem}
+              currentUserId={currentUserId}
+              onEditUserProfile={onEditUserProfile}
+              setOnEditUserProfile={setOnEditUserProfile}
+              editedUserProfileData={editedUserProfileData}
+              setEditedUserProfileData={setEditedUserProfileData}
+              preview={preview}
+              onChangeFile={onChangeFile}
+              onChangeUserProfileData={onChangeUserProfileData}
+              onSubmitUserProfileImage={onSubmitUserProfileImage}
+              onChangeUrl={onChangeUrl}
+              onClickEdit={onClickEdit}
+              onSubmitUserProfile={onSubmitUserProfile}
+            />
+          </>
+        )}
       </Flex>
     </Layout>
   )

@@ -119,25 +119,29 @@ const dailyReport = () => {
     <Layout>
       <Flex flexDirection="row">
         <Sidebar />
-        <DailyReportsList
-          combinedTime={combinedTime}
-          dailyReports={dailyReports}
-          editInputRef={editInputRef}
-          editedDailyReport={editedDailyReport}
-          editReportDateOn={editReportDateOn}
-          handleSubmit={handleSubmit}
-          inputData={inputData}
-          loading={loading}
-          onChangeEditInput={onChangeEditInput}
-          onChangeInputData={onChangeInputData}
-          onDeleteReport={onDeleteReport}
-          onEditReport={onEditReport}
-          onEditReportInput={onEditReportInput}
-          reportDateOn={reportDateOn}
-          setEditReportDateOn={setEditReportDateOn}
-          setReportDateOn={setReportDateOn}
-          Today={Today}
-        />
+        {loading ? (
+          <h1>ロード中。。</h1>
+        ) : (
+          <DailyReportsList
+            combinedTime={combinedTime}
+            dailyReports={dailyReports}
+            editInputRef={editInputRef}
+            editedDailyReport={editedDailyReport}
+            editReportDateOn={editReportDateOn}
+            handleSubmit={handleSubmit}
+            inputData={inputData}
+            loading={loading}
+            onChangeEditInput={onChangeEditInput}
+            onChangeInputData={onChangeInputData}
+            onDeleteReport={onDeleteReport}
+            onEditReport={onEditReport}
+            onEditReportInput={onEditReportInput}
+            reportDateOn={reportDateOn}
+            setEditReportDateOn={setEditReportDateOn}
+            setReportDateOn={setReportDateOn}
+            Today={Today}
+          />
+        )}
       </Flex>
     </Layout>
   )

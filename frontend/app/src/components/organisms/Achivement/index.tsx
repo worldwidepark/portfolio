@@ -68,68 +68,60 @@ export const AchivementsList = ({
         <button type="submit">登録</button>
       </form>
       <Flex flexDirection="column">
-        {loading ? (
-          <h1>ロード中。。</h1>
-        ) : (
-          <>
-            {achivements.map((achivement) => (
-              <div key={achivement.id}>
-                {editedAchivement.id === achivement.id ? (
-                  <form onSubmit={() => onEditAchivement(editedAchivement)}>
-                    <input
-                      type="text"
-                      value={editedAchivement.title}
-                      ref={editInputRef}
-                      onChange={(e) =>
-                        onChangeEditInput('title', e.target.value)
-                      }
-                    />
-                    <input
-                      type="text"
-                      value={editedAchivement.text}
-                      onChange={(e) =>
-                        onChangeEditInput('text', e.target.value)
-                      }
-                    />
-                    <UrlsInputForms
-                      onChangeUrl={onChangeUrl}
-                      achivement={editedAchivement}
-                      setAchivement={setEditedAchivement}
-                    />
-                    <DatePicker
-                      dateFormat="yyyy/MM/dd"
-                      maxDate={Today}
-                      selected={editStartDate}
-                      onChange={onEditChangeDate}
-                      startDate={editStartDate}
-                      endDate={editEndDate}
-                      selectsRange
-                      inline
-                      required
-                    />
-                    <button type="submit">edit</button>
-                  </form>
-                ) : (
-                  <>
-                    <div>{achivement.title}</div>
-                    <div>{achivement.text}</div>
-                    {achivement.urls.map((url) => (
-                      <div>{url}</div>
-                    ))}
-                    <div>{achivement.startDateOn}</div>
-                    <div>{achivement.endDateOn}</div>
-                    <button onClick={() => onDeleteAchivement(achivement.id)}>
-                      x
-                    </button>
-                    <button onClick={() => onEditAchivementInput(achivement)}>
-                      edit
-                    </button>
-                  </>
-                )}
-              </div>
-            ))}
-          </>
-        )}
+        <>
+          {achivements.map((achivement) => (
+            <div key={achivement.id}>
+              {editedAchivement.id === achivement.id ? (
+                <form onSubmit={() => onEditAchivement(editedAchivement)}>
+                  <input
+                    type="text"
+                    value={editedAchivement.title}
+                    ref={editInputRef}
+                    onChange={(e) => onChangeEditInput('title', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    value={editedAchivement.text}
+                    onChange={(e) => onChangeEditInput('text', e.target.value)}
+                  />
+                  <UrlsInputForms
+                    onChangeUrl={onChangeUrl}
+                    achivement={editedAchivement}
+                    setAchivement={setEditedAchivement}
+                  />
+                  <DatePicker
+                    dateFormat="yyyy/MM/dd"
+                    maxDate={Today}
+                    selected={editStartDate}
+                    onChange={onEditChangeDate}
+                    startDate={editStartDate}
+                    endDate={editEndDate}
+                    selectsRange
+                    inline
+                    required
+                  />
+                  <button type="submit">edit</button>
+                </form>
+              ) : (
+                <>
+                  <div>{achivement.title}</div>
+                  <div>{achivement.text}</div>
+                  {achivement.urls.map((url) => (
+                    <div>{url}</div>
+                  ))}
+                  <div>{achivement.startDateOn}</div>
+                  <div>{achivement.endDateOn}</div>
+                  <button onClick={() => onDeleteAchivement(achivement.id)}>
+                    x
+                  </button>
+                  <button onClick={() => onEditAchivementInput(achivement)}>
+                    edit
+                  </button>
+                </>
+              )}
+            </div>
+          ))}
+        </>
       </Flex>
     </>
   )

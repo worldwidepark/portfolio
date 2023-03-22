@@ -14,47 +14,41 @@ export const PresentationsList = ({
   return (
     <>
       <Flex flexDirection="column">
-        {loading ? (
-          <h1>ロード中。。</h1>
-        ) : (
+        <Box width="100vh" backgroundColor="green">
+          {achivements.map((element) => (
+            <div key={element.id}>
+              {element.present ? (
+                <>
+                  <PresentElements
+                    userId={userId}
+                    element={element}
+                    elementName={'achivement'}
+                  />
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+          ))}
+        </Box>
+        <Box width="100vh" backgroundColor="blue">
           <>
-            <Box width="100vh" backgroundColor="green">
-              {achivements.map((element) => (
-                <div key={element.id}>
-                  {element.present ? (
-                    <>
-                      <PresentElements
-                        userId={userId}
-                        element={element}
-                        elementName={'achivement'}
-                      />
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-              ))}
-            </Box>
-            <Box width="100vh" backgroundColor="blue">
-              <>
-                <span>総時間: {combinedTime}</span>
-                {dailyReports.map((element) => (
-                  <div key={element.id}>
-                    {element.present ? (
-                      <PresentElements
-                        userId={userId}
-                        element={element}
-                        elementName={'dailyReport'}
-                      />
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                ))}
-              </>
-            </Box>
+            <span>総時間: {combinedTime}</span>
+            {dailyReports.map((element) => (
+              <div key={element.id}>
+                {element.present ? (
+                  <PresentElements
+                    userId={userId}
+                    element={element}
+                    elementName={'dailyReport'}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
+            ))}
           </>
-        )}
+        </Box>
       </Flex>
     </>
   )
