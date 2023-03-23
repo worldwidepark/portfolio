@@ -5,19 +5,15 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { UrlsInputForms } from '../../molecules/UserProfile/urlsInputForms'
 export const UserProfile = ({
+  isCurrentUser,
   userProfileData,
-  loading,
   userId,
   urlItem,
   currentUserId,
   onEditUserProfile,
-  setOnEditUserProfile,
-  preview,
   editedUserProfileData,
   setEditedUserProfileData,
-  onChangeFile,
   onChangeUserProfileData,
-  onSubmitUserProfileImage,
   onChangeUrl,
   onClickEdit,
   onSubmitUserProfile,
@@ -71,9 +67,7 @@ export const UserProfile = ({
           <div>{userProfileData.occupation}</div>
           <div>{urlItem}</div>
 
-          {currentUserId == userId && (
-            <button onClick={() => onClickEdit()}>edit</button>
-          )}
+          {isCurrentUser && <button onClick={() => onClickEdit()}>edit</button>}
         </>
       )}
     </Flex>

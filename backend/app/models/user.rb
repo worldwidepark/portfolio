@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
   has_many :daily_reports
   has_many :achivements
   has_many :presentations
-  has_many :programming_language_users
-  has_many :programming_Languages, through: :programming_language_users
+  has_many :programming_language_users, dependent: :destroy
+  has_many :programming_languages, through: :programming_language_users
 
   has_one_attached :image
   def image_url

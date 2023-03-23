@@ -13,6 +13,14 @@ import {
 import { FaGithub, FaTwitter, FaBlogger, FaHome } from 'react-icons/fa'
 import { setPriority } from 'os'
 import { ImageInputForm } from '../../components/organisms/UserProfile/imageInputForm'
+import { SearchProgrammingLanguageTags } from '../../components/organisms/ProgrammingLanguage'
+import {
+  deleteProgrammingLanguageData,
+  getProgrammingLanguagesData,
+  postProgrammingLanguageData,
+  searchProgrammingLanguagesData,
+} from '../../services/programmingLanguage/programmingLanguage'
+import { setServers } from 'dns'
 
 const userProfile = () => {
   const router = useRouter()
@@ -26,7 +34,10 @@ const userProfile = () => {
   const { currentUserId } = useContext(AuthContext)
   const [urlItem, setUrlItem] = useState('')
   const [onEditImage, setOnEditImage] = useState(false)
-
+  const [programmingLanguageTags, setProgramminglanguageTags] = useState([])
+  const [searchInput, setSearchInput] = useState('')
+  const [searchedResults, setSearchedResults] = useState([])
+  const [isCurrentUser, setIsCurrentUser] = useState(false)
   useEffect(() => {
     if (router.isReady) {
       setUserId(Number(user_id))
@@ -35,11 +46,16 @@ const userProfile = () => {
   }, [user_id])
 
   useEffect(() => {
-    if (typeof userId === 'number')
+    if (typeof userId === 'number') {
       getUserProfileData(userId).then((userProfileData) => {
         setUserProfileData(userProfileData)
       })
-  }, [userId])
+      getProgrammingLanguagesData(userId).then((programmingLanguageData) => {
+        setProgramminglanguageTags(programmingLanguageData)
+      })
+      if (currentUserId === userId) setIsCurrentUser(true)
+    }
+  }, [userId, currentUserId])
 
   useEffect(() => {
     if (userProfileData.url) {
@@ -102,6 +118,16 @@ const userProfile = () => {
     const { files } = e.target
     setPreview(window.URL.createObjectURL(files[0]))
   }
+  const deleteAndGet = async (tagId) => {
+    await deleteProgrammingLanguageData(currentUserId, tagId)
+    getProgrammingLanguagesData(userId).then((programmingLanguageData) => {
+      setProgramminglanguageTags(programmingLanguageData)
+    })
+  }
+  const onClickDeleteProgrammingLanguageTag = (tagId) => {
+    deleteAndGet(tagId)
+  }
+
   const onSubmitUserProfileImage = (event) => {
     event.preventDefault()
     const image = event.target.image.files[0]
@@ -122,6 +148,32 @@ const userProfile = () => {
     )
   }
 
+  const onChangeProgrammingLanguageTags = (data) => {
+    setSearchInput(data)
+    if (data === '') {
+      setSearchedResults([])
+    } else {
+      searchProgrammingLanguagesData(currentUserId, data).then((tags) => {
+        setSearchedResults(tags)
+        console.log(tags)
+      })
+    }
+  }
+
+  const postAndGet = async () => {
+    await postProgrammingLanguageData(currentUserId, searchInput)
+    getProgrammingLanguagesData(userId).then((programmingLanguageData) => {
+      setProgramminglanguageTags(programmingLanguageData)
+    })
+  }
+
+  const onSubmitProgrammingLanguageTags = (event) => {
+    event.preventDefault()
+    postAndGet()
+    setSearchInput('')
+    setSearchedResults([])
+  }
+
   return (
     <Layout>
       <Flex flexDriection="row">
@@ -131,6 +183,7 @@ const userProfile = () => {
         ) : (
           <>
             <ImageInputForm
+              isCurrentUser={isCurrentUser}
               userProfileData={userProfileData}
               onSubmitUserProfileImage={onSubmitUserProfileImage}
               preview={preview}
@@ -139,22 +192,30 @@ const userProfile = () => {
               setOnEditImage={setOnEditImage}
             />
             <UserProfile
+              isCurrentUser={isCurrentUser}
               userProfileData={userProfileData}
-              loading={loading}
               userId={userId}
               urlItem={urlItem}
               currentUserId={currentUserId}
               onEditUserProfile={onEditUserProfile}
-              setOnEditUserProfile={setOnEditUserProfile}
               editedUserProfileData={editedUserProfileData}
               setEditedUserProfileData={setEditedUserProfileData}
-              preview={preview}
-              onChangeFile={onChangeFile}
               onChangeUserProfileData={onChangeUserProfileData}
-              onSubmitUserProfileImage={onSubmitUserProfileImage}
               onChangeUrl={onChangeUrl}
               onClickEdit={onClickEdit}
               onSubmitUserProfile={onSubmitUserProfile}
+            />
+            <SearchProgrammingLanguageTags
+              isCurrentUser={isCurrentUser}
+              programmingLanguageTags={programmingLanguageTags}
+              searchInput={searchInput}
+              searchedResults={searchedResults}
+              setSearchInput={setSearchInput}
+              onSubmitProgrammingLanguageTags={onSubmitProgrammingLanguageTags}
+              onChangeProgrammingLanguageTags={onChangeProgrammingLanguageTags}
+              onClickDeleteProgrammingLanguageTag={
+                onClickDeleteProgrammingLanguageTag
+              }
             />
           </>
         )}
