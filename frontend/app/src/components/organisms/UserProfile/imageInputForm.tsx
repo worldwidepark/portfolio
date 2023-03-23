@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 export const ImageInputForm = ({
+  isCurrentUser,
   userProfileData,
   onSubmitUserProfileImage,
   preview,
@@ -28,14 +29,16 @@ export const ImageInputForm = ({
       ) : (
         <div>
           <img src={userProfileData.image} />
-          <button
-            type="button"
-            onClick={(e) => {
-              setOnEditImage(true)
-            }}
-          >
-            プロフィール写真を編集
-          </button>
+          {isCurrentUser && (
+            <button
+              type="button"
+              onClick={(e) => {
+                setOnEditImage(true)
+              }}
+            >
+              プロフィール写真を編集
+            </button>
+          )}
         </div>
       )}
     </>

@@ -7,9 +7,13 @@ class Api::V1::ProgrammingLanguagesController < ApplicationController
   end
 
   def create
-    # result = ProgrammingLanguage.where("name LIKE?","#{programming_language_params[:name]}")
-    @user.programming_languages.find_or_create_by(name:"#{programming_language_params[:name]}")
-    render json: @user.programming_languages
+    result = ProgrammingLanguage.where("name LIKE?","#{programming_language_params[:name]}")
+    if result.present?
+      @user.programming_language_users.find_or_create_by(programming_language_id: result.first.id)
+    else
+      @user.programming_languages.find_or_create_by(name:"#{programming_language_params[:name]}")
+    end
+    render json: @user.programming_languages.find_by(name:"#{programming_language_params[:name]}")
   end
 
   def destroy
