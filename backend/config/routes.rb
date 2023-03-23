@@ -9,6 +9,8 @@ Rails.application.routes.draw do
         resources :daily_reports , only:[:index,:create,:update, :destroy]
         resources :achivements , only:[:index,:create,:update, :destroy]
         resources :presentations , only:[:index,:update]
+        get 'programming_languages/search', to: 'programming_languages#search'
+        resources :programming_languages , only:[:index,:create,:search,:destroy]
 
       end
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
