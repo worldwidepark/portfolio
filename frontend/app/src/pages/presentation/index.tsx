@@ -12,6 +12,7 @@ import {
   closedPresentation,
   getPresentationsList,
 } from '../../services/presentation/presentation'
+import itemForUrl from '../../components/molecules/UserProfile/itemForUrl'
 // todo: idの渡し方。
 const presentation = () => {
   const [dailyReports, setDailyReports] = useState([])
@@ -21,7 +22,9 @@ const presentation = () => {
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const { currentUserId } = useContext(AuthContext)
-
+  const [userInfo, setUserInfo] = useState([])
+  const [programmingLanguageTags, setProgramminglanguageTags] = useState([])
+  const [urlItem, setUrlItem] = useState()
   useEffect(() => {
     setUserId(currentUserId)
     console.log(currentUserId, 'current')
@@ -32,10 +35,23 @@ const presentation = () => {
       getPresentationsList(userId).then((presentationElementDatas) => {
         setDailyReports(presentationElementDatas.dailyReports)
         setAchivements(presentationElementDatas.achivements)
+        setUserInfo(presentationElementDatas.userInfo)
+        setProgramminglanguageTags(
+          presentationElementDatas.programmingLanguageData
+        )
       })
       setLoading(false)
     }
   }, [userId])
+
+  useEffect(() => {
+    if (userInfo.url) {
+      if (userInfo.url.url === '') {
+        return setUrlItem('')
+      }
+      setUrlItem(itemForUrl(userInfo.url))
+    }
+  }, [userInfo])
 
   const reversePresent = (present) => {
     return !present
@@ -105,6 +121,9 @@ const presentation = () => {
               setDailyReportsPresent={setDailyReportsPresent}
               achivementsPresent={achivementsPresent}
               setAchivementsPresent={setAchivementsPresent}
+              userInfo={userInfo}
+              urlItem={urlItem}
+              programmingLanguageTags={programmingLanguageTags}
             />
           </>
         )}
