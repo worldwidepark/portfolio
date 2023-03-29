@@ -37,7 +37,7 @@ const presentation = () => {
         setAchivements(presentationElementDatas.achivements)
         setUserInfo(presentationElementDatas.userInfo)
         setProgramminglanguageTags(
-          presentationElementDatas.programmingLanguageData
+          presentationElementDatas.programmingLanguageTags
         )
       })
       setLoading(false)

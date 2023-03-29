@@ -27,6 +27,11 @@ export const PresentationsList = ({
           <div>{userInfo.introduce}</div>
           <div>{userInfo.occupation}</div>
           <div>{urlItem}</div>
+          <div>
+            {programmingLanguageTags.map((tag) => (
+              <div key={tag.id}>{tag.name}</div>
+            ))}
+          </div>
         </div>
         <Box width="100vh" backgroundColor="green">
           {achivements.map((element) => (
