@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
         setCombinedTime(data.combined_time)
       })
     }
-  })
+  }, [])
   useEffect(() => {
     handleGetCurrentUser()
   }, [isSignedIn])
