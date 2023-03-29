@@ -24,7 +24,7 @@ class Api::V1::UsersController < ApplicationController
     params.require(:user).permit(:name,:introduce,:occupation,:image,url:{})
   end
   def make_json(e)
-    {id: e.id, name: e.name, introduce: e.introduce, occupation: e.occupation,url:e.url,image:e.image_url}
+    {id: e.id, name: e.name, introduce: e.introduce, occupation: e.occupation,url:e.url,image:e.image_url,combinedTime:e.combined_time}
   end
 end
 
