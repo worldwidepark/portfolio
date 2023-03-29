@@ -11,7 +11,14 @@ class Api::V1::PresentationsController < ApplicationController
       {id: e.id, title: e.target.title, text: e.target.text, urls: e.target.urls, present: e.present, startDateOn: e.target.start_date_on, endDateOn: e.target.end_date_on}
     end
     # achievements = @user.achivements.where(present: true)
-    render json: {dailyReports: daily_reports, achivements: achivements}
+
+    programming_language_tags = @user.programming_languages.map do |e|
+      {id:e.id,name:e.name}
+    end
+    render json: {userInfo: make_user_info_to_json(@user),programmingLanguageTags:programming_language_tags ,dailyReports: daily_reports, achivements: achivements}
+
+
+
   end
 
   # def create
@@ -49,4 +56,7 @@ class Api::V1::PresentationsController < ApplicationController
     @user = User.find(params[:user_id])
   end
 
+  def make_user_info_to_json(e)
+    {id:e.id,name: e.name, introduce:e.introduce,occupation:e.occupation,url:e.url,image:e.image_url}
+  end
 end

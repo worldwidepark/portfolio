@@ -21,6 +21,7 @@ import {
   searchProgrammingLanguagesData,
 } from '../../services/programmingLanguage/programmingLanguage'
 import { setServers } from 'dns'
+import itemForUrl from '../../components/molecules/UserProfile/itemForUrl'
 
 const userProfile = () => {
   const router = useRouter()
@@ -62,40 +63,9 @@ const userProfile = () => {
       if (userProfileData.url.url === '') {
         return setUrlItem('')
       }
-      setUrlItem(selectedChecker(userProfileData.url))
+      setUrlItem(itemForUrl(userProfileData.url))
     }
   }, [userProfileData])
-
-  const selectedChecker = (urlInfo) => {
-    switch (urlInfo.selected) {
-      case 'twitter':
-        return (
-          <a href={urlInfo.url}>
-            <FaTwitter />
-          </a>
-        )
-      case 'gitHub':
-        return (
-          <a href={urlInfo.url}>
-            <FaGithub />
-          </a>
-        )
-      case 'blog':
-        return (
-          <a href={urlInfo.url}>
-            <FaBlogger />
-          </a>
-        )
-      case 'homepage':
-        return (
-          <a href={urlInfo.url}>
-            <FaHome />
-          </a>
-        )
-      case '':
-        return
-    }
-  }
 
   const onChangeUserProfileData = (key, value) => {
     setEditedUserProfileData({ ...editedUserProfileData, [key]: value })
