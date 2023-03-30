@@ -20,10 +20,18 @@ class Api::V1::UsersController < ApplicationController
       render json: make_json(user)
     end
   end
+  def search
+    users = User.all
+    users_filtered = users.select { |user| user.combined_time >= 1 }
+    results = User.joins(:programming_languages).where("users.combined_time >= ? AND programming_languages.name LIKE ?", 1,"%#{user_params[:programming_language_name]}%").uniq
+    if results
+      render json: make_json_list(results)
+    end
+  end
 
   private
   def user_params
-    params.require(:user).permit(:name,:introduce,:occupation,:image,url:{})
+    params.require(:user).permit(:name,:introduce,:occupation,:image,:programming_language_name,url:{})
   end
 
   def make_json_list(users)
@@ -33,7 +41,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def make_json(e)
-    {id: e.id, name: e.name, introduce: e.introduce, occupation: e.occupation,url:e.url,image:e.image_url,combinedTime:e.combined_time}
+    {id: e.id, name: e.name, introduce: e.introduce, occupation: e.occupation,url:e.url,image:e.image_url,combinedTime:e.combined_time, tags:e.programming_languages}
   end
 end
 

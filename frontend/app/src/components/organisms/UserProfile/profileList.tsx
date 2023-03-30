@@ -1,23 +1,57 @@
-import Link from 'next/link'
-import React, { useEffect } from 'react'
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { searchUserProfileData } from '../../../services/userProfile/userProfile'
 import { Text } from '../../atoms/Text'
 import { Box } from '../../layout/Box'
 import { Flex } from '../../layout/Flex'
-import { UserProfile } from './userProfile'
 
 export const UserProfileList = ({ userProfileListData, onClickList }) => {
+  useEffect(() => {
+    setUserProfileList(userProfileListData)
+  }, [])
+  const [userProfileList, setUserProfileList] = useState([])
+  const onChangeSearchTags = (e) => {
+    if (e === '') {
+      setUserProfileList(userProfileListData)
+    } else {
+      searchUserProfileData(e).then((data) => setUserProfileList(data))
+    }
+  }
   return (
     <Flex flexDirection="row">
       <Flex flexDirection="column">
-        {userProfileListData.map((userProfile) => (
-          <div onClick={() => onClickList(userProfile.id)}>
-            <Box width="450px" height="50px" backgroundColor="green">
-              {/* <Text fontSize="sm">{userProfile.email}</Text> */}
-              <Text fontSize="sm">{userProfile.name}</Text>
-            </Box>
-          </div>
-        ))}
+        <div>
+          <input
+            type="text"
+            onChange={(e) => onChangeSearchTags(e.target.value)}
+          />
+        </div>
+        {userProfileList.length === 0 ? (
+          <>
+            <div>検索結果がありません。</div>
+          </>
+        ) : (
+          <>
+            {userProfileList.map((userProfile) => (
+              <div onClick={() => onClickList(userProfile.id)}>
+                <Box width="450px" height="200px" backgroundColor="green">
+                  {/* todo: 使用言語も入力すべき */}
+                  <img width="50px" height="50px" src={userProfile.image} />
+                  <Text fontSize="sm">
+                    <span>
+                      <div>{userProfile.combinedTime}</div>
+                      <div>{userProfile.name}</div>
+                    </span>
+                    <span>
+                      {userProfile.tags.map((tag) => (
+                        <div>{tag.name}</div>
+                      ))}
+                    </span>
+                  </Text>
+                </Box>
+              </div>
+            ))}
+          </>
+        )}
       </Flex>
     </Flex>
   )

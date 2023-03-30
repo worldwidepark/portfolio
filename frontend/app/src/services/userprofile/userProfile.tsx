@@ -71,3 +71,21 @@ export const editUserProfileData = async (userId, data) => {
       return response.data
     })
 }
+
+export const searchUserProfileData = async (name) => {
+  return await axios
+    .post(`${DEFAULT_API}/users/search`, {
+      headers: {
+        'Content-Type': 'application/json',
+        uid: Cookies.get('uid'),
+        client: Cookies.get('client'),
+        'access-token': Cookies.get('access-token'),
+      },
+      user: {
+        programming_language_name: name,
+      },
+    })
+    .then((response) => {
+      return response.data
+    })
+}
