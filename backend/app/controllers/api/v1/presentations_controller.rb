@@ -57,6 +57,6 @@ class Api::V1::PresentationsController < ApplicationController
   end
 
   def make_user_info_to_json(e)
-    {id:e.id,name: e.name, introduce:e.introduce,occupation:e.occupation,url:e.url,image:e.image_url}
+    {id:e.id,name: e.name, introduce:e.introduce,occupation:e.occupation,url:e.url,image:e.image_url,combinedTime:e.combined_time}
   end
 end

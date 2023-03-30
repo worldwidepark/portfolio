@@ -14,7 +14,6 @@ export const getUserProfileListData = async () => {
       },
     })
     .then((response) => {
-      console.log(response.data, 'response')
       return response.data
     })
 }
@@ -66,6 +65,24 @@ export const editUserProfileData = async (userId, data) => {
         introduce: data.introduce,
         occupation: data.occupation,
         url: data.url,
+      },
+    })
+    .then((response) => {
+      return response.data
+    })
+}
+
+export const searchUserProfileData = async (name) => {
+  return await axios
+    .post(`${DEFAULT_API}/users/search`, {
+      headers: {
+        'Content-Type': 'application/json',
+        uid: Cookies.get('uid'),
+        client: Cookies.get('client'),
+        'access-token': Cookies.get('access-token'),
+      },
+      user: {
+        programming_language_name: name,
       },
     })
     .then((response) => {

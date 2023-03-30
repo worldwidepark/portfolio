@@ -5,7 +5,7 @@ import { getCurrentUser } from '../services/auth/isLogin'
 import Router, { useRouter } from 'next/router'
 import Header from '../components/organisms/Header'
 import { AuthContext } from '../contexts/AuthContext'
-import { getUserProfileData } from '../services/userprofile/userProfile'
+import { getUserProfileData } from '../services/userProfile/userProfile'
 
 export default function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState<boolean>(true)

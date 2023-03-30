@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { closedPresentation } from '../../../services/presentation/presentation'
 import { Box } from '../../layout/Box'
 
-export const PresentElements = ({ userId, element, elementName }) => {
+export const PresentElements = ({ element, elementName }) => {
   const [present, setPresent] = useState(element.present)
 
   // const reversePresent = (present) => {

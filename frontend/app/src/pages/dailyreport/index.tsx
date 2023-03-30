@@ -38,7 +38,6 @@ const dailyReport = () => {
     if (typeof userId == 'number') {
       getDailyReportsList(userId).then((dailyReportsData) => {
         setDailyReports(dailyReportsData)
-        console.log(dailyReportsData)
       })
       setLoading(false)
     }

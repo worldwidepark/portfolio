@@ -16,9 +16,7 @@ import itemForUrl from '../../components/molecules/UserProfile/itemForUrl'
 // todo: idの渡し方。
 const presentation = () => {
   const [dailyReports, setDailyReports] = useState([])
-  const [dailyReportsPresent, setDailyReportsPresent] = useState([])
   const [achivements, setAchivements] = useState([])
-  const [achivementsPresent, setAchivementsPresent] = useState([])
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const { currentUserId } = useContext(AuthContext)
@@ -102,25 +100,15 @@ const presentation = () => {
             <MakePresentationsList
               dailyReports={dailyReports}
               achivements={achivements}
-              loading={loading}
-              userId={userId}
+              userInfo={userInfo}
               MakePresentElements={MakePresentElements}
-              dailyReportsPresent={dailyReportsPresent}
-              setDailyReportsPresent={setDailyReportsPresent}
-              achivementsPresent={achivementsPresent}
-              setAchivementsPresent={setAchivementsPresent}
               onChangePresentState={onChangePresentState}
             />
             <PresentationsList
               dailyReports={dailyReports}
               achivements={achivements}
-              loading={loading}
               userId={userId}
               PresentElements={PresentElements}
-              dailyReportsPresent={dailyReportsPresent}
-              setDailyReportsPresent={setDailyReportsPresent}
-              achivementsPresent={achivementsPresent}
-              setAchivementsPresent={setAchivementsPresent}
               userInfo={userInfo}
               urlItem={urlItem}
               programmingLanguageTags={programmingLanguageTags}

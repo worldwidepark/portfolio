@@ -1,21 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { AuthContext } from '../../../contexts/AuthContext'
 import { Box } from '../../layout/Box'
 import { Flex } from '../../layout/Flex'
 
 export const PresentationsList = ({
   dailyReports,
   achivements,
-  loading,
   userId,
   PresentElements,
   userInfo,
   programmingLanguageTags,
   urlItem,
 }) => {
-  const { combinedTime } = useContext(AuthContext)
-  console.log(userInfo, 'userinfo')
-  console.log(programmingLanguageTags, 'prog')
   return (
     <>
       <Flex flexDirection="column">
@@ -39,7 +34,6 @@ export const PresentationsList = ({
               {element.present ? (
                 <>
                   <PresentElements
-                    userId={userId}
                     element={element}
                     elementName={'achivement'}
                   />
@@ -52,7 +46,7 @@ export const PresentationsList = ({
         </Box>
         <Box width="100vh" backgroundColor="blue">
           <>
-            <span>総時間: {combinedTime}</span>
+            <span>総時間: {userInfo.combinedTime}</span>
             {dailyReports.map((element) => (
               <div key={element.id}>
                 {element.present ? (
