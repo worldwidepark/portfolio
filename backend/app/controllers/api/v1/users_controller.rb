@@ -4,7 +4,7 @@ class Api::V1::UsersController < ApplicationController
 
   def index
     users = User.all
-    render json: users
+    render json: make_json_list(users)
   end
 
   def show
@@ -23,6 +23,13 @@ class Api::V1::UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name,:introduce,:occupation,:image,url:{})
   end
+
+  def make_json_list(users)
+    users.map do |e|
+      make_json(e)
+    end
+  end
+
   def make_json(e)
     {id: e.id, name: e.name, introduce: e.introduce, occupation: e.occupation,url:e.url,image:e.image_url,combinedTime:e.combined_time}
   end

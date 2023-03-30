@@ -9,7 +9,7 @@ import {
   editUserProfileData,
   editUserProfileImage,
   getUserProfileData,
-} from '../../services/userprofile/userProfile'
+} from '../../services/userProfile/userProfile'
 import { FaGithub, FaTwitter, FaBlogger, FaHome } from 'react-icons/fa'
 import { setPriority } from 'os'
 import { ImageInputForm } from '../../components/organisms/UserProfile/imageInputForm'
