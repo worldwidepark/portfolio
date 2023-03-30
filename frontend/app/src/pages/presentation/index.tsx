@@ -104,6 +104,7 @@ const presentation = () => {
               achivements={achivements}
               loading={loading}
               userId={userId}
+              userInfo={userInfo}
               MakePresentElements={MakePresentElements}
               dailyReportsPresent={dailyReportsPresent}
               setDailyReportsPresent={setDailyReportsPresent}
