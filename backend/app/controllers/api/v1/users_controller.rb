@@ -4,7 +4,9 @@ class Api::V1::UsersController < ApplicationController
 
   def index
     users = User.all
-    render json: make_json_list(users)
+    # 学習時間が??時間以上のみ、表示
+    users_filtered = users.select { |user| user.combined_time >= 1 }
+    render json: make_json_list(users_filtered)
   end
 
   def show

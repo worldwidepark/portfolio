@@ -14,7 +14,6 @@ export const getUserProfileListData = async () => {
       },
     })
     .then((response) => {
-      console.log(response.data, 'response')
       return response.data
     })
 }
