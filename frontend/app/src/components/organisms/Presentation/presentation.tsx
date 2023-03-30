@@ -34,7 +34,6 @@ export const PresentationsList = ({
               {element.present ? (
                 <>
                   <PresentElements
-                    userId={userId}
                     element={element}
                     elementName={'achivement'}
                   />

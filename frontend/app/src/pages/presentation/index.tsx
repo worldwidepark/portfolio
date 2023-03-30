@@ -102,26 +102,15 @@ const presentation = () => {
             <MakePresentationsList
               dailyReports={dailyReports}
               achivements={achivements}
-              loading={loading}
-              userId={userId}
               userInfo={userInfo}
               MakePresentElements={MakePresentElements}
-              dailyReportsPresent={dailyReportsPresent}
-              setDailyReportsPresent={setDailyReportsPresent}
-              achivementsPresent={achivementsPresent}
-              setAchivementsPresent={setAchivementsPresent}
               onChangePresentState={onChangePresentState}
             />
             <PresentationsList
               dailyReports={dailyReports}
               achivements={achivements}
-              loading={loading}
               userId={userId}
               PresentElements={PresentElements}
-              dailyReportsPresent={dailyReportsPresent}
-              setDailyReportsPresent={setDailyReportsPresent}
-              achivementsPresent={achivementsPresent}
-              setAchivementsPresent={setAchivementsPresent}
               userInfo={userInfo}
               urlItem={urlItem}
               programmingLanguageTags={programmingLanguageTags}

@@ -8,14 +8,8 @@ import { Flex } from '../../layout/Flex'
 export const MakePresentationsList = ({
   dailyReports,
   achivements,
-  loading,
-  userId,
   userInfo,
   MakePresentElements,
-  dailyReportsPresent,
-  setDailyReportsPresent,
-  achivementsPresent,
-  setAchivementsPresent,
   onChangePresentState,
 }) => {
   return (
