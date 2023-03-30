@@ -37,6 +37,7 @@ const index = () => {
           setProgramminglanguageTags(
             presentationElementDatas.programmingLanguageTags
           )
+          setUrlItem()
         }
       )
     }
