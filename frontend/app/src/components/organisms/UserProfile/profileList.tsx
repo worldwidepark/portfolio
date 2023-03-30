@@ -22,6 +22,7 @@ export const UserProfileList = ({ userProfileListData, onClickList }) => {
         <div>
           <input
             type="text"
+            placeholder="使用スキルで検索"
             onChange={(e) => onChangeSearchTags(e.target.value)}
           />
         </div>
