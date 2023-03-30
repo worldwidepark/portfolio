@@ -16,9 +16,7 @@ import itemForUrl from '../../components/molecules/UserProfile/itemForUrl'
 // todo: idの渡し方。
 const presentation = () => {
   const [dailyReports, setDailyReports] = useState([])
-  const [dailyReportsPresent, setDailyReportsPresent] = useState([])
   const [achivements, setAchivements] = useState([])
-  const [achivementsPresent, setAchivementsPresent] = useState([])
   const [userId, setUserId] = useState(false)
   const [loading, setLoading] = useState(true)
   const { currentUserId } = useContext(AuthContext)
