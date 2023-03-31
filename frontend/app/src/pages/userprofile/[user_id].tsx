@@ -22,23 +22,30 @@ import {
 } from '../../services/programmingLanguage/programmingLanguage'
 import { setServers } from 'dns'
 import itemForUrl from '../../components/molecules/UserProfile/itemForUrl'
+import { UserProfileTagsType, UserProfileType } from '../../types/types'
 
 const userProfile = () => {
   const router = useRouter()
   const { user_id } = router.query
-  const [userProfileData, setUserProfileData] = useState({})
-  const [userId, setUserId] = useState()
-  const [loading, setLoading] = useState(true)
-  const [editedUserProfileData, setEditedUserProfileData] = useState({})
-  const [preview, setPreview] = useState('')
-  const [onEditUserProfile, setOnEditUserProfile] = useState(false)
+  const [userProfileData, setUserProfileData] = useState<UserProfileType>({})
+  const [userId, setUserId] = useState<number>()
+  const [loading, setLoading] = useState<boolean>(true)
+  const [editedUserProfileData, setEditedUserProfileData] =
+    useState<UserProfileType>({})
+  const [preview, setPreview] = useState<string | boolean>('')
+  const [onEditUserProfile, setOnEditUserProfile] = useState<boolean>(false)
   const { currentUserId } = useContext(AuthContext)
-  const [urlItem, setUrlItem] = useState('')
-  const [onEditImage, setOnEditImage] = useState(false)
-  const [programmingLanguageTags, setProgramminglanguageTags] = useState([])
-  const [searchInput, setSearchInput] = useState('')
-  const [searchedResults, setSearchedResults] = useState([])
-  const [isCurrentUser, setIsCurrentUser] = useState(false)
+  const [urlItem, setUrlItem] = useState<string | Element>('')
+  const [onEditImage, setOnEditImage] = useState<boolean>(false)
+  const [programmingLanguageTags, setProgramminglanguageTags] = useState<
+    UserProfileTagsType[]
+  >([])
+  const [searchInput, setSearchInput] = useState<string>('')
+  const [searchedResults, setSearchedResults] = useState<UserProfileTagsType[]>(
+    []
+  )
+  const [isCurrentUser, setIsCurrentUser] = useState<boolean>(false)
+
   useEffect(() => {
     if (router.isReady) {
       setUserId(Number(user_id))
@@ -67,7 +74,7 @@ const userProfile = () => {
     }
   }, [userProfileData])
 
-  const onChangeUserProfileData = (key, value) => {
+  const onChangeUserProfileData = (key: string, value: string) => {
     setEditedUserProfileData({ ...editedUserProfileData, [key]: value })
   }
 
@@ -76,7 +83,7 @@ const userProfile = () => {
     setEditedUserProfileData(userProfileData)
   }
 
-  const onChangeUrl = (key, value) => {
+  const onChangeUrl = (key: string, value: string) => {
     setEditedUserProfileData({
       ...editedUserProfileData,
       url: { ...editedUserProfileData.url, [key]: value },
@@ -84,21 +91,24 @@ const userProfile = () => {
     console.log(editedUserProfileData)
   }
 
-  const onChangeFile = (e) => {
+  const onChangeFile = (e: { target: { files: any } }) => {
     const { files } = e.target
     setPreview(window.URL.createObjectURL(files[0]))
   }
-  const deleteAndGet = async (tagId) => {
+  const deleteAndGet = async (tagId: number) => {
     await deleteProgrammingLanguageData(currentUserId, tagId)
     getProgrammingLanguagesData(userId).then((programmingLanguageData) => {
       setProgramminglanguageTags(programmingLanguageData)
     })
   }
-  const onClickDeleteProgrammingLanguageTag = (tagId) => {
+  const onClickDeleteProgrammingLanguageTag = (tagId: number): void => {
     deleteAndGet(tagId)
   }
 
-  const onSubmitUserProfileImage = (event) => {
+  const onSubmitUserProfileImage = (event: {
+    preventDefault: () => void
+    target: { image: { files: any[] } }
+  }) => {
     event.preventDefault()
     const image = event.target.image.files[0]
     editUserProfileImage(currentUserId, image).then((userProfileData) => {
@@ -108,7 +118,7 @@ const userProfile = () => {
     })
   }
 
-  const onSubmitUserProfile = (event) => {
+  const onSubmitUserProfile = (event: { preventDefault: () => void }) => {
     event.preventDefault()
     editUserProfileData(currentUserId, editedUserProfileData).then(
       (userProfileData) => {
@@ -118,14 +128,13 @@ const userProfile = () => {
     )
   }
 
-  const onChangeProgrammingLanguageTags = (data) => {
+  const onChangeProgrammingLanguageTags = (data: string) => {
     setSearchInput(data)
     if (data === '') {
       setSearchedResults([])
     } else {
       searchProgrammingLanguagesData(currentUserId, data).then((tags) => {
         setSearchedResults(tags)
-        console.log(tags)
       })
     }
   }
@@ -137,7 +146,9 @@ const userProfile = () => {
     })
   }
 
-  const onSubmitProgrammingLanguageTags = (event) => {
+  const onSubmitProgrammingLanguageTags = (event: {
+    preventDefault: () => void
+  }) => {
     event.preventDefault()
     postAndGet()
     setSearchInput('')
@@ -164,9 +175,7 @@ const userProfile = () => {
             <UserProfile
               isCurrentUser={isCurrentUser}
               userProfileData={userProfileData}
-              userId={userId}
               urlItem={urlItem}
-              currentUserId={currentUserId}
               onEditUserProfile={onEditUserProfile}
               editedUserProfileData={editedUserProfileData}
               setEditedUserProfileData={setEditedUserProfileData}

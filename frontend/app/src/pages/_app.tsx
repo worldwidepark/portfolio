@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
   const [currentUser, setCurrentUser] = useState()
   const [authMessage, setAuthMessage] = useState('')
-  const [currentUserId, setCurrentUserId] = useState(false)
+  const [currentUserId, setCurrentUserId] = useState<number | undefined>()
   const [combinedTime, setCombinedTime] = useState(0)
   const router = useRouter()
   const handleGetCurrentUser = async () => {

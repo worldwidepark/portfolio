@@ -11,8 +11,9 @@ import { Flex } from '../../components/layout/Flex'
 import { DailyReportsList } from '../../components/organisms/DailyReport'
 import { Sidebar } from '../../components/organisms/Sidebar'
 import Layout from '../../components/templates/Layout'
+import { NextPage } from 'next/types'
 
-const dailyReport = () => {
+const dailyReport: NextPage = () => {
   const Today = new Date()
   const [dailyReports, setDailyReports] = useState([])
   const [userId, setUserId] = useState(false)

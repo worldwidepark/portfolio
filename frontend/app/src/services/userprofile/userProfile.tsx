@@ -1,10 +1,11 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { DEFAULT_API } from '../../urls'
+import { UserProfileType } from '../../types/types'
 
 export const getUserProfileListData = async () => {
   return await axios
-    .get(`${DEFAULT_API}/users`, {
+    .get<UserProfileType[]>(`${DEFAULT_API}/users`, {
       // todo: headers lessにしたい
       headers: {
         'Content-Type': 'application/json',

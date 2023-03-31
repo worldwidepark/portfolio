@@ -1,15 +1,11 @@
 import React, { useContext } from 'react'
-import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
-import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { UrlsInputForms } from '../../molecules/UserProfile/urlsInputForms'
 export const UserProfile = ({
   isCurrentUser,
   userProfileData,
-  userId,
   urlItem,
-  currentUserId,
   onEditUserProfile,
   editedUserProfileData,
   setEditedUserProfileData,
