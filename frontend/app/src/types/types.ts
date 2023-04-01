@@ -1,8 +1,10 @@
+import { ReactNode } from 'react'
+
 export type UserProfileType = {
   id: number
-  name?: string
-  introduce?: string
-  occupation?: string
+  name: string
+  introduce?: string | undefined
+  occupation?: string | undefined
   combinedTime?: number
   image?: string
   url?: UserProfileUrlType

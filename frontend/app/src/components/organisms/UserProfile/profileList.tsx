@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { searchUserProfileData } from '../../../services/userProfile/userProfile'
 import { Text } from '../../atoms/Text'
 import { Box } from '../../layout/Box'
 import { Flex } from '../../layout/Flex'
 import { UserProfileType } from '../../../types/types'
+import { searchUserProfileData } from '../../../services/userProfile/userProfile'
 
 interface UserProfileListProps {
   userProfileListData: UserProfileType[]
@@ -52,7 +52,7 @@ export const UserProfileList = ({
                       <div>{userProfile.name}</div>
                     </span>
                     <span>
-                      {userProfile.tags.length < 0 && (
+                      {userProfile.tags !== undefined && (
                         <>
                           {userProfile.tags.map((tag) => (
                             <div key={tag.id}>{tag.name}</div>

@@ -1,7 +1,24 @@
-import React, { useContext } from 'react'
+import React, { ReactNode, useContext } from 'react'
 import { Flex } from '../../layout/Flex'
 import 'react-datepicker/dist/react-datepicker.css'
 import { UrlsInputForms } from '../../molecules/UserProfile/urlsInputForms'
+import { UserProfileType } from '../../../types/types'
+
+interface UserProfileProps {
+  isCurrentUser: boolean
+  userProfileData: UserProfileType
+  urlItem: ReactNode
+  onEditUserProfile: boolean
+  editedUserProfileData: UserProfileType
+  setEditedUserProfileData: React.Dispatch<
+    React.SetStateAction<UserProfileType>
+  >
+  onChangeUserProfileData: (key: string, value: string) => void
+  onChangeUrl: (key: string, value: string) => void
+  onClickEdit: () => void
+  onSubmitUserProfile: (e: React.FormEvent<HTMLFormElement>) => void
+}
+
 export const UserProfile = ({
   isCurrentUser,
   userProfileData,
@@ -13,7 +30,7 @@ export const UserProfile = ({
   onChangeUrl,
   onClickEdit,
   onSubmitUserProfile,
-}) => {
+}: UserProfileProps) => {
   return (
     <Flex flexDirection="column">
       {onEditUserProfile ? (

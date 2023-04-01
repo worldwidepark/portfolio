@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { ReactNode, useContext, useEffect, useState } from 'react'
 import { Flex } from '../../components/layout/Flex'
 import { Sidebar } from '../../components/organisms/Sidebar'
 import { UserProfile } from '../../components/organisms/UserProfile'
@@ -23,8 +23,9 @@ import {
 import { setServers } from 'dns'
 import itemForUrl from '../../components/molecules/UserProfile/itemForUrl'
 import { UserProfileTagsType, UserProfileType } from '../../types/types'
+import { NextPage } from 'next/types'
 
-const userProfile = () => {
+const userProfile: NextPage = () => {
   const router = useRouter()
   const { user_id } = router.query
   const [userProfileData, setUserProfileData] = useState<UserProfileType>({})
@@ -35,7 +36,7 @@ const userProfile = () => {
   const [preview, setPreview] = useState<string | boolean>('')
   const [onEditUserProfile, setOnEditUserProfile] = useState<boolean>(false)
   const { currentUserId } = useContext(AuthContext)
-  const [urlItem, setUrlItem] = useState<string | Element>('')
+  const [urlItem, setUrlItem] = useState<ReactNode>('')
   const [onEditImage, setOnEditImage] = useState<boolean>(false)
   const [programmingLanguageTags, setProgramminglanguageTags] = useState<
     UserProfileTagsType[]
@@ -68,7 +69,7 @@ const userProfile = () => {
   useEffect(() => {
     if (userProfileData.url) {
       if (userProfileData.url.url === '') {
-        return setUrlItem('')
+        return setUrlItem(<></>)
       }
       setUrlItem(itemForUrl(userProfileData.url))
     }
@@ -88,10 +89,9 @@ const userProfile = () => {
       ...editedUserProfileData,
       url: { ...editedUserProfileData.url, [key]: value },
     })
-    console.log(editedUserProfileData)
   }
 
-  const onChangeFile = (e: { target: { files: any } }) => {
+  const onChangeFile = (e: any) => {
     const { files } = e.target
     setPreview(window.URL.createObjectURL(files[0]))
   }
@@ -105,27 +105,28 @@ const userProfile = () => {
     deleteAndGet(tagId)
   }
 
-  const onSubmitUserProfileImage = (event: {
-    preventDefault: () => void
-    target: { image: { files: any[] } }
-  }) => {
+  const onSubmitUserProfileImage = (event: any) => {
     event.preventDefault()
     const image = event.target.image.files[0]
-    editUserProfileImage(currentUserId, image).then((userProfileData) => {
-      setUserProfileData(userProfileData)
-      setOnEditImage(false)
-      setPreview(false)
-    })
+    if (typeof currentUserId === 'number') {
+      editUserProfileImage(currentUserId, image).then((userProfileData) => {
+        setUserProfileData(userProfileData)
+        setOnEditImage(false)
+        setPreview(false)
+      })
+    }
   }
 
-  const onSubmitUserProfile = (event: { preventDefault: () => void }) => {
+  const onSubmitUserProfile = (event: any) => {
     event.preventDefault()
-    editUserProfileData(currentUserId, editedUserProfileData).then(
-      (userProfileData) => {
-        setUserProfileData(userProfileData)
-        setOnEditUserProfile(false)
-      }
-    )
+    if (typeof currentUserId === 'number') {
+      editUserProfileData(currentUserId, editedUserProfileData).then(
+        (userProfileData) => {
+          setUserProfileData(userProfileData)
+          setOnEditUserProfile(false)
+        }
+      )
+    }
   }
 
   const onChangeProgrammingLanguageTags = (data: string) => {

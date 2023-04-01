@@ -19,9 +19,9 @@ export const getUserProfileListData = async () => {
     })
 }
 
-export const getUserProfileData = async (userId) => {
+export const getUserProfileData = async (userId: number) => {
   return await axios
-    .get(`${DEFAULT_API}/users/${userId}`, {
+    .get<UserProfileType>(`${DEFAULT_API}/users/${userId}`, {
       headers: {
         // todo: headers lessにしたい
         'Content-Type': 'application/json',
@@ -35,12 +35,12 @@ export const getUserProfileData = async (userId) => {
       return response.data
     })
 }
-export const editUserProfileImage = async (userId, image) => {
+export const editUserProfileImage = async (userId: number, image: string) => {
   const formData = new FormData()
   formData.append('user[image]', image)
 
   return await axios
-    .patch(`${DEFAULT_API}/users/${userId}`, formData, {
+    .patch<UserProfileType>(`${DEFAULT_API}/users/${userId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         uid: Cookies.get('uid'),
@@ -52,9 +52,12 @@ export const editUserProfileImage = async (userId, image) => {
       return response.data
     })
 }
-export const editUserProfileData = async (userId, data) => {
+export const editUserProfileData = async (
+  userId: number,
+  data: { name: string; introduce: string; occupation: string; url: string[] }
+) => {
   return await axios
-    .patch(`${DEFAULT_API}/users/${userId}`, {
+    .patch<UserProfileType>(`${DEFAULT_API}/users/${userId}`, {
       headers: {
         'Content-Type': 'application/json',
         uid: Cookies.get('uid'),
@@ -73,9 +76,9 @@ export const editUserProfileData = async (userId, data) => {
     })
 }
 
-export const searchUserProfileData = async (name) => {
+export const searchUserProfileData = async (name: string) => {
   return await axios
-    .post(`${DEFAULT_API}/users/search`, {
+    .post<UserProfileType[]>(`${DEFAULT_API}/users/search`, {
       headers: {
         'Content-Type': 'application/json',
         uid: Cookies.get('uid'),
