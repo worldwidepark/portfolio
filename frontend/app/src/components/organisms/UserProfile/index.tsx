@@ -68,7 +68,6 @@ export const UserProfile = ({
             <UrlsInputForms
               onChangeUrl={onChangeUrl}
               editedUserProfileData={editedUserProfileData}
-              setEditedUserProfileData={setEditedUserProfileData}
             />
             <button type="submit">編集</button>
           </form>

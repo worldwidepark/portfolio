@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react'
+import { UserProfileType, UserProfileUrlType } from '../../../types/types'
+
+interface UrlsInputFormsType {
+  onChangeUrl: (key: string, value: string) => void
+  editedUserProfileData: UserProfileType
+}
 
 export const UrlsInputForms = ({
   onChangeUrl,
   editedUserProfileData,
-  setEditedUserProfileData,
-}) => {
-  const [editedUrl, setEditedUrl] = useState({ url: '', selected: '' })
+}: UrlsInputFormsType) => {
+  const [editedUrl, setEditedUrl] = useState<UserProfileUrlType>({
+    url: '',
+    selected: '',
+  })
 
   useEffect(() => {
-    console.log(editedUserProfileData.url)
     if (editedUserProfileData.url) {
       setEditedUrl(editedUserProfileData.url)
     }
   }, [editedUserProfileData.url])
 
-  const onChangeEditedUrl = (key, value) => {
+  const onChangeEditedUrl = (key: string, value: string) => {
     setEditedUrl({ ...editedUrl, [key]: value })
     onChangeUrl(key, value)
-    console.log(editedUrl)
   }
 
   return (

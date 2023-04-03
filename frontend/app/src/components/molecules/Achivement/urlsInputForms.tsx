@@ -1,6 +1,22 @@
 import React, { useEffect, useState } from 'react'
+import { AchivementType } from '../../../types/types'
+interface UrlsInputFormsType {
+  onChangeUrl: (
+    name: string,
+    value: string,
+    data: AchivementType,
+    setData: React.Dispatch<React.SetStateAction<AchivementType>>,
+    achivementLength: number
+  ) => void
+  achivement: any
+  setAchivement: React.Dispatch<React.SetStateAction<any>>
+}
 
-export const UrlsInputForms = ({ onChangeUrl, achivement, setAchivement }) => {
+export const UrlsInputForms = ({
+  onChangeUrl,
+  achivement,
+  setAchivement,
+}: UrlsInputFormsType) => {
   const [achivementLength, setAchivementLength] = useState(1)
 
   useEffect(() => {
