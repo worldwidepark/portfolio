@@ -61,7 +61,9 @@ const dailyReport: NextPage = () => {
   useEffect(() => {
     if (typeof userId == 'number') {
       getUserProfileData(userId).then((data) => {
-        setCombinedTime(data.combinedTime)
+        if (typeof data.combinedTime === 'number') {
+          setCombinedTime(data.combinedTime)
+        }
       })
     }
   }, [dailyReports])
