@@ -6,7 +6,7 @@ import { getUserProfileListData } from '../services/userProfile/userProfile'
 import { UserProfileList } from '../components/organisms/UserProfile/profileList'
 import { Box } from '../components/layout/Box'
 import { getPresentationsList } from '../services/presentation/presentation'
-import { PresentationsList } from '../components/organisms/Presentation/presentation'
+import { PresentationsList } from '../components/organisms/Presentation/presentationList'
 import { PresentElements } from '../components/organisms/Presentation/presentElements'
 import itemForUrl from '../components/molecules/UserProfile/itemForUrl'
 const index = () => {
