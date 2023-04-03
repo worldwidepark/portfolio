@@ -1,4 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
+import { UserProfileTagsType } from '../../../types/types'
+
+interface SearchProgrammingLanguageTagsType {
+  isCurrentUser: boolean
+  programmingLanguageTags: UserProfileTagsType[]
+  searchInput: string
+  searchedResults: UserProfileTagsType[]
+  setSearchInput: React.Dispatch<React.SetStateAction<string>>
+  onClickDeleteProgrammingLanguageTag: (tagId: number) => void
+  onChangeProgrammingLanguageTags: (data: string) => void
+  onSubmitProgrammingLanguageTags: (event: any) => void
+}
 
 export const SearchProgrammingLanguageTags = ({
   isCurrentUser,
@@ -9,7 +21,7 @@ export const SearchProgrammingLanguageTags = ({
   onClickDeleteProgrammingLanguageTag,
   onChangeProgrammingLanguageTags,
   onSubmitProgrammingLanguageTags,
-}) => {
+}: SearchProgrammingLanguageTagsType) => {
   return (
     <>
       {isCurrentUser ? (

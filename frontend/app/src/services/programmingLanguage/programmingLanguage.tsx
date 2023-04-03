@@ -2,7 +2,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import { DEFAULT_API } from '../../urls'
 
-export const getProgrammingLanguagesData = async (userId) => {
+export const getProgrammingLanguagesData = async (userId: number) => {
   return await axios
     .get(`${DEFAULT_API}/users/${userId}/programming_languages`, {
       headers: {
@@ -17,7 +17,10 @@ export const getProgrammingLanguagesData = async (userId) => {
     })
 }
 
-export const postProgrammingLanguageData = async (userId, data) => {
+export const postProgrammingLanguageData = async (
+  userId: number,
+  data: string
+) => {
   return await axios
     .post(`${DEFAULT_API}/users/${userId}/programming_languages`, {
       headers: {
@@ -35,7 +38,10 @@ export const postProgrammingLanguageData = async (userId, data) => {
     })
 }
 
-export const deleteProgrammingLanguageData = async (userId, tagId) => {
+export const deleteProgrammingLanguageData = async (
+  userId: number,
+  tagId: number
+) => {
   return await axios.delete(
     `${DEFAULT_API}/users/${userId}/programming_languages/${tagId}`,
     {
@@ -49,7 +55,10 @@ export const deleteProgrammingLanguageData = async (userId, tagId) => {
   )
 }
 
-export const searchProgrammingLanguagesData = async (userId, data) => {
+export const searchProgrammingLanguagesData = async (
+  userId: number,
+  data: string
+) => {
   return await axios
     .post(`${DEFAULT_API}/users/${userId}/programming_languages/search`, {
       headers: {

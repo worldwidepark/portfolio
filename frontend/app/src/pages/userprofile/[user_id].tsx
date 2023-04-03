@@ -10,8 +10,6 @@ import {
   editUserProfileImage,
   getUserProfileData,
 } from '../../services/userProfile/userProfile'
-import { FaGithub, FaTwitter, FaBlogger, FaHome } from 'react-icons/fa'
-import { setPriority } from 'os'
 import { ImageInputForm } from '../../components/organisms/UserProfile/imageInputForm'
 import { SearchProgrammingLanguageTags } from '../../components/organisms/ProgrammingLanguage'
 import {
@@ -20,7 +18,6 @@ import {
   postProgrammingLanguageData,
   searchProgrammingLanguagesData,
 } from '../../services/programmingLanguage/programmingLanguage'
-import { setServers } from 'dns'
 import itemForUrl from '../../components/molecules/UserProfile/itemForUrl'
 import { UserProfileTagsType, UserProfileType } from '../../types/types'
 import { NextPage } from 'next/types'
@@ -99,12 +96,14 @@ const userProfile: NextPage = () => {
     setPreview(window.URL.createObjectURL(files[0]))
   }
   const deleteAndGet = async (tagId: number) => {
-    await deleteProgrammingLanguageData(currentUserId, tagId)
-    getProgrammingLanguagesData(userId).then((programmingLanguageData) => {
-      setProgramminglanguageTags(programmingLanguageData)
-    })
+    if (typeof currentUserId === 'number' && typeof userId === 'number') {
+      await deleteProgrammingLanguageData(currentUserId, tagId)
+      getProgrammingLanguagesData(userId).then((programmingLanguageData) => {
+        setProgramminglanguageTags(programmingLanguageData)
+      })
+    }
   }
-  const onClickDeleteProgrammingLanguageTag = (tagId: number): void => {
+  const onClickDeleteProgrammingLanguageTag = (tagId: number) => {
     deleteAndGet(tagId)
   }
 
@@ -137,22 +136,24 @@ const userProfile: NextPage = () => {
     if (data === '') {
       setSearchedResults([])
     } else {
-      searchProgrammingLanguagesData(currentUserId, data).then((tags) => {
-        setSearchedResults(tags)
-      })
+      if (typeof currentUserId === 'number') {
+        searchProgrammingLanguagesData(currentUserId, data).then((tags) => {
+          setSearchedResults(tags)
+        })
+      }
     }
   }
 
   const postAndGet = async () => {
-    await postProgrammingLanguageData(currentUserId, searchInput)
-    getProgrammingLanguagesData(userId).then((programmingLanguageData) => {
-      setProgramminglanguageTags(programmingLanguageData)
-    })
+    if (typeof currentUserId === 'number' && typeof userId === 'number') {
+      await postProgrammingLanguageData(currentUserId, searchInput)
+      getProgrammingLanguagesData(userId).then((programmingLanguageData) => {
+        setProgramminglanguageTags(programmingLanguageData)
+      })
+    }
   }
 
-  const onSubmitProgrammingLanguageTags = (event: {
-    preventDefault: () => void
-  }) => {
+  const onSubmitProgrammingLanguageTags = (event: any) => {
     event.preventDefault()
     postAndGet()
     setSearchInput('')
