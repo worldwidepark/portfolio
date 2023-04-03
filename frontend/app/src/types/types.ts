@@ -21,3 +21,10 @@ export type UserProfileUrlType = {
   url?: string
   selected?: string
 }
+
+export type DailyReportType = {
+  id: number
+  reportDateOn: string
+  text: string
+  time: number
+}

@@ -28,11 +28,14 @@ import { NextPage } from 'next/types'
 const userProfile: NextPage = () => {
   const router = useRouter()
   const { user_id } = router.query
-  const [userProfileData, setUserProfileData] = useState<UserProfileType>({})
+  const [userProfileData, setUserProfileData] = useState<UserProfileType>({
+    id: NaN,
+    name: '',
+  })
   const [userId, setUserId] = useState<number>()
   const [loading, setLoading] = useState<boolean>(true)
   const [editedUserProfileData, setEditedUserProfileData] =
-    useState<UserProfileType>({})
+    useState<UserProfileType>({ id: NaN, name: '' })
   const [preview, setPreview] = useState<string | boolean>('')
   const [onEditUserProfile, setOnEditUserProfile] = useState<boolean>(false)
   const { currentUserId } = useContext(AuthContext)

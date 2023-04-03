@@ -12,30 +12,39 @@ import { DailyReportsList } from '../../components/organisms/DailyReport'
 import { Sidebar } from '../../components/organisms/Sidebar'
 import Layout from '../../components/templates/Layout'
 import { NextPage } from 'next/types'
+import { DailyReportType } from '../../types/types'
 
 const dailyReport: NextPage = () => {
-  const Today = new Date()
-  const [dailyReports, setDailyReports] = useState([])
-  const [userId, setUserId] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [reportDateOn, setReportDateOn] = useState(Today)
-  const [editReportDateOn, setEditReportDateOn] = useState(Today)
-  const [inputData, setInputData] = useState({
+  const Today: Date = new Date()
+  const [dailyReports, setDailyReports] = useState<DailyReportType[]>([])
+  const [userId, setUserId] = useState<number | boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [reportDateOn, setReportDateOn] = useState<Date>(Today)
+  const [editReportDateOn, setEditReportDateOn] = useState<Date>(Today)
+  const [inputData, setInputData] = useState<{
+    text: string
+    time: number | string
+  }>({
     text: '',
     time: '',
   })
-  const [editedDailyReport, setEditedDailyReport] = useState(false)
+  const [editedDailyReport, setEditedDailyReport] = useState<DailyReportType>({
+    id: NaN,
+    reportDateOn: '',
+    text: '',
+    time: NaN,
+  })
   const { currentUserId, combinedTime, setCombinedTime } =
     useContext(AuthContext)
-  const editInputRef = useRef(null)
+  const editInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    setUserId(currentUserId)
-    console.log(currentUserId, 'current')
+    if (typeof currentUserId === 'number') {
+      setUserId(currentUserId)
+    }
   }, [currentUserId])
 
   useEffect(() => {
-    console.log(typeof userId, 'userId')
     if (typeof userId == 'number') {
       getDailyReportsList(userId).then((dailyReportsData) => {
         setDailyReports(dailyReportsData)
@@ -45,10 +54,8 @@ const dailyReport: NextPage = () => {
   }, [userId])
 
   useEffect(() => {
-    if (editedDailyReport) {
-      editInputRef.current.focus()
-      console.log(editInputRef.current)
-    }
+    editInputRef.current?.focus()
+    console.log(editInputRef.current)
   }, [editedDailyReport.id])
 
   useEffect(() => {
@@ -59,14 +66,16 @@ const dailyReport: NextPage = () => {
     }
   }, [dailyReports])
 
-  const onChangeInputData = (key, value) => {
+  const onChangeInputData = (key: string, value: string | number) => {
     setInputData({ ...inputData, [key]: value })
   }
 
-  const onChangeEditInput = (key, value) => {
-    setEditedDailyReport({ ...editedDailyReport, [key]: value })
+  const onChangeEditInput = (key: string, value: string | number) => {
+    if (typeof editedDailyReport === 'object') {
+      setEditedDailyReport({ ...editedDailyReport, [key]: value })
+    }
   }
-  const updatedDailyReports = (updatedDailyReport) => {
+  const updatedDailyReports = (updatedDailyReport: DailyReportType) => {
     const updatedDailyReportArray = dailyReports.map((dailyReport) => {
       if (dailyReport.id === updatedDailyReport.id) {
         return updatedDailyReport
@@ -77,21 +86,25 @@ const dailyReport: NextPage = () => {
     setDailyReports(sortedByDate(updatedDailyReportArray))
   }
 
-  const onEditReport = (dailyReport) => {
+  const onEditReport = (dailyReport: DailyReportType) => {
     editDailyReport(userId, dailyReport, editReportDateOn).then(
       (dailyReportsData) => {
         updatedDailyReports(dailyReportsData)
       }
     )
-    setEditedDailyReport(false)
+    setEditedDailyReport({ id: NaN, reportDateOn: '', text: '', time: NaN })
   }
 
-  const sortedByDate = (data) =>
+  const sortedByDate = (data: DailyReportType[]) =>
     data
       .slice()
-      .sort((a, b) => new Date(b.reportDateOn) - new Date(a.reportDateOn))
+      .sort(
+        (a: DailyReportType, b: DailyReportType) =>
+          new Date(b.reportDateOn).getTime() -
+          new Date(a.reportDateOn).getTime()
+      )
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault()
     postDailyReport(userId, inputData, reportDateOn).then((dailyReportData) => {
       setDailyReports(sortedByDate([...dailyReports, dailyReportData]))
@@ -101,7 +114,7 @@ const dailyReport: NextPage = () => {
       time: '',
     })
   }
-  const onDeleteReport = (reportId) => {
+  const onDeleteReport = (reportId: number) => {
     const deleteAndGet = async () => {
       await deleteDailyReport(userId, reportId)
       getDailyReportsList(userId).then((dailyReportsData) => {
@@ -110,9 +123,20 @@ const dailyReport: NextPage = () => {
     }
     deleteAndGet()
   }
-  const onEditReportInput = (dailyReport) => {
+  const onEditReportInput = (dailyReport: DailyReportType) => {
     setEditedDailyReport(dailyReport)
     setEditReportDateOn(new Date(dailyReport.reportDateOn))
+  }
+
+  const onChangeReportDateOn = (selectedDate: Date | null) => {
+    if (selectedDate instanceof Date) {
+      setReportDateOn(selectedDate)
+    }
+  }
+  const onChangeEditReportDateOn = (selectedDate: Date | null) => {
+    if (selectedDate instanceof Date) {
+      setEditReportDateOn(selectedDate)
+    }
   }
 
   return (
@@ -130,15 +154,14 @@ const dailyReport: NextPage = () => {
             editReportDateOn={editReportDateOn}
             handleSubmit={handleSubmit}
             inputData={inputData}
-            loading={loading}
             onChangeEditInput={onChangeEditInput}
             onChangeInputData={onChangeInputData}
             onDeleteReport={onDeleteReport}
             onEditReport={onEditReport}
             onEditReportInput={onEditReportInput}
             reportDateOn={reportDateOn}
-            setEditReportDateOn={setEditReportDateOn}
-            setReportDateOn={setReportDateOn}
+            onChangeEditReportDateOn={onChangeEditReportDateOn}
+            onChangeReportDateOn={onChangeReportDateOn}
             Today={Today}
           />
         )}

@@ -16,7 +16,7 @@ interface UserProfileProps {
   onChangeUserProfileData: (key: string, value: string) => void
   onChangeUrl: (key: string, value: string) => void
   onClickEdit: () => void
-  onSubmitUserProfile: (e: React.FormEvent<HTMLFormElement>) => void
+  onSubmitUserProfile: (e: any) => void
 }
 
 export const UserProfile = ({

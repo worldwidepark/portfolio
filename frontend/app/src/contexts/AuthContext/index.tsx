@@ -13,6 +13,6 @@ export const AuthContext = createContext(
     authMessage: string
     setAuthMessage: React.Dispatch<React.SetStateAction<string>>
     combinedTime: number
-    setCombinedTime: React.Dispatch<React.SetStateAction<number>>
+    setCombinedTime: React.Dispatch<React.SetStateAction<number | undefined>>
   }
 )

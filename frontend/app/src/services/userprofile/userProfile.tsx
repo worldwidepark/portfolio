@@ -54,7 +54,7 @@ export const editUserProfileImage = async (userId: number, image: string) => {
 }
 export const editUserProfileData = async (
   userId: number,
-  data: { name: string; introduce: string; occupation: string; url: string[] }
+  data: UserProfileType
 ) => {
   return await axios
     .patch<UserProfileType>(`${DEFAULT_API}/users/${userId}`, {

@@ -3,6 +3,27 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { DailyReportType } from '../../../types/types'
+
+interface DailyReportListType {
+  combinedTime: number
+  dailyReports: DailyReportType[]
+  editInputRef: React.RefObject<HTMLInputElement>
+  editedDailyReport: DailyReportType
+  editReportDateOn: Date
+  handleSubmit: (e: any) => void
+  inputData: { text: string; time: number | string }
+  onChangeEditInput: (key: string, e: any) => void
+  onChangeInputData: (key: string, e: any) => void
+  onDeleteReport: (e: any) => void
+  onEditReport: (e: any) => void
+  onEditReportInput: (e: any) => void
+  reportDateOn: Date
+  onChangeEditReportDateOn: (selectedDate: Date | null) => void
+  onChangeReportDateOn: (selectedDate) => void
+  Today: Date
+}
+
 export const DailyReportsList = ({
   combinedTime,
   dailyReports,
@@ -11,17 +32,16 @@ export const DailyReportsList = ({
   editReportDateOn,
   handleSubmit,
   inputData,
-  loading,
   onChangeEditInput,
   onChangeInputData,
   onDeleteReport,
   onEditReport,
   onEditReportInput,
   reportDateOn,
-  setEditReportDateOn,
-  setReportDateOn,
+  onChangeEditReportDateOn,
+  onChangeReportDateOn,
   Today,
-}) => {
+}: DailyReportListType) => {
   return (
     <>
       <div>総学習時間:</div>
@@ -57,9 +77,7 @@ export const DailyReportsList = ({
           maxDate={Today}
           selected={reportDateOn}
           required
-          onChange={(selectedDate) => {
-            setReportDateOn(selectedDate)
-          }}
+          onChange={(selectedDate) => onChangeReportDateOn(selectedDate)}
         />
         <button type="submit">登録</button>
       </form>
@@ -91,9 +109,9 @@ export const DailyReportsList = ({
                     maxDate={Today}
                     selected={editReportDateOn}
                     required
-                    onChange={(selectedDate) => {
-                      setEditReportDateOn(selectedDate)
-                    }}
+                    onChange={(selectedDate) =>
+                      onChangeEditReportDateOn(selectedDate)
+                    }
                   />
                   <button type="submit">edit</button>
                 </form>
