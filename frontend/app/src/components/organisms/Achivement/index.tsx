@@ -3,7 +3,46 @@ import { Flex } from '../../layout/Flex'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { UrlsInputForms } from '../../molecules/Achivement/urlsInputForms'
+import { AchivementType } from '../../../types/types'
 
+interface AchivementsListType {
+  achivements: AchivementType[]
+  editEndDate: Date | null
+  editInputRef: React.RefObject<HTMLInputElement>
+  editedAchivement: AchivementType
+  editStartDate: Date | null
+  endDate: Date | null
+  handleSubmit: (e: any) => void
+  inputData: {
+    title: string
+    text: string
+    urls: string[]
+  }
+  onChangeDate: (e: any) => void
+  onChangeEditInput: (key: string, value: any) => void
+  onChangeInputData: (key: string, value: string | string[] | undefined) => void
+  onChangeUrl: (
+    name: string,
+    value: string,
+    data: AchivementType,
+    setData: React.Dispatch<React.SetStateAction<AchivementType>>,
+    achivementLength: number
+  ) => void
+  onDeleteAchivement: (achivementId: number) => void
+  onEditAchivement: (achivement: AchivementType) => void
+  onEditAchivementInput: (achivement: AchivementType) => void
+  onEditChangeDate: (dates: [Date | null, Date | null]) => void
+  setEditedAchivement: React.Dispatch<React.SetStateAction<AchivementType>>
+  setInputData: React.Dispatch<
+    React.SetStateAction<{
+      title: string
+      text: string
+      urls: string[]
+    }>
+  >
+  startDate: Date
+  Today: Date
+}
 export const AchivementsList = ({
   achivements,
   editEndDate,
@@ -13,7 +52,6 @@ export const AchivementsList = ({
   endDate,
   handleSubmit,
   inputData,
-  loading,
   onChangeDate,
   onChangeEditInput,
   onChangeInputData,
@@ -26,7 +64,7 @@ export const AchivementsList = ({
   setInputData,
   startDate,
   Today,
-}) => {
+}: AchivementsListType) => {
   return (
     <>
       <form onSubmit={handleSubmit}>

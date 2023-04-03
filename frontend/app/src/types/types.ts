@@ -9,7 +9,18 @@ export type UserProfileType = {
   image?: string
   url?: UserProfileUrlType
   tags?: UserProfileTagsType[]
+  reportDateOn?: string
 }
+
+export type AchivementType = {
+  id: number
+  title: string
+  text: string
+  urls: string[]
+  startDateOn?: string
+  endDateOn?: string
+}
+
 export type UserProfileTagsType = {
   id: number
   name: string

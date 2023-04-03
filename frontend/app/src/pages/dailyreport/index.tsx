@@ -55,7 +55,6 @@ const dailyReport: NextPage = () => {
 
   useEffect(() => {
     editInputRef.current?.focus()
-    console.log(editInputRef.current)
   }, [editedDailyReport.id])
 
   useEffect(() => {
