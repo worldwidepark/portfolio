@@ -39,7 +39,7 @@ const userProfile: NextPage = () => {
   const [preview, setPreview] = useState<string | boolean>('')
   const [onEditUserProfile, setOnEditUserProfile] = useState<boolean>(false)
   const { currentUserId } = useContext(AuthContext)
-  const [urlItem, setUrlItem] = useState<ReactNode>('')
+  const [urlItem, setUrlItem] = useState<ReactNode>(<></>)
   const [onEditImage, setOnEditImage] = useState<boolean>(false)
   const [programmingLanguageTags, setProgramminglanguageTags] = useState<
     UserProfileTagsType[]
