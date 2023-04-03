@@ -1,7 +1,9 @@
 import React from 'react'
 
 import { FaGithub, FaTwitter, FaBlogger, FaHome } from 'react-icons/fa'
-const itemForUrl = (urlInfo) => {
+import { UserProfileUrlType } from '../../../types/types'
+
+const itemForUrl = (urlInfo: UserProfileUrlType) => {
   switch (urlInfo.selected) {
     case 'twitter':
       return (

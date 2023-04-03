@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react'
+import React, { ReactNode, useContext, useEffect } from 'react'
 import { useState } from 'react'
 import { Flex } from '../../components/layout/Flex'
-import { PresentationsList } from '../../components/organisms/Presentation/presentation'
+import { PresentationsList } from '../../components/organisms/Presentation/presentationList'
 import { MakePresentationsList } from '../../components/organisms/Presentation/makePresentationsList'
 import { MakePresentElements } from '../../components/organisms/Presentation/makePresentElements'
 import { PresentElements } from '../../components/organisms/Presentation/presentElements'
@@ -13,19 +13,33 @@ import {
   getPresentationsList,
 } from '../../services/presentation/presentation'
 import itemForUrl from '../../components/molecules/UserProfile/itemForUrl'
-// todo: idの渡し方。
-const presentation = () => {
-  const [dailyReports, setDailyReports] = useState([])
-  const [achivements, setAchivements] = useState([])
-  const [userId, setUserId] = useState(false)
-  const [loading, setLoading] = useState(true)
+import {
+  AchivementType,
+  DailyReportType,
+  UserProfileTagsType,
+  UserProfileType,
+} from '../../types/types'
+import { NextPage } from 'next/types'
+
+const presentation: NextPage = () => {
+  const [dailyReports, setDailyReports] = useState<DailyReportType[]>([])
+  const [achivements, setAchivements] = useState<AchivementType[]>([])
+  const [userId, setUserId] = useState<number>()
+  const [loading, setLoading] = useState<boolean>(true)
   const { currentUserId } = useContext(AuthContext)
-  const [userInfo, setUserInfo] = useState([])
-  const [programmingLanguageTags, setProgramminglanguageTags] = useState([])
-  const [urlItem, setUrlItem] = useState()
+  const [userInfo, setUserInfo] = useState<UserProfileType>({
+    id: NaN,
+    name: '',
+  })
+  const [programmingLanguageTags, setProgramminglanguageTags] = useState<
+    UserProfileTagsType[]
+  >([])
+  const [urlItem, setUrlItem] = useState<ReactNode>()
+
   useEffect(() => {
-    setUserId(currentUserId)
-    console.log(currentUserId, 'current')
+    if (typeof currentUserId === 'number') {
+      setUserId(currentUserId)
+    }
   }, [currentUserId])
 
   useEffect(() => {
@@ -43,21 +57,24 @@ const presentation = () => {
   }, [userId])
 
   useEffect(() => {
-    if (userInfo.url) {
+    if (userInfo?.url) {
       if (userInfo.url.url === '') {
-        return setUrlItem('')
+        return setUrlItem(<></>)
       }
       setUrlItem(itemForUrl(userInfo.url))
     }
   }, [userInfo])
 
-  const reversePresent = (present) => {
+  const reversePresent = (present: boolean) => {
     return !present
   }
 
-  const chageAchivementPresent = (element) => {
+  const chageAchivementPresent = (element: AchivementType) => {
     const updatedAchivements = achivements.map((achivement) => {
-      if (achivement.id === element.id) {
+      if (
+        achivement.id === element.id &&
+        typeof element.present === 'boolean'
+      ) {
         return {
           ...achivement,
           present: reversePresent(element.present),
@@ -69,9 +86,9 @@ const presentation = () => {
     setAchivements(updatedAchivements)
   }
 
-  const chageDailyReportPresent = (element) => {
+  const chageDailyReportPresent = (element: DailyReportType) => {
     const updatedDailyReports = dailyReports.map((dailyReport) => {
-      if (dailyReport.id === element.id) {
+      if (dailyReport.id === element.id && element.present) {
         return {
           ...dailyReport,
           present: reversePresent(element.present),
@@ -83,11 +100,13 @@ const presentation = () => {
     setDailyReports(updatedDailyReports)
   }
 
-  const onChangePresentState = (element, elementName) => {
-    closedPresentation(userId, element.id, reversePresent(element.present))
-    elementName === 'achivement'
-      ? chageAchivementPresent(element)
-      : chageDailyReportPresent(element)
+  const onChangePresentState = (element: any, elementName: string) => {
+    if (typeof userId === 'number') {
+      closedPresentation(userId, element.id, reversePresent(element.present))
+      elementName === 'achivement'
+        ? chageAchivementPresent(element)
+        : chageDailyReportPresent(element)
+    }
   }
   return (
     <Layout>
@@ -107,7 +126,6 @@ const presentation = () => {
             <PresentationsList
               dailyReports={dailyReports}
               achivements={achivements}
-              userId={userId}
               PresentElements={PresentElements}
               userInfo={userInfo}
               urlItem={urlItem}

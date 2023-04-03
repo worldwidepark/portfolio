@@ -8,6 +8,8 @@ export const AuthContext = createContext(
     setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>
     currentUser: undefined
     setCurrentUser: React.Dispatch<React.SetStateAction<undefined>>
+    currentUserId: number | undefined
+    setCurrentUserId: React.Dispatch<React.SetStateAction<number | undefined>>
     authMessage: string
     setAuthMessage: React.Dispatch<React.SetStateAction<string>>
     combinedTime: number

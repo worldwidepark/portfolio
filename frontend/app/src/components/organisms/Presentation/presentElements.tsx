@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
-import { closedPresentation } from '../../../services/presentation/presentation'
 import { Box } from '../../layout/Box'
 
-export const PresentElements = ({ element, elementName }) => {
+interface PresentElementsType {
+  element: any
+  elementName: string
+}
+
+export const PresentElements = ({
+  element,
+  elementName,
+}: PresentElementsType) => {
   const [present, setPresent] = useState(element.present)
 
-  // const reversePresent = (present) => {
-  //   return !present
-  // }
-  // const onChangePresentState = () => {
-  //   closedPresentation(userId, element.id, reversePresent(present))
-  //   setPresent(reversePresent)
-  // }
   return (
     <>
       {elementName == 'achivement' ? (

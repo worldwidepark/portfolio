@@ -37,7 +37,6 @@ export const Sidebar = () => {
             ユーザープロフィール<h3>プログラミング言語</h3>
           </SidebarList>
         </Link>
-        <SidebarList>学習者一覧</SidebarList>
       </SidebarBox>
     </>
   )

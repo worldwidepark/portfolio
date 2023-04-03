@@ -10,10 +10,10 @@ import { getUserProfileData } from '../services/userProfile/userProfile'
 export default function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState<boolean>(true)
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
-  const [currentUser, setCurrentUser] = useState()
-  const [authMessage, setAuthMessage] = useState('')
-  const [currentUserId, setCurrentUserId] = useState(false)
-  const [combinedTime, setCombinedTime] = useState(0)
+  const [currentUser, setCurrentUser] = useState<any>()
+  const [authMessage, setAuthMessage] = useState<string>('')
+  const [currentUserId, setCurrentUserId] = useState<number | undefined>()
+  const [combinedTime, setCombinedTime] = useState<number>(0)
   const router = useRouter()
   const handleGetCurrentUser = async () => {
     try {
@@ -36,7 +36,9 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (typeof currentUserId == 'number') {
       getUserProfileData(currentUserId).then((data) => {
-        setCombinedTime(data.combined_time)
+        if (typeof data.combinedTime === 'number') {
+          setCombinedTime(data.combinedTime)
+        }
       })
     }
   }, [])

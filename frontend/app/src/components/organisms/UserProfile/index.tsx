@@ -1,15 +1,28 @@
-import React, { useContext } from 'react'
-import { AuthContext } from '../../../contexts/AuthContext'
+import React, { ReactNode, useContext } from 'react'
 import { Flex } from '../../layout/Flex'
-import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { UrlsInputForms } from '../../molecules/UserProfile/urlsInputForms'
+import { UserProfileType } from '../../../types/types'
+
+interface UserProfileProps {
+  isCurrentUser: boolean
+  userProfileData: UserProfileType
+  urlItem: ReactNode
+  onEditUserProfile: boolean
+  editedUserProfileData: UserProfileType
+  setEditedUserProfileData: React.Dispatch<
+    React.SetStateAction<UserProfileType>
+  >
+  onChangeUserProfileData: (key: string, value: string) => void
+  onChangeUrl: (key: string, value: string) => void
+  onClickEdit: () => void
+  onSubmitUserProfile: (e: any) => void
+}
+
 export const UserProfile = ({
   isCurrentUser,
   userProfileData,
-  userId,
   urlItem,
-  currentUserId,
   onEditUserProfile,
   editedUserProfileData,
   setEditedUserProfileData,
@@ -17,7 +30,7 @@ export const UserProfile = ({
   onChangeUrl,
   onClickEdit,
   onSubmitUserProfile,
-}) => {
+}: UserProfileProps) => {
   return (
     <Flex flexDirection="column">
       {onEditUserProfile ? (
@@ -55,7 +68,6 @@ export const UserProfile = ({
             <UrlsInputForms
               onChangeUrl={onChangeUrl}
               editedUserProfileData={editedUserProfileData}
-              setEditedUserProfileData={setEditedUserProfileData}
             />
             <button type="submit">編集</button>
           </form>

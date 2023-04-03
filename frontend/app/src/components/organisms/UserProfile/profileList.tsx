@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { searchUserProfileData } from '../../../services/userProfile/userProfile'
 import { Text } from '../../atoms/Text'
 import { Box } from '../../layout/Box'
 import { Flex } from '../../layout/Flex'
+import { UserProfileType } from '../../../types/types'
+import { searchUserProfileData } from '../../../services/userProfile/userProfile'
 
-export const UserProfileList = ({ userProfileListData, onClickList }) => {
+interface UserProfileListProps {
+  userProfileListData: UserProfileType[]
+  onClickList: (userId: number) => void
+}
+
+export const UserProfileList = ({
+  userProfileListData,
+  onClickList,
+}: UserProfileListProps) => {
   useEffect(() => {
     setUserProfileList(userProfileListData)
   }, [])
-  const [userProfileList, setUserProfileList] = useState([])
-  const onChangeSearchTags = (e) => {
+  const [userProfileList, setUserProfileList] = useState<UserProfileType[]>([])
+  const onChangeSearchTags = (e: string) => {
     if (e === '') {
       setUserProfileList(userProfileListData)
     } else {
@@ -22,6 +31,7 @@ export const UserProfileList = ({ userProfileListData, onClickList }) => {
         <div>
           <input
             type="text"
+            placeholder="使用スキルで検索"
             onChange={(e) => onChangeSearchTags(e.target.value)}
           />
         </div>
@@ -42,9 +52,13 @@ export const UserProfileList = ({ userProfileListData, onClickList }) => {
                       <div>{userProfile.name}</div>
                     </span>
                     <span>
-                      {userProfile.tags.map((tag) => (
-                        <div>{tag.name}</div>
-                      ))}
+                      {userProfile.tags !== undefined && (
+                        <>
+                          {userProfile.tags.map((tag) => (
+                            <div key={tag.id}>{tag.name}</div>
+                          ))}
+                        </>
+                      )}
                     </span>
                   </Text>
                 </Box>

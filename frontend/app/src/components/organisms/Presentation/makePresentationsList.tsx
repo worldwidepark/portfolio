@@ -1,9 +1,19 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-
-import { AuthContext } from '../../../contexts/AuthContext'
-import { getPresentationsList } from '../../../services/presentation/presentation'
+import React from 'react'
 import { Box } from '../../layout/Box'
 import { Flex } from '../../layout/Flex'
+import {
+  AchivementType,
+  DailyReportType,
+  UserProfileType,
+} from '../../../types/types'
+
+interface MakePresentationsListType {
+  dailyReports: DailyReportType[]
+  achivements: AchivementType[]
+  userInfo: UserProfileType
+  MakePresentElements: any
+  onChangePresentState: (element: any, elementName: string) => void
+}
 
 export const MakePresentationsList = ({
   dailyReports,
@@ -11,7 +21,7 @@ export const MakePresentationsList = ({
   userInfo,
   MakePresentElements,
   onChangePresentState,
-}) => {
+}: MakePresentationsListType) => {
   return (
     <>
       <Flex flexDirection="column">

@@ -1,32 +1,46 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import Layout from '../components/templates/Layout'
 import { Sidebar } from '../components/organisms/Sidebar'
 import { Flex } from '../components/layout/Flex'
-import { DailyReportInputForm } from '../components/organisms/DailyReport'
 import { getUserProfileListData } from '../services/userProfile/userProfile'
 import { UserProfileList } from '../components/organisms/UserProfile/profileList'
 import { Box } from '../components/layout/Box'
 import { getPresentationsList } from '../services/presentation/presentation'
-import { PresentationsList } from '../components/organisms/Presentation/presentation'
+import { PresentationsList } from '../components/organisms/Presentation/presentationList'
 import { PresentElements } from '../components/organisms/Presentation/presentElements'
 import itemForUrl from '../components/molecules/UserProfile/itemForUrl'
-const index = () => {
-  const [activeLists, setActiveLists] = useState('users')
-  const [userProfileListData, setUserProfileListData] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [showingDataUserId, setShowingDataUserId] = useState()
-  const [dailyReports, setDailyReports] = useState([])
-  const [achivements, setAchivements] = useState([])
-  const [userInfo, setUserInfo] = useState([])
-  const [programmingLanguageTags, setProgramminglanguageTags] = useState([])
-  const [urlItem, setUrlItem] = useState()
+import {
+  AchivementType,
+  DailyReportType,
+  UserProfileTagsType,
+  UserProfileType,
+} from '../types/types'
+import { NextPage } from 'next/types'
+
+const index: NextPage = () => {
+  const [userProfileListData, setUserProfileListData] = useState<
+    UserProfileType[]
+  >([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [showingDataUserId, setShowingDataUserId] = useState<number>()
+  const [dailyReports, setDailyReports] = useState<DailyReportType[]>([])
+  const [achivements, setAchivements] = useState<AchivementType[]>([])
+  const [userInfo, setUserInfo] = useState<UserProfileType>({
+    id: NaN,
+    name: '',
+  })
+  const [programmingLanguageTags, setProgramminglanguageTags] = useState<
+    UserProfileTagsType[]
+  >([])
+  const [urlItem, setUrlItem] = useState<ReactNode>()
+
   useEffect(() => {
     getUserProfileListData().then((listData) => {
       setUserProfileListData(listData)
       setLoading(false)
-      console.log(listData, 'listdata')
     })
   }, [])
+
   useEffect(() => {
     if (typeof showingDataUserId === 'number') {
       getPresentationsList(showingDataUserId).then(
@@ -37,7 +51,7 @@ const index = () => {
           setProgramminglanguageTags(
             presentationElementDatas.programmingLanguageTags
           )
-          setUrlItem()
+          setUrlItem(<></>)
         }
       )
     }
@@ -74,7 +88,6 @@ const index = () => {
                   <PresentationsList
                     dailyReports={dailyReports}
                     achivements={achivements}
-                    userId={showingDataUserId}
                     PresentElements={PresentElements}
                     userInfo={userInfo}
                     urlItem={urlItem}

@@ -10,32 +10,43 @@ import { AchivementsList } from '../../components/organisms/Achivement'
 import { Sidebar } from '../../components/organisms/Sidebar'
 import Layout from '../../components/templates/Layout'
 import { AuthContext } from '../../contexts/AuthContext'
+import { AchivementType } from '../../types/types'
+import { NextPage } from 'next/types'
 
-const achivement = () => {
-  const [achivements, setAchivements] = useState([])
-  const [userId, setUserId] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [editedAchivement, setEditedAchivement] = useState(false)
-  const [startDate, setStartDate] = useState(new Date())
-  const [endDate, setEndDate] = useState(null)
-  const [editStartDate, setEditStartDate] = useState(new Date())
-  const [editEndDate, setEditEndDate] = useState(null)
-  const { currentUserId } = useContext(AuthContext)
-  const Today = new Date()
-  const [inputData, setInputData] = useState({
+const achivement: NextPage = () => {
+  const [achivements, setAchivements] = useState<AchivementType[]>([])
+  const [userId, setUserId] = useState<number | boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [editedAchivement, setEditedAchivement] = useState<AchivementType>({
+    id: NaN,
     title: '',
     text: '',
     urls: [''],
   })
-  const editInputRef = useRef(null)
+  const [startDate, setStartDate] = useState<Date>(new Date())
+  const [endDate, setEndDate] = useState<Date | null>(null)
+  const [editStartDate, setEditStartDate] = useState<Date | null>(new Date())
+  const [editEndDate, setEditEndDate] = useState<Date | null>(null)
+  const { currentUserId } = useContext(AuthContext)
+  const Today: Date = new Date()
+  const [inputData, setInputData] = useState<{
+    title: string
+    text: string
+    urls: string[]
+  }>({
+    title: '',
+    text: '',
+    urls: [''],
+  })
+  const editInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    setUserId(currentUserId)
-    console.log(currentUserId, 'current')
+    if (typeof currentUserId === 'number') {
+      setUserId(currentUserId)
+    }
   }, [currentUserId])
 
   useEffect(() => {
-    console.log(typeof userId, 'userId')
     if (typeof userId == 'number') {
       getAchivementsList(userId).then((achivementsData) => {
         setAchivements(achivementsData)
@@ -45,17 +56,14 @@ const achivement = () => {
   }, [userId])
 
   useEffect(() => {
-    if (editedAchivement) {
-      editInputRef.current.focus()
-      console.log(editInputRef.current)
-    }
+    editInputRef.current?.focus()
   }, [editedAchivement.id])
 
-  const onChangeEditInput = (key, value) => {
+  const onChangeEditInput = (key: string, value: any) => {
     setEditedAchivement({ ...editedAchivement, [key]: value })
   }
 
-  const updateAchivements = (updatedAchivementData) => {
+  const updateAchivements = (updatedAchivementData: AchivementType) => {
     const updatedAchivementArray = achivements.map((achivement) => {
       if (achivement.id === updatedAchivementData.id) {
         return updatedAchivementData
@@ -66,34 +74,40 @@ const achivement = () => {
     setAchivements(updatedAchivementArray)
   }
 
-  const onEditAchivement = (achivement) => {
-    editAchivement(
-      userId,
-      achivement,
-      deleteUrlsEmpty(achivement.urls),
-      editStartDate,
-      editEndDate
-    ).then((achivementsData) => {
-      updateAchivements(achivementsData)
-    })
-    setEditedAchivement(false)
+  const onEditAchivement = (achivement: AchivementType) => {
+    if (typeof userId === 'number' && editStartDate && editEndDate) {
+      editAchivement(
+        userId,
+        achivement,
+        deleteUrlsEmpty(achivement.urls),
+        editStartDate,
+        editEndDate
+      ).then((achivementsData) => {
+        updateAchivements(achivementsData)
+      })
+      setEditedAchivement({ id: NaN, title: '', text: '', urls: [''] })
+    }
   }
-  const onChangeDate = (dates) => {
+  const onChangeDate = (dates: Date[]) => {
     const [start, end] = dates
     setStartDate(start)
     setEndDate(end)
   }
-  const onEditChangeDate = (dates) => {
+  const onEditChangeDate = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates
+
     setEditStartDate(start)
     setEditEndDate(end)
   }
 
-  const onChangeInputData = (key, value) => {
+  const onChangeInputData = (
+    key: string,
+    value: string | string[] | undefined
+  ) => {
     setInputData({ ...inputData, [key]: value })
   }
 
-  const deleteUrlsEmpty = (urls) => {
+  const deleteUrlsEmpty = (urls: string[]) => {
     const firstUrl = urls[0]
     const secondUrl = urls[1]
     if (firstUrl !== '' && secondUrl !== '' && typeof secondUrl == 'string') {
@@ -104,7 +118,13 @@ const achivement = () => {
       return [secondUrl]
     }
   }
-  const onChangeUrl = (name, value, data, setData, achivementLength) => {
+  const onChangeUrl = (
+    name: string,
+    value: string,
+    data: AchivementType,
+    setData: React.Dispatch<React.SetStateAction<AchivementType>>,
+    achivementLength: number
+  ) => {
     if (name === 'firstUrl' && data.urls[1]) {
       setData({ ...data, urls: [value, data.urls[1]] })
     } else if (name == 'firstUrl' && achivementLength === 2) {
@@ -116,41 +136,47 @@ const achivement = () => {
     }
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    postAchivement(
-      userId,
-      data,
-      deleteUrlsEmpty(inputData.urls),
-      startDate,
-      endDate
-    ).then((achivementsData) => {
-      setAchivements([...achivements, achivementsData])
-    })
+    if (typeof userId === 'number' && startDate && endDate) {
+      postAchivement(
+        userId,
+        data,
+        deleteUrlsEmpty(inputData.urls),
+        startDate,
+        endDate
+      ).then((achivementsData) => {
+        setAchivements([...achivements, achivementsData])
+      })
 
-    setInputData({
-      title: '',
-      text: '',
-      urls: [''],
-    })
-    setStartDate(new Date())
-    setEndDate(null)
+      setInputData({
+        title: '',
+        text: '',
+        urls: [''],
+      })
+      setStartDate(new Date())
+      setEndDate(null)
+    }
   }
 
-  const onDeleteAchivement = (achivementId) => {
+  const onDeleteAchivement = (achivementId: number) => {
     const deleteAndGet = async () => {
-      await deleteAchivement(userId, achivementId)
-      getAchivementsList(userId).then((achivementsData) => {
-        setAchivements(achivementsData)
-      })
+      if (typeof userId === 'number') {
+        await deleteAchivement(userId, achivementId)
+        getAchivementsList(userId).then((achivementsData) => {
+          setAchivements(achivementsData)
+        })
+      }
     }
     deleteAndGet()
   }
-  const onEditAchivementInput = (achivement) => {
+  const onEditAchivementInput = (achivement: AchivementType) => {
     setEditedAchivement(achivement)
-    setEditStartDate(new Date(achivement.startDateOn))
-    setEditEndDate(new Date(achivement.endDateOn))
+    if (achivement.startDateOn && achivement.endDateOn) {
+      setEditStartDate(new Date(achivement.startDateOn))
+      setEditEndDate(new Date(achivement.endDateOn))
+    }
   }
 
   return (
@@ -171,7 +197,6 @@ const achivement = () => {
               endDate={endDate}
               handleSubmit={handleSubmit}
               inputData={inputData}
-              loading={loading}
               onChangeDate={onChangeDate}
               onChangeEditInput={onChangeEditInput}
               onChangeInputData={onChangeInputData}

@@ -1,4 +1,15 @@
 import React, { useState } from 'react'
+import { UserProfileType } from '../../../types/types'
+
+interface ImageInputFormProps {
+  isCurrentUser: boolean
+  userProfileData: UserProfileType
+  onSubmitUserProfileImage: (e: any) => void
+  preview: string | boolean
+  onChangeFile: (e: any) => void
+  onEditImage: boolean
+  setOnEditImage: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export const ImageInputForm = ({
   isCurrentUser,
@@ -8,12 +19,12 @@ export const ImageInputForm = ({
   onChangeFile,
   onEditImage,
   setOnEditImage,
-}) => {
+}: ImageInputFormProps) => {
   return (
     <>
       {onEditImage ? (
         <form onSubmit={onSubmitUserProfileImage}>
-          {preview ? (
+          {typeof preview === 'string' ? (
             <img src={preview} />
           ) : (
             <img src={userProfileData.image} />
@@ -32,7 +43,7 @@ export const ImageInputForm = ({
           {isCurrentUser && (
             <button
               type="button"
-              onClick={(e) => {
+              onClick={() => {
                 setOnEditImage(true)
               }}
             >

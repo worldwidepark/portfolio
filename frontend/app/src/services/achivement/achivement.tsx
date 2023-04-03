@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { DEFAULT_API } from '../../urls'
+import { AchivementType } from '../../types/types'
 
-export const getAchivementsList = async (userId) => {
+export const getAchivementsList = async (userId: number) => {
   return await axios
     .get(`${DEFAULT_API}/users/${userId}/achivements`, {
       headers: {
@@ -19,11 +20,11 @@ export const getAchivementsList = async (userId) => {
 }
 
 export const postAchivement = async (
-  userId,
-  data,
-  urls,
-  startDate,
-  endDate
+  userId: number,
+  data: FormData,
+  urls: string[] | undefined,
+  startDate: Date,
+  endDate: Date
 ) => {
   return await axios
     .post(`${DEFAULT_API}/users/${userId}/achivements`, {
@@ -46,7 +47,7 @@ export const postAchivement = async (
     })
 }
 
-export const deleteAchivement = async (userId, reportId) => {
+export const deleteAchivement = async (userId: number, reportId: number) => {
   return await axios.delete(
     `${DEFAULT_API}/users/${userId}/achivements/${reportId}`,
     {
@@ -61,11 +62,11 @@ export const deleteAchivement = async (userId, reportId) => {
 }
 
 export const editAchivement = async (
-  userId,
-  data,
-  urls,
-  startDate,
-  endDate
+  userId: number,
+  data: AchivementType,
+  urls: string[] | undefined,
+  startDate: Date,
+  endDate: Date
 ) => {
   return await axios
     .patch(`${DEFAULT_API}/users/${userId}/achivements/${data.id}`, {
