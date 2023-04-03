@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
-import { closedPresentation } from '../../../services/presentation/presentation'
+import React from 'react'
 import { Box } from '../../layout/Box'
+
+interface MakePresentElementsType {
+  element: any
+  elementName: string
+  onChangePresentState: (element: any, elementName: string) => void
+}
 
 export const MakePresentElements = ({
   element,
   elementName,
   onChangePresentState,
-}) => {
+}: MakePresentElementsType) => {
   return (
     <>
       {elementName === 'achivement' ? (

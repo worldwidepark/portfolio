@@ -1,16 +1,30 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { ReactNode } from 'react'
 import { Box } from '../../layout/Box'
 import { Flex } from '../../layout/Flex'
+import {
+  AchivementType,
+  DailyReportType,
+  UserProfileTagsType,
+  UserProfileType,
+} from '../../../types/types'
+
+interface PresentationsListType {
+  dailyReports: DailyReportType[]
+  achivements: AchivementType[]
+  PresentElements: any
+  userInfo: UserProfileType
+  programmingLanguageTags: UserProfileTagsType[]
+  urlItem: ReactNode
+}
 
 export const PresentationsList = ({
   dailyReports,
   achivements,
-  userId,
   PresentElements,
   userInfo,
   programmingLanguageTags,
   urlItem,
-}) => {
+}: PresentationsListType) => {
   return (
     <>
       <Flex flexDirection="column">
@@ -51,7 +65,6 @@ export const PresentationsList = ({
               <div key={element.id}>
                 {element.present ? (
                   <PresentElements
-                    userId={userId}
                     element={element}
                     elementName={'dailyReport'}
                   />

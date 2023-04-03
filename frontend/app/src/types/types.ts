@@ -19,6 +19,7 @@ export type AchivementType = {
   urls: string[]
   startDateOn?: string
   endDateOn?: string
+  present?: boolean
 }
 
 export type UserProfileTagsType = {
@@ -38,4 +39,6 @@ export type DailyReportType = {
   reportDateOn: string
   text: string
   time: number
+  present?: boolean
+  combinedTime?: number
 }
