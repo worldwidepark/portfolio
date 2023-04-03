@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { DEFAULT_API } from '../../urls'
+import { DailyReportType } from '../../types/types'
 
-export const getDailyReportsList = async (userId) => {
+export const getDailyReportsList = async (userId: number) => {
   return await axios
     .get(`${DEFAULT_API}/users/${userId}/daily_reports`, {
       headers: {
@@ -18,7 +19,11 @@ export const getDailyReportsList = async (userId) => {
     })
 }
 
-export const postDailyReport = async (userId, data, reportDateOn) => {
+export const postDailyReport = async (
+  userId: number,
+  data: { text: string; time: number | string },
+  reportDateOn: Date
+) => {
   return await axios
     .post(`${DEFAULT_API}/users/${userId}/daily_reports`, {
       headers: {
@@ -38,7 +43,7 @@ export const postDailyReport = async (userId, data, reportDateOn) => {
     })
 }
 
-export const deleteDailyReport = async (userId, reportId) => {
+export const deleteDailyReport = async (userId: number, reportId: number) => {
   return await axios.delete(
     `${DEFAULT_API}/users/${userId}/daily_reports/${reportId}`,
     {
@@ -52,7 +57,11 @@ export const deleteDailyReport = async (userId, reportId) => {
   )
 }
 
-export const editDailyReport = async (userId, data, reportDateOn) => {
+export const editDailyReport = async (
+  userId: number,
+  data: DailyReportType,
+  reportDateOn: Date
+) => {
   return await axios
     .patch(`${DEFAULT_API}/users/${userId}/daily_reports/${data.id}`, {
       headers: {

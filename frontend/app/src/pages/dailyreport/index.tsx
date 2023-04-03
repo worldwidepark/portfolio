@@ -13,6 +13,7 @@ import { Sidebar } from '../../components/organisms/Sidebar'
 import Layout from '../../components/templates/Layout'
 import { NextPage } from 'next/types'
 import { DailyReportType } from '../../types/types'
+import { type } from 'os'
 
 const dailyReport: NextPage = () => {
   const Today: Date = new Date()
@@ -86,12 +87,14 @@ const dailyReport: NextPage = () => {
   }
 
   const onEditReport = (dailyReport: DailyReportType) => {
-    editDailyReport(userId, dailyReport, editReportDateOn).then(
-      (dailyReportsData) => {
-        updatedDailyReports(dailyReportsData)
-      }
-    )
-    setEditedDailyReport({ id: NaN, reportDateOn: '', text: '', time: NaN })
+    if (typeof userId === 'number') {
+      editDailyReport(userId, dailyReport, editReportDateOn).then(
+        (dailyReportsData) => {
+          updatedDailyReports(dailyReportsData)
+        }
+      )
+      setEditedDailyReport({ id: NaN, reportDateOn: '', text: '', time: NaN })
+    }
   }
 
   const sortedByDate = (data: DailyReportType[]) =>
@@ -105,20 +108,27 @@ const dailyReport: NextPage = () => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault()
-    postDailyReport(userId, inputData, reportDateOn).then((dailyReportData) => {
-      setDailyReports(sortedByDate([...dailyReports, dailyReportData]))
-    })
-    setInputData({
-      text: '',
-      time: '',
-    })
+    if (typeof userId === 'number') {
+      postDailyReport(userId, inputData, reportDateOn).then(
+        (dailyReportData) => {
+          setDailyReports(sortedByDate([...dailyReports, dailyReportData]))
+        }
+      )
+
+      setInputData({
+        text: '',
+        time: '',
+      })
+    }
   }
   const onDeleteReport = (reportId: number) => {
     const deleteAndGet = async () => {
-      await deleteDailyReport(userId, reportId)
-      getDailyReportsList(userId).then((dailyReportsData) => {
-        setDailyReports(dailyReportsData)
-      })
+      if (typeof userId === 'number') {
+        await deleteDailyReport(userId, reportId)
+        getDailyReportsList(userId).then((dailyReportsData) => {
+          setDailyReports(dailyReportsData)
+        })
+      }
     }
     deleteAndGet()
   }

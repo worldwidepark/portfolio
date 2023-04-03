@@ -75,7 +75,7 @@ const achivement: NextPage = () => {
   }
 
   const onEditAchivement = (achivement: AchivementType) => {
-    if (typeof userId === 'number' && editStartDate && editEndDate)
+    if (typeof userId === 'number' && editStartDate && editEndDate) {
       editAchivement(
         userId,
         achivement,
@@ -85,7 +85,8 @@ const achivement: NextPage = () => {
       ).then((achivementsData) => {
         updateAchivements(achivementsData)
       })
-    setEditedAchivement({ id: NaN, title: '', text: '', urls: [''] })
+      setEditedAchivement({ id: NaN, title: '', text: '', urls: [''] })
+    }
   }
   const onChangeDate = (dates: Date[]) => {
     const [start, end] = dates
@@ -148,15 +149,15 @@ const achivement: NextPage = () => {
       ).then((achivementsData) => {
         setAchivements([...achivements, achivementsData])
       })
-    }
 
-    setInputData({
-      title: '',
-      text: '',
-      urls: [''],
-    })
-    setStartDate(new Date())
-    setEndDate(null)
+      setInputData({
+        title: '',
+        text: '',
+        urls: [''],
+      })
+      setStartDate(new Date())
+      setEndDate(null)
+    }
   }
 
   const onDeleteAchivement = (achivementId: number) => {
@@ -176,7 +177,6 @@ const achivement: NextPage = () => {
       setEditStartDate(new Date(achivement.startDateOn))
       setEditEndDate(new Date(achivement.endDateOn))
     }
-    console.log(typeof achivement.startDateOn)
   }
 
   return (
