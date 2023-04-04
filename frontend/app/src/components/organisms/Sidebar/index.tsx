@@ -14,6 +14,25 @@ import {
 } from 'react-icons/fa'
 import { getWindowSize } from '../../../hooks/getWindowSize'
 
+const SidebarBox = styled.div`
+  position: fixed;
+  padding-top: 50px;
+  width: 10%;
+  height: 100vh;
+  border-right: 1px solid rgb(230, 230, 230);
+`
+const SidebarList = styled.div`
+  padding: 25px;
+  margin: 10px;
+  cursor: pointer;
+  text-align: center;
+  background-color: ${({ theme }) => theme.main};
+  color: rgb(15, 20, 25);
+  border-radius: 30px;
+  &:hover {
+    background-color: rgb(246, 208, 66);
+  }
+`
 export const Sidebar = () => {
   const [sidebarList, setSidebarList] = useState<
     {
@@ -27,25 +46,6 @@ export const Sidebar = () => {
   const { currentUserId, isSignedIn } = useContext(AuthContext)
   const { height, width } = getWindowSize()
 
-  const SidebarBox = styled.div`
-    position: fixed;
-    padding-top: 50px;
-    width: 10%;
-    height: 100vh;
-    border-right: 1px solid rgb(230, 230, 230);
-  `
-  const SidebarList = styled.div`
-    padding: 25px;
-    margin: 10px;
-    cursor: pointer;
-    text-align: center;
-    background-color: ${({ theme }) => theme.main};
-    color: rgb(15, 20, 25);
-    border-radius: 30px;
-    &:hover {
-      background-color: rgb(246, 208, 66);
-    }
-  `
   useEffect(() => {
     if (isSignedIn && sidebarList.length === 1) {
       setSidebarList([

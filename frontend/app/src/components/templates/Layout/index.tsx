@@ -8,6 +8,16 @@ interface LayoutProps {
   children: React.ReactNode
 }
 
+const BodyStyle = styled.div`
+  position: relative;
+  color: rgb(15, 20, 25);
+`
+const MainStyle = styled.div`
+  position: relative;
+  left: 12%;
+  height: 100vh;
+  color: rgb(15, 20, 25);
+`
 const Layout = ({ children }: LayoutProps) => {
   const { isSignedIn } = useContext(AuthContext)
   const HeaderTag = () => {
@@ -16,16 +26,6 @@ const Layout = ({ children }: LayoutProps) => {
       return <></>
     }
   }
-  const BodyStyle = styled.div`
-    position: relative;
-    color: rgb(15, 20, 25);
-  `
-  const MainStyle = styled.div`
-    position: relative;
-    left: 12%;
-    height: 100vh;
-    color: rgb(15, 20, 25);
-  `
 
   return (
     <>
