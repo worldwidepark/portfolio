@@ -88,7 +88,10 @@ const presentation: NextPage = () => {
 
   const chageDailyReportPresent = (element: DailyReportType) => {
     const updatedDailyReports = dailyReports.map((dailyReport) => {
-      if (dailyReport.id === element.id && element.present) {
+      if (
+        dailyReport.id === element.id &&
+        typeof element.present === 'boolean'
+      ) {
         return {
           ...dailyReport,
           present: reversePresent(element.present),
