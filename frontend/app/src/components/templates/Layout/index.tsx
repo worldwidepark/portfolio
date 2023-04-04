@@ -30,10 +30,10 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <>
-      <HeaderTag />
+      <Sidebar />
       <BodyStyle>
+        <HeaderTag />
         <Flex flexDirection="row">
-          <Sidebar />
           <MainStyle>
             <main>{children}</main>
           </MainStyle>

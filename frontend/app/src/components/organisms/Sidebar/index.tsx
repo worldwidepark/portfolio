@@ -29,6 +29,7 @@ export const Sidebar = () => {
 
   const SidebarBox = styled.div`
     position: fixed;
+    padding-top: 50px;
     width: 10%;
     height: 100vh;
     border-right: 1px solid rgb(230, 230, 230);
