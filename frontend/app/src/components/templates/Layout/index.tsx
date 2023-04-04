@@ -18,7 +18,6 @@ const Layout = ({ children }: LayoutProps) => {
   }
   const BodyStyle = styled.div`
     position: relative;
-    padding: 25px;
     color: rgb(15, 20, 25);
   `
   const MainStyle = styled.div`
@@ -30,8 +29,8 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <>
-      <Sidebar />
       <BodyStyle>
+        <Sidebar />
         <HeaderTag />
         <Flex flexDirection="row">
           <MainStyle>
