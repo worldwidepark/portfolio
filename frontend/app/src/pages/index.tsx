@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import Layout from '../components/templates/Layout'
-import { Sidebar } from '../components/organisms/Sidebar'
 import { Flex } from '../components/layout/Flex'
 import { getUserProfileListData } from '../services/userProfile/userProfile'
 import { UserProfileList } from '../components/organisms/UserProfile/profileList'
@@ -73,7 +72,6 @@ const index: NextPage = () => {
   return (
     <Layout>
       <Flex flexDirection="row">
-        <Sidebar />
         {loading ? (
           <h1>ロード中。。</h1>
         ) : (

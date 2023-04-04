@@ -9,11 +9,9 @@ import { AuthContext } from '../../contexts/AuthContext'
 import { getUserProfileData } from '../../services/userProfile/userProfile'
 import { Flex } from '../../components/layout/Flex'
 import { DailyReportsList } from '../../components/organisms/DailyReport'
-import { Sidebar } from '../../components/organisms/Sidebar'
 import Layout from '../../components/templates/Layout'
 import { NextPage } from 'next/types'
 import { DailyReportType } from '../../types/types'
-import { type } from 'os'
 
 const dailyReport: NextPage = () => {
   const Today: Date = new Date()
@@ -153,7 +151,6 @@ const dailyReport: NextPage = () => {
   return (
     <Layout>
       <Flex flexDirection="row">
-        <Sidebar />
         {loading ? (
           <h1>ロード中。。</h1>
         ) : (

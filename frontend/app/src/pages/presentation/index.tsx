@@ -5,7 +5,6 @@ import { PresentationsList } from '../../components/organisms/Presentation/prese
 import { MakePresentationsList } from '../../components/organisms/Presentation/makePresentationsList'
 import { MakePresentElements } from '../../components/organisms/Presentation/makePresentElements'
 import { PresentElements } from '../../components/organisms/Presentation/presentElements'
-import { Sidebar } from '../../components/organisms/Sidebar'
 import Layout from '../../components/templates/Layout'
 import { AuthContext } from '../../contexts/AuthContext'
 import {
@@ -114,7 +113,6 @@ const presentation: NextPage = () => {
   return (
     <Layout>
       <Flex flexDirection="row">
-        <Sidebar />
         {loading ? (
           <h1>ロード中。。</h1>
         ) : (
