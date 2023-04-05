@@ -4,22 +4,32 @@ export const Box = (props) => {
   const {
     width,
     height,
-    backgroundColor = 'wheat',
+    backgroundColor,
+    borderRadius,
+    color,
+    fontWeight,
+    fontSize,
+    padding,
     children,
     onClick,
     position,
+    textAlign,
+    textShadow,
   } = props
 
   const boxStyle = {
     width: width,
     height: height,
-    background: backgroundColor,
+    backgroundColor: backgroundColor,
     border: 'none',
-    borderRadius: '5px',
-    color: 'white',
-    fontSize: '16px',
-    padding: '5px',
+    borderRadius: borderRadius,
+    color: color,
+    fontWeight: fontWeight,
+    fontSize: fontSize,
+    padding: padding,
     position: position,
+    textAlign: textAlign,
+    textShadow: textShadow,
   }
 
   return (

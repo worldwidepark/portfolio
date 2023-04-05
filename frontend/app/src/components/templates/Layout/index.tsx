@@ -13,9 +13,10 @@ const BodyStyle = styled.div`
   color: rgb(15, 20, 25);
 `
 const MainStyle = styled.div`
-  position: relative;
+  position: absolute;
   left: 12%;
   height: 100vh;
+  width: 88%;
   color: rgb(15, 20, 25);
 `
 const Layout = ({ children }: LayoutProps) => {

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const HeaderStyle = styled.div`
   position: relative;
-  top: 20px;
+  top: -25px;
   padding: 25px;
   backgroud-color: rgb(15, 20, 25);
 `
