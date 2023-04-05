@@ -114,7 +114,7 @@ const dailyReport: NextPage = () => {
           setDailyReports(sortedByDate([...dailyReports, dailyReportData]))
         }
       )
-
+      setReportDateOn(Today)
       setInputData({
         text: '',
         time: '',
