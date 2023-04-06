@@ -6,6 +6,7 @@ export const Flex = (props) => {
     backgroundColor,
     children,
     width,
+    height,
     flexDirection,
     alignItems,
     alignContent,
@@ -21,12 +22,18 @@ export const Flex = (props) => {
     right,
     left,
     bottom,
+    color,
+    overflow,
+    overflowX,
+    overflowY,
+    fontSize,
   } = props
 
   const flexStyle = {
     borderRadius: borderRadius,
     backgroundColor: backgroundColor,
     width: width,
+    height: height,
     display: 'flex',
     flexDirection: flexDirection,
     alignItems: alignItems,
@@ -43,6 +50,11 @@ export const Flex = (props) => {
     right: right,
     left: left,
     bottom: bottom,
+    color,
+    overflow: overflow,
+    overflowX: overflowX,
+    overflowY: overflowY,
+    fontSize: fontSize,
   }
 
   return <div style={flexStyle}>{children}</div>

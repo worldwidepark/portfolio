@@ -35,7 +35,7 @@ const dailyReport: NextPage = () => {
   })
   const { currentUserId, combinedTime, setCombinedTime } =
     useContext(AuthContext)
-  const editInputRef = useRef<HTMLInputElement>(null)
+  const editInputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     if (typeof currentUserId === 'number') {
@@ -53,7 +53,9 @@ const dailyReport: NextPage = () => {
   }, [userId])
 
   useEffect(() => {
-    editInputRef.current?.focus()
+    const editInput = editInputRef.current
+    editInput?.focus()
+    editInput?.setSelectionRange(editInput.value.length, editInput.value.length)
   }, [editedDailyReport.id])
 
   useEffect(() => {

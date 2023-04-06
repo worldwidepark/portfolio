@@ -1,18 +1,24 @@
 import React, { forwardRef, useContext, useRef } from 'react'
-import { AuthContext } from '../../../contexts/AuthContext'
 import { Flex } from '../../layout/Flex'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { DailyReportType } from '../../../types/types'
 import styled from 'styled-components'
-import Input from '../../atoms/Input'
+import CalInput from '../../atoms/Input/calInput'
 import { Box } from '../../layout/Box'
-import { FaBookOpen, FaRegCalendarAlt, FaRegClock } from 'react-icons/fa'
+import {
+  FaBookOpen,
+  FaRegCalendarAlt,
+  FaRegClock,
+  FaTrashAlt,
+  FaRegEdit,
+} from 'react-icons/fa'
+import EditCalInput from '../../atoms/Input/editCalInput'
 
 interface DailyReportListType {
   combinedTime: number
   dailyReports: DailyReportType[]
-  editInputRef: React.RefObject<HTMLInputElement>
+  editInputRef: React.RefObject<HTMLTextAreaElement>
   editedDailyReport: DailyReportType
   editReportDateOn: Date
   handleSubmit: (e: any) => void
@@ -29,7 +35,7 @@ interface DailyReportListType {
 }
 const DailyreportTextarea = styled.textarea`
   padding: 15px;
-  height: 20vh;
+  height: 30vh;
   resize: none;
   width: 100%;
   border: 1px solid rgb(62, 244, 4);
@@ -54,6 +60,32 @@ const DailyreportInput = styled.input`
     outline: none;
   }
 `
+const DailyreportText = styled.div`
+  position: relative;
+  padding: 15px;
+  height: 30vh;
+  width: 100%;
+  border: 1px solid rgb(200, 200, 200);
+  font-size: 20px;
+  white-space: pre-line;
+`
+const DailyreportEditTextarea = styled.textarea`
+  position: relative;
+  padding: 15px;
+  height: 28vh;
+  width: 100%;
+  border: 1px solid rgb(246, 208, 66);
+  font-size: 20px;
+  resize: none;
+  background-color: rgb(250, 250, 250);
+  white-space: pre-line;
+`
+const DailyreportEditInput = styled.input`
+  font-size: 20px;
+  border: 1px solid rgb(246, 208, 66);
+  background-color: rgb(250, 250, 250);
+  padding: 0px 0px 0px 10px;
+`
 
 const LabelStyle = styled.div`
   padding: 5px;
@@ -68,6 +100,38 @@ const Title = styled.div`
   text-shadow: 0 0.03em 0.03em #ffab91, 0 0.03em 0.03em #000,
     0 0.03em 0.03em #fbe9e7;
 `
+const EditButton = styled.div`
+  cursor: pointer;
+  position: absolute;
+  left: 63%;
+  &:hover {
+    color: rgb(246, 208, 66);
+  }
+`
+const DeleteButton = styled.div`
+  cursor: pointer;
+  position: absolute;
+  left: 90%;
+  &:hover {
+    color: red;
+  }
+`
+const EditSubmitButton = styled.button`
+  font-size: 1rem;
+  font-weight: 600;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  border: 1px solid rgb();
+  &:hover {
+    background-color: rgb(246, 208, 66);
+  }
+`
+
 const Button = styled.button`
   font-size: 1.4rem;
   font-weight: 600;
@@ -86,8 +150,11 @@ const Button = styled.button`
   }
 `
 
-const CustomInput = forwardRef((props: any, ref) => {
-  return <Input {...props} ref={ref} />
+const CustomCalInput = forwardRef((props: any, ref) => {
+  return <CalInput {...props} ref={ref} />
+})
+const CustomEditCalInput = forwardRef((props: any, ref) => {
+  return <EditCalInput {...props} ref={ref} />
 })
 
 interface Props {
@@ -112,6 +179,7 @@ export const DailyReportsList = ({
   Today,
 }: DailyReportListType) => {
   const inputRef = useRef(null)
+  console.log(dailyReports)
   return (
     <>
       <Flex flexDirection="row" width="100%">
@@ -149,7 +217,7 @@ export const DailyReportsList = ({
                 type="number"
                 name="time"
                 step="0.1"
-                min="0"
+                min="0.1"
                 max="24"
                 value={inputData.time}
                 onChange={(e) => onChangeInputData('time', e.target.value)}
@@ -162,12 +230,13 @@ export const DailyReportsList = ({
                 <FaRegCalendarAlt />
               </LabelStyle>
               <DatePicker
-                dateFormat="yyyy/MM/dd"
+                dateFormat="yyyy-MM-dd"
                 maxDate={Today}
                 selected={reportDateOn}
                 required
-                customInput={<CustomInput inputRef={inputRef} />}
+                customInput={<CustomCalInput inputRef={inputRef} />}
                 onChange={(selectedDate) => onChangeReportDateOn(selectedDate)}
+                popperPlacement="top"
               />
             </Box>
             <Flex
@@ -180,61 +249,144 @@ export const DailyReportsList = ({
             </Flex>
           </form>
         </Flex>
-        <Flex flexDirection="column" position="absolute" left="40%" top="10px">
-          <>
-            <div>総学習時間:{combinedTime}</div>
-            {dailyReports.map((dailyReport) => (
-              <div key={dailyReport.id}>
-                {editedDailyReport.id === dailyReport.id ? (
-                  <form onSubmit={() => onEditReport(editedDailyReport)}>
-                    <input
-                      type="text"
-                      value={editedDailyReport.text}
-                      ref={editInputRef}
-                      onChange={(e) =>
-                        onChangeEditInput('text', e.target.value)
-                      }
-                    />
-                    <input
-                      type="number"
-                      name="time"
-                      step="0.1"
-                      min="0"
-                      max="24"
-                      onChange={(e) =>
-                        onChangeEditInput('time', e.target.value)
-                      }
-                      placeholder="時間を記入してください。"
-                      value={editedDailyReport.time}
-                      required
-                    />
-                    <DatePicker
-                      dateFormat="yyyy/MM/dd"
-                      maxDate={Today}
-                      selected={editReportDateOn}
-                      required
-                      onChange={(selectedDate) =>
-                        onChangeEditReportDateOn(selectedDate)
-                      }
-                    />
-                    <button type="submit">edit</button>
-                  </form>
-                ) : (
-                  <>
-                    <div>{dailyReport.text}</div>
-                    <div>{dailyReport.time}</div>
-                    <div>{dailyReport.reportDateOn}</div>
-                    <button onClick={() => onDeleteReport(dailyReport.id)}>
-                      x
-                    </button>
-                    <button onClick={() => onEditReportInput(dailyReport)}>
-                      edit
-                    </button>
-                  </>
-                )}
-              </div>
-            ))}
-          </>
+        <Flex
+          flexDirection="column"
+          position="absolute"
+          left="40%"
+          top="10px"
+          width="50%"
+        >
+          <Box padding="10px 0px" height="90vh">
+            {dailyReports.length === 0 ? (
+              <Flex
+                color="rgb(140, 140, 140)"
+                height="80%"
+                fontSize="30px"
+                justifyContent="center"
+                alignItems="center"
+              >
+                日報を作成してください。
+              </Flex>
+            ) : (
+              <>
+                <Title>
+                  総学習: {combinedTime} {combinedTime > 1 ? ' hrs' : '  hr'}
+                </Title>
+                {dailyReports.map((dailyReport) => (
+                  <div key={dailyReport.id}>
+                    {editedDailyReport.id === dailyReport.id ? (
+                      <form onSubmit={() => onEditReport(editedDailyReport)}>
+                        <DailyreportEditTextarea
+                          value={editedDailyReport.text}
+                          ref={editInputRef}
+                          onChange={(e) =>
+                            onChangeEditInput('text', e.target.value)
+                          }
+                        />
+                        <Flex
+                          justifyContent="space-between"
+                          width="70%"
+                          color="rgb(120, 120, 120)"
+                        >
+                          <Flex alignItems="center" fontSize="20px">
+                            <FaRegClock />
+                            <Box margin="0px 5px 0px 5px">
+                              <DailyreportEditInput
+                                type="number"
+                                name="time"
+                                step="0.1"
+                                min="0.1"
+                                max="24"
+                                onChange={(e) =>
+                                  onChangeEditInput('time', e.target.value)
+                                }
+                                placeholder="時間"
+                                value={editedDailyReport.time}
+                                required
+                              />
+                            </Box>
+                          </Flex>
+                          <Flex alignItems="center">
+                            <FaRegCalendarAlt />
+                            <Box margin="0px 5px 0px 5px">
+                              <DatePicker
+                                dateFormat="yyyy-MM-dd"
+                                maxDate={Today}
+                                selected={editReportDateOn}
+                                required
+                                customInput={
+                                  <CustomEditCalInput inputRef={inputRef} />
+                                }
+                                onChange={(selectedDate) =>
+                                  onChangeEditReportDateOn(selectedDate)
+                                }
+                              />
+                            </Box>
+                          </Flex>
+
+                          <EditSubmitButton type="submit">
+                            確 定
+                          </EditSubmitButton>
+                        </Flex>
+                      </form>
+                    ) : (
+                      <Flex padding="10px 0px">
+                        <DailyreportText>
+                          <Box
+                            height="85%"
+                            wordBreak="break-all"
+                            overflow="auto"
+                          >
+                            {dailyReport.text}
+                          </Box>
+                          <Flex
+                            position="absolute"
+                            top="85%"
+                            width="100%"
+                            justifyContent="space-between"
+                            color="rgb(120, 120, 120)"
+                          >
+                            <Flex
+                              position="absolute"
+                              alignItems="center"
+                              width="120px"
+                            >
+                              <FaRegClock />
+                              <Box margin="0px 5px 0px 5px">
+                                {dailyReport.time}
+                                {dailyReport.time > 1 ? ' hrs' : '  hr'}
+                              </Box>
+                            </Flex>
+                            <Flex
+                              position="absolute"
+                              left="25%"
+                              alignItems="center"
+                              justifyContent="space-between"
+                              color="rgb(120, 120, 120)"
+                              width="140px"
+                            >
+                              <FaRegCalendarAlt />
+                              {dailyReport.reportDateOn}
+                            </Flex>
+                            <DeleteButton
+                              onClick={() => onDeleteReport(dailyReport.id)}
+                            >
+                              <FaTrashAlt />
+                            </DeleteButton>
+                            <EditButton
+                              onClick={() => onEditReportInput(dailyReport)}
+                            >
+                              <FaRegEdit />
+                            </EditButton>
+                          </Flex>
+                        </DailyreportText>
+                      </Flex>
+                    )}
+                  </div>
+                ))}
+              </>
+            )}
+          </Box>
         </Flex>
       </Flex>
     </>
