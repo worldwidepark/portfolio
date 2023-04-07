@@ -14,6 +14,9 @@ import {
   FaRegEdit,
 } from 'react-icons/fa'
 import EditCalInput from '../../atoms/Input/editCalInput'
+import { Input } from '../../atoms/Input'
+import { Button } from '../../atoms/Button'
+import { Textarea } from '../../atoms/Textarea'
 
 interface DailyReportListType {
   combinedTime: number
@@ -30,68 +33,10 @@ interface DailyReportListType {
   onEditReportInput: (e: any) => void
   reportDateOn: Date
   onChangeEditReportDateOn: (selectedDate: Date | null) => void
-  onChangeReportDateOn: (selectedDate) => void
+  onChangeReportDateOn: (selectedDate: any) => void
   Today: Date
 }
-const DailyreportTextarea = styled.textarea`
-  padding: 15px;
-  height: 30vh;
-  resize: none;
-  width: 100%;
-  border: 1px solid rgb(62, 244, 4);
-  border-radius: 0.4em;
-  font-size: 20px;
-  background-color: rgb(250, 250, 250);
-  &:focus {
-    border-color: rgb(246, 208, 66);
-    outline: none;
-  }
-`
-const DailyreportInput = styled.input`
-  width: 100%;
-  height: 35px;
-  padding-left: 15px;
-  border: 1px solid rgb(62, 244, 4);
-  border-radius: 0.4em;
-  font-size: 20px;
-  background-color: rgb(250, 250, 250);
-  &:focus {
-    border-color: rgb(246, 208, 66);
-    outline: none;
-  }
-`
-const DailyreportText = styled.div`
-  position: relative;
-  padding: 15px;
-  height: 30vh;
-  width: 100%;
-  border: 1px solid rgb(200, 200, 200);
-  font-size: 20px;
-  white-space: pre-line;
-`
-const DailyreportEditTextarea = styled.textarea`
-  position: relative;
-  padding: 15px;
-  height: 28vh;
-  width: 100%;
-  border: 1px solid rgb(246, 208, 66);
-  font-size: 20px;
-  resize: none;
-  background-color: rgb(250, 250, 250);
-  white-space: pre-line;
-`
-const DailyreportEditInput = styled.input`
-  font-size: 20px;
-  border: 1px solid rgb(246, 208, 66);
-  background-color: rgb(250, 250, 250);
-  padding: 0px 0px 0px 10px;
-`
 
-const LabelStyle = styled.div`
-  padding: 5px;
-  font-size: 25px;
-  color: rgb(15, 0, 65);
-`
 const Title = styled.div`
   font-size: 1.8em;
   padding: 5px 0px
@@ -99,55 +44,6 @@ const Title = styled.div`
   font-weight: bold;
   text-shadow: 0 0.03em 0.03em #ffab91, 0 0.03em 0.03em #000,
     0 0.03em 0.03em #fbe9e7;
-`
-const EditButton = styled.div`
-  cursor: pointer;
-  position: absolute;
-  left: 63%;
-  &:hover {
-    color: rgb(246, 208, 66);
-  }
-`
-const DeleteButton = styled.div`
-  cursor: pointer;
-  position: absolute;
-  left: 90%;
-  &:hover {
-    color: red;
-  }
-`
-const EditSubmitButton = styled.button`
-  font-size: 1rem;
-  font-weight: 600;
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  text-align: center;
-  vertical-align: middle;
-  border-radius: 0.5rem;
-  background-color: #fff;
-  border: 1px solid rgb();
-  &:hover {
-    background-color: rgb(246, 208, 66);
-  }
-`
-
-const Button = styled.button`
-  font-size: 1.4rem;
-  font-weight: 600;
-  line-height: 1.5;
-  position: relative;
-  display: inline-block;
-  padding: 5px 40%;
-  cursor: pointer;
-  text-align: center;
-  vertical-align: middle;
-  border-radius: 0.5rem;
-  background-color: #fff;
-  border: 1px solid rgb(100, 100, 100);
-  &:hover {
-    background-color: rgb(246, 208, 66);
-  }
 `
 
 const CustomCalInput = forwardRef((props: any, ref) => {
@@ -190,7 +86,6 @@ export const DailyReportsList = ({
           top="80px"
           padding="25px 30px 100px 10px"
           borderRight="1px solid rgb(230, 230, 230)"
-          textShadow="0 0 0.2em rgba(255,255,255,1)"
         >
           <Title>
             <Box>今日のあなたの頑張りを</Box>
@@ -198,22 +93,40 @@ export const DailyReportsList = ({
           </Title>
           <form onSubmit={handleSubmit}>
             <Box padding="10px 20px 10px 20px">
-              <LabelStyle>
+              <Box padding="5px" fontSize="25px" color="rgb(15, 0, 65)">
                 <FaBookOpen />
-              </LabelStyle>
-              <DailyreportTextarea
+              </Box>
+              <Textarea
                 name="text"
                 value={inputData.text}
                 onChange={(e) => onChangeInputData('text', e.target.value)}
                 placeholder="日報を記入してください。"
                 required
-              ></DailyreportTextarea>
+                padding="15px"
+                height="30vh"
+                resize="none"
+                width="100%"
+                border="1px solid rgb(62, 244, 4)"
+                borderRadius="0.4em"
+                fontSize="20px"
+                backgroundColor="rgb(250, 250, 250)"
+                borderOnFocused="1px solid rgb(246, 208, 66)"
+                outline="none"
+              ></Textarea>
             </Box>
             <Box padding="10px 20px 10px 20px">
-              <LabelStyle>
+              <Box padding="5px" fontSize="25px" color="rgb(15, 0, 65)">
                 <FaRegClock />
-              </LabelStyle>
-              <DailyreportInput
+              </Box>
+              <Input
+                width="100%"
+                height="35px"
+                paddingLeft="15px"
+                border="1px solid rgb(62, 244, 4)"
+                borderRadius="0.4em"
+                borderOnFocused="1px solid rgb(246, 208, 66)"
+                fontSize="20px"
+                backgroundColor="rgb(250, 250, 250)"
                 type="number"
                 name="time"
                 step="0.1"
@@ -222,13 +135,14 @@ export const DailyReportsList = ({
                 value={inputData.time}
                 onChange={(e) => onChangeInputData('time', e.target.value)}
                 placeholder="時間を記入してください。"
+                outline="none"
                 required
               />
             </Box>
             <Box padding="10px 20px 10px 20px">
-              <LabelStyle>
+              <Box padding="5px" fontSize="25px" color="rgb(15, 0, 65)">
                 <FaRegCalendarAlt />
-              </LabelStyle>
+              </Box>
               <DatePicker
                 dateFormat="yyyy-MM-dd"
                 maxDate={Today}
@@ -245,7 +159,23 @@ export const DailyReportsList = ({
               position="relative"
               top="20px"
             >
-              <Button type="submit">登 録</Button>
+              <Button
+                type="submit"
+                fontSize="1.4rem"
+                fontWeight="600"
+                lineHeight="1.5"
+                position="relative"
+                display="inline-block"
+                padding="5px 40%"
+                cursor="pointer"
+                textAlign="center"
+                borderRadius="0.5rem"
+                backgroundColor="#fff"
+                border="1px solid rgb(100, 100, 100)"
+                backgroundColorOnhovered=" rgb(246, 208, 66)"
+              >
+                登 録
+              </Button>
             </Flex>
           </form>
         </Flex>
@@ -276,12 +206,23 @@ export const DailyReportsList = ({
                   <div key={dailyReport.id}>
                     {editedDailyReport.id === dailyReport.id ? (
                       <form onSubmit={() => onEditReport(editedDailyReport)}>
-                        <DailyreportEditTextarea
+                        <Textarea
                           value={editedDailyReport.text}
-                          ref={editInputRef}
+                          inputRef={editInputRef}
                           onChange={(e) =>
                             onChangeEditInput('text', e.target.value)
                           }
+                          position="relative"
+                          required
+                          padding="15px"
+                          height="28vh"
+                          resize="none"
+                          width="100%"
+                          border="1px solid rgb(246, 208, 66)"
+                          fontSize="20px"
+                          backgroundColor="rgb(250, 250, 250)"
+                          borderOnFocused="1px solid rgb(62, 244, 4)"
+                          outline="none"
                         />
                         <Flex
                           justifyContent="space-between"
@@ -291,7 +232,12 @@ export const DailyReportsList = ({
                           <Flex alignItems="center" fontSize="20px">
                             <FaRegClock />
                             <Box margin="0px 5px 0px 5px">
-                              <DailyreportEditInput
+                              <Input
+                                fontSize="20px"
+                                border="1px solid rgb(246, 208, 66)"
+                                borderOnFocused="1px solid rgb(62, 244, 4)"
+                                backgroundColor="rgb(250, 250, 250)"
+                                padding="0px 0px 0px 10px"
                                 type="number"
                                 name="time"
                                 step="0.1"
@@ -302,6 +248,7 @@ export const DailyReportsList = ({
                                 }
                                 placeholder="時間"
                                 value={editedDailyReport.time}
+                                outline="none"
                                 required
                               />
                             </Box>
@@ -324,14 +271,34 @@ export const DailyReportsList = ({
                             </Box>
                           </Flex>
 
-                          <EditSubmitButton type="submit">
+                          <Button
+                            type="submit"
+                            fontSize="1rem"
+                            fontWeight="600"
+                            position="relative"
+                            display="inline-block"
+                            cursor="pointer"
+                            textAlign="center"
+                            borderRadius="0.5rem"
+                            backgroundColor="#fff"
+                            border="1px solid rgb(100, 100, 100)"
+                            backgroundColorOnhovered=" rgb(246, 208, 66)"
+                          >
                             確 定
-                          </EditSubmitButton>
+                          </Button>
                         </Flex>
                       </form>
                     ) : (
                       <Flex padding="10px 0px">
-                        <DailyreportText>
+                        <Box
+                          position="relative"
+                          padding="15px"
+                          height="30vh"
+                          width="100%"
+                          border="1px solid rgb(200, 200, 200)"
+                          fontSize="20px"
+                          whiteSpace="pre-line"
+                        >
                           <Box
                             height="85%"
                             wordBreak="break-all"
@@ -352,7 +319,10 @@ export const DailyReportsList = ({
                               width="120px"
                             >
                               <FaRegClock />
-                              <Box margin="0px 5px 0px 5px">
+                              <Box
+                                margin="0px 5px 0px 5px"
+                                color="rgb(120, 120, 120)"
+                              >
                                 {dailyReport.time}
                                 {dailyReport.time > 1 ? ' hrs' : '  hr'}
                               </Box>
@@ -368,18 +338,28 @@ export const DailyReportsList = ({
                               <FaRegCalendarAlt />
                               {dailyReport.reportDateOn}
                             </Flex>
-                            <DeleteButton
+                            <Box
+                              cursor="pointer"
+                              position="absolute"
+                              left="90%"
+                              colorOnHovered="red"
+                              color="rgb(120, 120, 120)"
                               onClick={() => onDeleteReport(dailyReport.id)}
                             >
                               <FaTrashAlt />
-                            </DeleteButton>
-                            <EditButton
+                            </Box>
+                            <Box
+                              cursor="pointer"
+                              position="absolute"
+                              left="63%"
+                              color="rgb(120, 120, 120)"
+                              colorOnHovered="rgb(246, 208, 66)"
                               onClick={() => onEditReportInput(dailyReport)}
                             >
                               <FaRegEdit />
-                            </EditButton>
+                            </Box>
                           </Flex>
-                        </DailyreportText>
+                        </Box>
                       </Flex>
                     )}
                   </div>
