@@ -7,7 +7,6 @@ import {
 } from '../../services/achivement/achivement'
 import { Flex } from '../../components/layout/Flex'
 import { AchivementsList } from '../../components/organisms/Achivement'
-import { Sidebar } from '../../components/organisms/Sidebar'
 import Layout from '../../components/templates/Layout'
 import { AuthContext } from '../../contexts/AuthContext'
 import { AchivementType } from '../../types/types'
@@ -182,7 +181,6 @@ const achivement: NextPage = () => {
   return (
     <Layout>
       <Flex flexDirection="row">
-        <Sidebar />
         {loading ? (
           <h1>ロード中。。</h1>
         ) : (

@@ -5,7 +5,6 @@ import { PresentationsList } from '../../components/organisms/Presentation/prese
 import { MakePresentationsList } from '../../components/organisms/Presentation/makePresentationsList'
 import { MakePresentElements } from '../../components/organisms/Presentation/makePresentElements'
 import { PresentElements } from '../../components/organisms/Presentation/presentElements'
-import { Sidebar } from '../../components/organisms/Sidebar'
 import Layout from '../../components/templates/Layout'
 import { AuthContext } from '../../contexts/AuthContext'
 import {
@@ -88,7 +87,10 @@ const presentation: NextPage = () => {
 
   const chageDailyReportPresent = (element: DailyReportType) => {
     const updatedDailyReports = dailyReports.map((dailyReport) => {
-      if (dailyReport.id === element.id && element.present) {
+      if (
+        dailyReport.id === element.id &&
+        typeof element.present === 'boolean'
+      ) {
         return {
           ...dailyReport,
           present: reversePresent(element.present),
@@ -111,7 +113,6 @@ const presentation: NextPage = () => {
   return (
     <Layout>
       <Flex flexDirection="row">
-        <Sidebar />
         {loading ? (
           <h1>ロード中。。</h1>
         ) : (

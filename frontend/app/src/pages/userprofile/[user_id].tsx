@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { ReactNode, useContext, useEffect, useState } from 'react'
 import { Flex } from '../../components/layout/Flex'
-import { Sidebar } from '../../components/organisms/Sidebar'
 import { UserProfile } from '../../components/organisms/UserProfile'
 import Layout from '../../components/templates/Layout'
 import { AuthContext } from '../../contexts/AuthContext'
@@ -163,7 +162,6 @@ const userProfile: NextPage = () => {
   return (
     <Layout>
       <Flex flexDriection="row">
-        <Sidebar />
         {loading ? (
           <h1>ロード中。。</h1>
         ) : (

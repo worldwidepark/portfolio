@@ -6,6 +6,7 @@ import Router, { useRouter } from 'next/router'
 import Header from '../components/organisms/Header'
 import { AuthContext } from '../contexts/AuthContext'
 import { getUserProfileData } from '../services/userProfile/userProfile'
+import { Box } from '../components/layout/Box'
 
 export default function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState<boolean>(true)
@@ -45,7 +46,6 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     handleGetCurrentUser()
   }, [isSignedIn])
-
   return (
     <>
       <AuthContext.Provider
