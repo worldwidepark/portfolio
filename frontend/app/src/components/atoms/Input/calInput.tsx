@@ -8,7 +8,10 @@ interface InputProps {
 }
 
 // styled componentsだとDatePickerのカスタムinputが効かなかったので、別途作成
-const CalInput = ({ className, value, onClick, onChange }: InputProps, ref) => {
+const CalInput = (
+  { className, value, onClick, onChange }: InputProps,
+  ref: any
+) => {
   const [isFocused, setIsFocused] = useState(false)
 
   return (
