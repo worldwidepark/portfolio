@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { AchivementType } from '../../../types/types'
+import { Input } from '../../atoms/Input'
+import { Button } from '../../atoms/Button'
 interface UrlsInputFormsType {
   onChangeUrl: (
     name: string,
@@ -35,7 +37,7 @@ export const UrlsInputForms = ({
 
   return (
     <>
-      <input
+      <Input
         name="firstUrl"
         type="url"
         value={achivement.urls[0]}
@@ -49,11 +51,21 @@ export const UrlsInputForms = ({
           )
         }
         placeholder="URLを入力してください。"
+        width="88%"
+        height="25px"
+        margin="3px"
+        paddingLeft="15px"
+        border="1px solid rgb(62, 244, 4)"
+        borderRadius="0.4em"
+        borderOnFocused="1px solid rgb(246, 208, 66)"
+        fontSize="13px"
+        backgroundColor="rgb(250, 250, 250)"
+        outline="none"
       />
 
       {achivementLength === 2 ? (
         <>
-          <input
+          <Input
             name="secondUrl"
             type="url"
             value={achivement.urls[1]}
@@ -67,16 +79,58 @@ export const UrlsInputForms = ({
               )
             }
             placeholder="URLを入力してください。"
+            width="88%"
+            height="25px"
+            paddingLeft="15px"
+            margin="3px"
+            border="1px solid rgb(62, 244, 4)"
+            borderRadius="0.4em"
+            borderOnFocused="1px solid rgb(246, 208, 66)"
+            fontSize="13px"
+            backgroundColor="rgb(250, 250, 250)"
+            outline="none"
           />
-          <button type="button" onClick={onDeleteInput}>
+          <Button
+            type="button"
+            onClick={onDeleteInput}
+            fontSize="1rem"
+            fontWeight="600"
+            lineHeight="1.5"
+            position="relative"
+            left="10px"
+            display="inline-block"
+            cursor="pointer"
+            textAlign="center"
+            borderRadius="3rem"
+            backgroundColor="#fff"
+            border="1px solid rgb(100, 100, 100)"
+            backgroundColorOnhovered=" rgb(246, 208, 66)"
+            width="8%"
+          >
             -
-          </button>
+          </Button>
         </>
       ) : (
         <>
-          <button type="button" onClick={onAddUrlInput}>
+          <Button
+            type="button"
+            onClick={onAddUrlInput}
+            fontSize="1rem"
+            fontWeight="600"
+            lineHeight="1.5"
+            position="relative"
+            left="10px"
+            display="inline-block"
+            cursor="pointer"
+            textAlign="center"
+            borderRadius="3rem"
+            backgroundColor="#fff"
+            border="1px solid rgb(100, 100, 100)"
+            backgroundColorOnhovered=" rgb(246, 208, 66)"
+            width="8%"
+          >
             +
-          </button>
+          </Button>
         </>
       )}
     </>

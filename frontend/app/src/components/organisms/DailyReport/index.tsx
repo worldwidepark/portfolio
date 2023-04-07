@@ -53,9 +53,6 @@ const CustomEditCalInput = forwardRef((props: any, ref) => {
   return <EditCalInput {...props} ref={ref} />
 })
 
-interface Props {
-  inputRef: React.Ref<HTMLInputElement>
-}
 export const DailyReportsList = ({
   combinedTime,
   dailyReports,
