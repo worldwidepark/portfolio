@@ -22,7 +22,11 @@ export const UrlsInputForms = ({
   const [achivementLength, setAchivementLength] = useState(1)
 
   useEffect(() => {
-    setAchivementLength(achivement.urls.length)
+    if (achivement.urls.length === 0) {
+      setAchivementLength(1)
+    } else {
+      setAchivementLength(achivement.urls.length)
+    }
   }, [achivement])
 
   const onAddUrlInput = () => {

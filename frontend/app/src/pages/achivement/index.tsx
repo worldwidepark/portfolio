@@ -124,6 +124,7 @@ const achivement: NextPage = () => {
     setData: React.Dispatch<React.SetStateAction<AchivementType>>,
     achivementLength: number
   ) => {
+    console.log(data)
     if (name === 'firstUrl' && data.urls[1]) {
       setData({ ...data, urls: [value, data.urls[1]] })
     } else if (name == 'firstUrl' && achivementLength === 2) {

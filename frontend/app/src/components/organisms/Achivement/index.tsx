@@ -106,7 +106,9 @@ export const AchivementsList = ({
           borderRight="1px solid rgb(230, 230, 230)"
         >
           <Title>
-            <Box padding="0px 0px 0px 15px">あなたの成果を教えてください！</Box>
+            <Box padding="10px 0px 20px 10px">
+              あなたの成果を教えてください！
+            </Box>
           </Title>
           <form onSubmit={handleSubmit}>
             <div>
@@ -261,22 +263,71 @@ export const AchivementsList = ({
                         <Box padding="15px" fontSize="30px" textAlign="center">
                           {achivement.title}
                         </Box>
-                        <Box>{achivement.text}</Box>
-                        {achivement.urls.map((url) => (
-                          <div>{url}</div>
-                        ))}
-                        <div>{achivement.startDateOn}</div>
-                        <div>{achivement.endDateOn}</div>
-                        <button
-                          onClick={() => onDeleteAchivement(achivement.id)}
+                        <Box height="57%" wordBreak="break-all" overflow="auto">
+                          {achivement.text}
+                        </Box>
+                        <Flex
+                          position="absolute"
+                          alignItems="center"
+                          color="rgb(120, 120, 120)"
+                          width="100%"
+                          top="92%"
                         >
-                          x
-                        </button>
-                        <button
-                          onClick={() => onEditAchivementInput(achivement)}
-                        >
-                          edit
-                        </button>
+                          <Flex
+                            fontSize="clamp(0.6em, 1.0vw, 1.0em)"
+                            width="300px"
+                            position="absolute"
+                            flexDirection="row"
+                            alignItems="center"
+                            left="5%"
+                          >
+                            <FaRegCalendarAlt />
+                            <Box margin="0px 5px" color="rgb(120, 120, 120)">
+                              {achivement.startDateOn} 〜{' '}
+                            </Box>
+                            <div>{achivement.endDateOn}</div>
+                          </Flex>
+                          <Box
+                            cursor="pointer"
+                            position="absolute"
+                            left="90%"
+                            colorOnHovered="red"
+                            color="rgb(120, 120, 120)"
+                            onClick={() => onDeleteAchivement(achivement.id)}
+                          >
+                            <FaTrashAlt />
+                          </Box>
+                          <Box
+                            cursor="pointer"
+                            position="absolute"
+                            left="63%"
+                            color="rgb(120, 120, 120)"
+                            colorOnHovered="rgb(246, 208, 66)"
+                            onClick={() => onEditAchivementInput(achivement)}
+                          >
+                            <FaRegEdit />
+                          </Box>
+                        </Flex>
+                        <Box position="absolute" top="330px">
+                          <ul>
+                            {achivement.urls.map((url, index) => (
+                              <li>
+                                <Box
+                                  width="400px"
+                                  color="rgb(246, 208, 66)"
+                                  fontSize="17px"
+                                  textOverflow="ellipsis"
+                                  overflow="hidden"
+                                  whiteSpace="nowrap"
+                                >
+                                  <a href={url}>
+                                    参考URL{index + 1} : {url}
+                                  </a>
+                                </Box>
+                              </li>
+                            ))}
+                          </ul>
+                        </Box>
                       </Box>
                     </Flex>
                   )}
