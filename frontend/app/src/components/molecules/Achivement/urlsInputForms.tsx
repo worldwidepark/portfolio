@@ -12,14 +12,20 @@ interface UrlsInputFormsType {
   ) => void
   achivement: any
   setAchivement: React.Dispatch<React.SetStateAction<any>>
+  isEdited?: boolean
 }
 
 export const UrlsInputForms = ({
   onChangeUrl,
   achivement,
   setAchivement,
+  isEdited = false,
 }: UrlsInputFormsType) => {
   const [achivementLength, setAchivementLength] = useState(1)
+  const [border, setBorder] = useState('1px solid rgb(62, 244, 4)')
+  const [borderOnFocused, setBorderOnFocused] = useState(
+    '1px solid rgb(246, 208, 66)'
+  )
 
   useEffect(() => {
     if (achivement.urls.length === 0) {
@@ -28,6 +34,13 @@ export const UrlsInputForms = ({
       setAchivementLength(achivement.urls.length)
     }
   }, [achivement])
+
+  useEffect(() => {
+    if (isEdited) {
+      setBorder('1px solid rgb(246, 208, 66)')
+      setBorderOnFocused('1px solid rgb(62, 244, 4)')
+    }
+  })
 
   const onAddUrlInput = () => {
     setAchivementLength(2)
@@ -59,9 +72,9 @@ export const UrlsInputForms = ({
         height="25px"
         margin="3px"
         paddingLeft="15px"
-        border="1px solid rgb(62, 244, 4)"
+        border={border}
         borderRadius="0.4em"
-        borderOnFocused="1px solid rgb(246, 208, 66)"
+        borderOnFocused={borderOnFocused}
         fontSize="13px"
         backgroundColor="rgb(250, 250, 250)"
         outline="none"
@@ -87,9 +100,9 @@ export const UrlsInputForms = ({
             height="25px"
             paddingLeft="15px"
             margin="3px"
-            border="1px solid rgb(62, 244, 4)"
+            border={border}
             borderRadius="0.4em"
-            borderOnFocused="1px solid rgb(246, 208, 66)"
+            borderOnFocused={borderOnFocused}
             fontSize="13px"
             backgroundColor="rgb(250, 250, 250)"
             outline="none"

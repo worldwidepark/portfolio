@@ -18,11 +18,12 @@ import {
 } from 'react-icons/fa'
 import { Button } from '../../atoms/Button'
 import CalInput from '../../atoms/Input/calInput'
+import EditCalInput from '../../atoms/Input/editCalInput'
 
 interface AchivementsListType {
   achivements: AchivementType[]
   editEndDate: Date | null
-  editInputRef: React.RefObject<HTMLInputElement>
+  editInputRef: React.RefObject<HTMLTextAreaElement>
   editedAchivement: AchivementType
   editStartDate: Date | null
   endDate: Date | null
@@ -70,7 +71,9 @@ const Title = styled.div`
 const CustomCalInput = forwardRef((props: any, ref) => {
   return <CalInput {...props} ref={ref} />
 })
-
+const CustomEditCalInput = forwardRef((props: any, ref) => {
+  return <EditCalInput {...props} ref={ref} />
+})
 export const AchivementsList = ({
   achivements,
   editEndDate,
@@ -215,40 +218,94 @@ export const AchivementsList = ({
               {achivements.map((achivement) => (
                 <div key={achivement.id}>
                   {editedAchivement.id === achivement.id ? (
-                    <form onSubmit={() => onEditAchivement(editedAchivement)}>
-                      <input
-                        type="text"
-                        value={editedAchivement.title}
-                        ref={editInputRef}
-                        onChange={(e) =>
-                          onChangeEditInput('title', e.target.value)
-                        }
-                      />
-                      <input
-                        type="text"
-                        value={editedAchivement.text}
-                        onChange={(e) =>
-                          onChangeEditInput('text', e.target.value)
-                        }
-                      />
-                      <UrlsInputForms
-                        onChangeUrl={onChangeUrl}
-                        achivement={editedAchivement}
-                        setAchivement={setEditedAchivement}
-                      />
-                      <DatePicker
-                        dateFormat="yyyy/MM/dd"
-                        maxDate={Today}
-                        selected={editStartDate}
-                        onChange={onEditChangeDate}
-                        startDate={editStartDate}
-                        endDate={editEndDate}
-                        selectsRange
-                        inline
-                        required
-                      />
-                      <button type="submit">edit</button>
-                    </form>
+                    <Box border="1px solid rgb(200, 200, 200)">
+                      <form onSubmit={() => onEditAchivement(editedAchivement)}>
+                        <Box padding="25px 20px 0px 20px">
+                          <Input
+                            type="text"
+                            value={editedAchivement.title}
+                            onChange={(e) =>
+                              onChangeEditInput('title', e.target.value)
+                            }
+                            width="100%"
+                            height="35px"
+                            paddingLeft="15px"
+                            border="1px solid rgb(246, 208, 66)"
+                            borderRadius="0.4em"
+                            borderOnFocused="1px solid rgb(62, 244, 4)"
+                            fontSize="20px"
+                            backgroundColor="rgb(250, 250, 250)"
+                            outline="none"
+                            required
+                          />
+                        </Box>
+                        <Box padding="10px 20px 0px 20px">
+                          <Textarea
+                            inputRef={editInputRef}
+                            name="text"
+                            value={editedAchivement.text}
+                            onChange={(e) =>
+                              onChangeEditInput('text', e.target.value)
+                            }
+                            required
+                            padding="15px"
+                            height="30vh"
+                            resize="none"
+                            width="100%"
+                            border="1px solid rgb(246, 208, 66)"
+                            borderRadius="0.4em"
+                            fontSize="20px"
+                            backgroundColor="rgb(250, 250, 250)"
+                            borderOnFocused="1px solid rgb(62, 244, 4)"
+                            outline="none"
+                          />
+                        </Box>
+                        <Box padding="2px 20px 5px 20px" height="70px">
+                          <UrlsInputForms
+                            onChangeUrl={onChangeUrl}
+                            achivement={editedAchivement}
+                            setAchivement={setEditedAchivement}
+                            isEdited={true}
+                          />
+                        </Box>
+                        <Box padding="0px 20px 10px 20px">
+                          <DatePicker
+                            dateFormat="yyyy/MM/dd"
+                            maxDate={Today}
+                            selected={editStartDate}
+                            onChange={onEditChangeDate}
+                            startDate={editStartDate}
+                            endDate={editEndDate}
+                            selectsRange={true}
+                            customInput={
+                              <CustomEditCalInput
+                                inputRef={inputRef}
+                                isBorderRadius={true}
+                              />
+                            }
+                            popperPlacement="top"
+                          />
+                        </Box>
+                        <Button
+                          type="submit"
+                          fontSize="1.4rem"
+                          fontWeight="600"
+                          lineHeight="1.5"
+                          position="relative"
+                          display="inline-block"
+                          margin="10px 5% 30px 5%"
+                          width="90%"
+                          cursor="pointer"
+                          textAlign="center"
+                          borderRadius="0.5rem"
+                          backgroundColor="#fff"
+                          border="1px solid rgb(100, 100, 100)"
+                          backgroundColorOnhovered=" rgb(246, 208, 66)"
+                        >
+                          確 定
+                        </Button>
+                      </form>
+                    </Box>
                   ) : (
                     <Flex padding="10px 0px">
                       <Box

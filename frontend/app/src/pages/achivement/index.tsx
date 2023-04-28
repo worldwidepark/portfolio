@@ -37,7 +37,7 @@ const achivement: NextPage = () => {
     text: '',
     urls: [''],
   })
-  const editInputRef = useRef<HTMLInputElement>(null)
+  const editInputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     if (typeof currentUserId === 'number') {
@@ -55,7 +55,9 @@ const achivement: NextPage = () => {
   }, [userId])
 
   useEffect(() => {
-    editInputRef.current?.focus()
+    const editInput = editInputRef.current
+    editInput?.focus()
+    editInput?.setSelectionRange(editInput.value.length, editInput.value.length)
   }, [editedAchivement.id])
 
   const onChangeEditInput = (key: string, value: any) => {

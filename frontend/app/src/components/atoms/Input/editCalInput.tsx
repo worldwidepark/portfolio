@@ -1,18 +1,26 @@
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 
 interface InputProps {
   className: string
   value: string
   onChange: (value: string) => void
   onClick: () => void
+  isBorderRadius?: boolean
 }
 
 // styled componentsだとDatePickerのカスタムinputが効かなかったので、別途作成
 const EditCalInput = (
-  { className, value, onClick, onChange }: InputProps,
+  { className, value, onClick, onChange, isBorderRadius = false }: InputProps,
   ref: any
 ) => {
   const [isFocused, setIsFocused] = useState(false)
+  const [borderRadius, setBorderRadius] = useState<string>('0')
+
+  useEffect(() => {
+    if (isBorderRadius) {
+      setBorderRadius('0.4em')
+    }
+  })
   return (
     <input
       className={className}
@@ -23,6 +31,7 @@ const EditCalInput = (
           ? '1px solid rgb(62, 244, 4)'
           : '1px solid rgb(246, 208, 66)',
         fontSize: '20px',
+        borderRadius: borderRadius,
         backgroundColor: 'rgb(250,250,250)',
         outline: 'none',
       }}
