@@ -215,181 +215,212 @@ export const AchivementsList = ({
         >
           <>
             <Box padding="10px 0px" height="90vh">
-              {achivements.map((achivement) => (
-                <div key={achivement.id}>
-                  {editedAchivement.id === achivement.id ? (
-                    <Box border="1px solid rgb(200, 200, 200)">
-                      <form onSubmit={() => onEditAchivement(editedAchivement)}>
-                        <Box padding="25px 20px 0px 20px">
-                          <Input
-                            type="text"
-                            value={editedAchivement.title}
-                            onChange={(e) =>
-                              onChangeEditInput('title', e.target.value)
-                            }
-                            width="100%"
-                            height="35px"
-                            paddingLeft="15px"
-                            border="1px solid rgb(246, 208, 66)"
-                            borderRadius="0.4em"
-                            borderOnFocused="1px solid rgb(62, 244, 4)"
-                            fontSize="20px"
-                            backgroundColor="rgb(250, 250, 250)"
-                            outline="none"
-                            required
-                          />
-                        </Box>
-                        <Box padding="10px 20px 0px 20px">
-                          <Textarea
-                            inputRef={editInputRef}
-                            name="text"
-                            value={editedAchivement.text}
-                            onChange={(e) =>
-                              onChangeEditInput('text', e.target.value)
-                            }
-                            required
-                            padding="15px"
-                            height="30vh"
-                            resize="none"
-                            width="100%"
-                            border="1px solid rgb(246, 208, 66)"
-                            borderRadius="0.4em"
-                            fontSize="20px"
-                            backgroundColor="rgb(250, 250, 250)"
-                            borderOnFocused="1px solid rgb(62, 244, 4)"
-                            outline="none"
-                          />
-                        </Box>
-                        <Box padding="2px 20px 5px 20px" height="70px">
-                          <UrlsInputForms
-                            onChangeUrl={onChangeUrl}
-                            achivement={editedAchivement}
-                            setAchivement={setEditedAchivement}
-                            isEdited={true}
-                          />
-                        </Box>
-                        <Box padding="0px 20px 10px 20px">
-                          <DatePicker
-                            dateFormat="yyyy/MM/dd"
-                            maxDate={Today}
-                            selected={editStartDate}
-                            onChange={onEditChangeDate}
-                            startDate={editStartDate}
-                            endDate={editEndDate}
-                            selectsRange={true}
-                            customInput={
-                              <CustomEditCalInput
-                                inputRef={inputRef}
-                                isBorderRadius={true}
+              {achivements.length === 0 ? (
+                <Flex
+                  color="rgb(140, 140, 140)"
+                  height="80%"
+                  fontSize="30px"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  成果を作成してください。
+                </Flex>
+              ) : (
+                <>
+                  {achivements.map((achivement) => (
+                    <div key={achivement.id}>
+                      {editedAchivement.id === achivement.id ? (
+                        <Box border="1px solid rgb(200, 200, 200)">
+                          <form
+                            onSubmit={() => onEditAchivement(editedAchivement)}
+                          >
+                            <Box padding="25px 20px 0px 20px">
+                              <Input
+                                type="text"
+                                value={editedAchivement.title}
+                                onChange={(e) =>
+                                  onChangeEditInput('title', e.target.value)
+                                }
+                                width="100%"
+                                height="35px"
+                                paddingLeft="15px"
+                                border="1px solid rgb(246, 208, 66)"
+                                borderRadius="0.4em"
+                                borderOnFocused="1px solid rgb(62, 244, 4)"
+                                fontSize="20px"
+                                backgroundColor="rgb(250, 250, 250)"
+                                outline="none"
+                                required
                               />
-                            }
-                            popperPlacement="top"
-                          />
-                        </Box>
-                        <Button
-                          type="submit"
-                          fontSize="1.4rem"
-                          fontWeight="600"
-                          lineHeight="1.5"
-                          position="relative"
-                          display="inline-block"
-                          margin="10px 5% 30px 5%"
-                          width="90%"
-                          cursor="pointer"
-                          textAlign="center"
-                          borderRadius="0.5rem"
-                          backgroundColor="#fff"
-                          border="1px solid rgb(100, 100, 100)"
-                          backgroundColorOnhovered=" rgb(246, 208, 66)"
-                        >
-                          確 定
-                        </Button>
-                      </form>
-                    </Box>
-                  ) : (
-                    <Flex padding="10px 0px">
-                      <Box
-                        position="relative"
-                        padding="15px"
-                        height="50vh"
-                        width="100%"
-                        border="1px solid rgb(200, 200, 200)"
-                        fontSize="20px"
-                        whiteSpace="pre-line"
-                      >
-                        <Box padding="15px" fontSize="30px" textAlign="center">
-                          {achivement.title}
-                        </Box>
-                        <Box height="57%" wordBreak="break-all" overflow="auto">
-                          {achivement.text}
-                        </Box>
-                        <Flex
-                          position="absolute"
-                          alignItems="center"
-                          color="rgb(120, 120, 120)"
-                          width="100%"
-                          top="92%"
-                        >
-                          <Flex
-                            fontSize="clamp(0.6em, 1.0vw, 1.0em)"
-                            width="300px"
-                            position="absolute"
-                            flexDirection="row"
-                            alignItems="center"
-                            left="5%"
-                          >
-                            <FaRegCalendarAlt />
-                            <Box margin="0px 5px" color="rgb(120, 120, 120)">
-                              {achivement.startDateOn} 〜{' '}
                             </Box>
-                            <div>{achivement.endDateOn}</div>
-                          </Flex>
+                            <Box padding="10px 20px 0px 20px">
+                              <Textarea
+                                inputRef={editInputRef}
+                                name="text"
+                                value={editedAchivement.text}
+                                onChange={(e) =>
+                                  onChangeEditInput('text', e.target.value)
+                                }
+                                required
+                                padding="15px"
+                                height="30vh"
+                                resize="none"
+                                width="100%"
+                                border="1px solid rgb(246, 208, 66)"
+                                borderRadius="0.4em"
+                                fontSize="20px"
+                                backgroundColor="rgb(250, 250, 250)"
+                                borderOnFocused="1px solid rgb(62, 244, 4)"
+                                outline="none"
+                              />
+                            </Box>
+                            <Box padding="2px 20px 5px 20px" height="70px">
+                              <UrlsInputForms
+                                onChangeUrl={onChangeUrl}
+                                achivement={editedAchivement}
+                                setAchivement={setEditedAchivement}
+                                isEdited={true}
+                              />
+                            </Box>
+                            <Box padding="0px 20px 10px 20px">
+                              <DatePicker
+                                dateFormat="yyyy/MM/dd"
+                                maxDate={Today}
+                                selected={editStartDate}
+                                onChange={onEditChangeDate}
+                                startDate={editStartDate}
+                                endDate={editEndDate}
+                                selectsRange={true}
+                                customInput={
+                                  <CustomEditCalInput
+                                    inputRef={inputRef}
+                                    isBorderRadius={true}
+                                  />
+                                }
+                                popperPlacement="top"
+                              />
+                            </Box>
+                            <Button
+                              type="submit"
+                              fontSize="1.4rem"
+                              fontWeight="600"
+                              lineHeight="1.5"
+                              position="relative"
+                              display="inline-block"
+                              margin="10px 5% 30px 5%"
+                              width="90%"
+                              cursor="pointer"
+                              textAlign="center"
+                              borderRadius="0.5rem"
+                              backgroundColor="#fff"
+                              border="1px solid rgb(100, 100, 100)"
+                              backgroundColorOnhovered=" rgb(246, 208, 66)"
+                            >
+                              確 定
+                            </Button>
+                          </form>
+                        </Box>
+                      ) : (
+                        <Flex padding="10px 0px">
                           <Box
-                            cursor="pointer"
-                            position="absolute"
-                            left="90%"
-                            colorOnHovered="red"
-                            color="rgb(120, 120, 120)"
-                            onClick={() => onDeleteAchivement(achivement.id)}
+                            position="relative"
+                            padding="15px"
+                            height="50vh"
+                            width="100%"
+                            border="1px solid rgb(200, 200, 200)"
+                            fontSize="20px"
+                            whiteSpace="pre-line"
                           >
-                            <FaTrashAlt />
-                          </Box>
-                          <Box
-                            cursor="pointer"
-                            position="absolute"
-                            left="63%"
-                            color="rgb(120, 120, 120)"
-                            colorOnHovered="rgb(246, 208, 66)"
-                            onClick={() => onEditAchivementInput(achivement)}
-                          >
-                            <FaRegEdit />
+                            <Box
+                              padding="15px"
+                              fontSize="30px"
+                              textAlign="center"
+                            >
+                              {achivement.title}
+                            </Box>
+                            <Box
+                              height="57%"
+                              wordBreak="break-all"
+                              overflow="auto"
+                            >
+                              {achivement.text}
+                            </Box>
+                            <Flex
+                              position="absolute"
+                              alignItems="center"
+                              color="rgb(120, 120, 120)"
+                              width="100%"
+                              top="92%"
+                            >
+                              <Flex
+                                fontSize="clamp(0.6em, 1.0vw, 1.0em)"
+                                width="300px"
+                                position="absolute"
+                                flexDirection="row"
+                                alignItems="center"
+                                left="5%"
+                              >
+                                <FaRegCalendarAlt />
+                                <Box
+                                  margin="0px 5px"
+                                  color="rgb(120, 120, 120)"
+                                >
+                                  {achivement.startDateOn} 〜{' '}
+                                </Box>
+                                <div>{achivement.endDateOn}</div>
+                              </Flex>
+                              <Box
+                                cursor="pointer"
+                                position="absolute"
+                                left="90%"
+                                colorOnHovered="red"
+                                color="rgb(120, 120, 120)"
+                                onClick={() =>
+                                  onDeleteAchivement(achivement.id)
+                                }
+                              >
+                                <FaTrashAlt />
+                              </Box>
+                              <Box
+                                cursor="pointer"
+                                position="absolute"
+                                left="63%"
+                                color="rgb(120, 120, 120)"
+                                colorOnHovered="rgb(246, 208, 66)"
+                                onClick={() =>
+                                  onEditAchivementInput(achivement)
+                                }
+                              >
+                                <FaRegEdit />
+                              </Box>
+                            </Flex>
+                            <Box position="absolute" top="330px">
+                              <ul>
+                                {achivement.urls.map((url, index) => (
+                                  <li>
+                                    <Box
+                                      width="400px"
+                                      color="rgb(246, 208, 66)"
+                                      fontSize="17px"
+                                      textOverflow="ellipsis"
+                                      overflow="hidden"
+                                      whiteSpace="nowrap"
+                                    >
+                                      <a href={url}>
+                                        参考URL{index + 1} : {url}
+                                      </a>
+                                    </Box>
+                                  </li>
+                                ))}
+                              </ul>
+                            </Box>
                           </Box>
                         </Flex>
-                        <Box position="absolute" top="330px">
-                          <ul>
-                            {achivement.urls.map((url, index) => (
-                              <li>
-                                <Box
-                                  width="400px"
-                                  color="rgb(246, 208, 66)"
-                                  fontSize="17px"
-                                  textOverflow="ellipsis"
-                                  overflow="hidden"
-                                  whiteSpace="nowrap"
-                                >
-                                  <a href={url}>
-                                    参考URL{index + 1} : {url}
-                                  </a>
-                                </Box>
-                              </li>
-                            ))}
-                          </ul>
-                        </Box>
-                      </Box>
-                    </Flex>
-                  )}
-                </div>
-              ))}
+                      )}
+                    </div>
+                  ))}
+                </>
+              )}
             </Box>
           </>
         </Flex>
