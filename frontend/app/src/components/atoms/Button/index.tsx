@@ -19,11 +19,19 @@ interface ButtonProps {
   backgroundColorOnhovered?: string
   margin?: string
   onClick?: React.MouseEventHandler<HTMLButtonElement>
+  top?: string | number
+  right?: string | number
+  left?: string | number
+  bottom?: string | number
+  width?: string | number
+  height?: string | number
   type?: 'button' | 'submit' | 'reset'
 }
 
 const StyledButton = styled.button<ButtonProps>`
   background-color: ${(props) => props.backgroundColor};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
   border: ${(props) => props.border};
   color: ${(props) => props.color};
   font-size: ${(props) => props.fontSize};
@@ -37,6 +45,10 @@ const StyledButton = styled.button<ButtonProps>`
   vertical-align: ${(props) => props.verticalAlign};
   border-radius: ${(props) => props.borderRadius};
   margin: ${(props) => props.margin};
+  top: ${(props) => props.top};
+  right: ${(props) => props.right};
+  left: ${(props) => props.left};
+  bottom: ${(props) => props.bottom};
   &:hover {
     background-color: ${(props) => props.backgroundColorOnhovered};
   }
@@ -61,10 +73,18 @@ export const Button = ({
   margin,
   onClick,
   type,
+  top,
+  right,
+  left,
+  bottom,
+  width,
+  height,
 }: ButtonProps) => {
   return (
     <StyledButton
       backgroundColor={backgroundColor}
+      width={width}
+      height={height}
       border={border}
       color={color}
       fontSize={fontSize}
@@ -81,6 +101,10 @@ export const Button = ({
       margin={margin}
       onClick={onClick}
       type={type}
+      top={top}
+      right={right}
+      left={left}
+      bottom={bottom}
     >
       {children}
     </StyledButton>

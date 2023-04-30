@@ -27,6 +27,7 @@ type BoxProps = {
   wordBreak?: string
   margin?: number | string
   whiteSpace?: string
+  textOverflow?: string
 }
 
 const BoxContainer = styled.div<BoxProps>`
@@ -51,7 +52,8 @@ const BoxContainer = styled.div<BoxProps>`
   margin: ${(props) => props.margin};
   white-space: ${(props) => props.whiteSpace};
   cursor: ${(props) => props.cursor};
-
+  text-overflow: ${(props) => props.textOverflow};
+  cursor: ${(props) => props.cursor};
   &:hover {
     background-color: ${(props) => props.backgroundColorOnHovered};
     color: ${(props) => props.colorOnHovered};
@@ -84,6 +86,7 @@ export const Box = ({
   wordBreak,
   margin,
   whiteSpace,
+  textOverflow,
 }: BoxProps) => {
   return (
     <BoxContainer
@@ -111,6 +114,7 @@ export const Box = ({
       margin={margin}
       whiteSpace={whiteSpace}
       onClick={onClick}
+      textOverflow={textOverflow}
     >
       {children}
     </BoxContainer>

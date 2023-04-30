@@ -26,6 +26,7 @@ interface InputProps {
   required?: boolean
   paddingLeft?: string
   outline?: string
+  autoComplete?: string
 }
 
 const InputStyled = styled.input<InputProps>`
@@ -42,6 +43,7 @@ const InputStyled = styled.input<InputProps>`
   position: ${(props) => props.position};
   margin: ${(props) => props.margin};
   outline: ${(props) => props.outline};
+  autoComplete: ${(props) => props.autoComplete};
   &:focus {
     border: ${(props) => props.borderOnFocused};
       }
@@ -72,6 +74,7 @@ export const Input = ({
   required,
   paddingLeft,
   outline,
+  autoComplete = 'off',
 }: InputProps) => {
   return (
     <InputStyled
@@ -98,6 +101,7 @@ export const Input = ({
       required={required}
       paddingLeft={paddingLeft}
       outline={outline}
+      autoComplete={autoComplete}
     />
   )
 }

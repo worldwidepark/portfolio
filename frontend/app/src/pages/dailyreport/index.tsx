@@ -44,7 +44,7 @@ const dailyReport: NextPage = () => {
   }, [currentUserId])
 
   useEffect(() => {
-    if (typeof userId == 'number') {
+    if (typeof userId === 'number') {
       getDailyReportsList(userId).then((dailyReportsData) => {
         setDailyReports(dailyReportsData)
       })
