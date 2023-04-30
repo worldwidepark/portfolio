@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 type BoxProps = {
+  display?: number | string
   top?: number | string
   bottom?: number | string
   left?: number | string
@@ -31,6 +32,7 @@ type BoxProps = {
 }
 
 const BoxContainer = styled.div<BoxProps>`
+  position: ${(props) => props.display};
   position: ${(props) => props.position};
   top: ${(props) => props.top};
   bottom: ${(props) => props.bottom};
@@ -61,6 +63,7 @@ const BoxContainer = styled.div<BoxProps>`
 `
 
 export const Box = ({
+  display,
   top,
   bottom,
   left,

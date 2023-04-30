@@ -123,6 +123,8 @@ const presentation: NextPage = () => {
               userInfo={userInfo}
               MakePresentElements={MakePresentElements}
               onChangePresentState={onChangePresentState}
+              urlItem={urlItem}
+              programmingLanguageTags={programmingLanguageTags}
             />
             <PresentationsList
               dailyReports={dailyReports}
