@@ -29,6 +29,7 @@ type BoxProps = {
   margin?: number | string
   whiteSpace?: string
   textOverflow?: string
+  boxShadow?: string
 }
 
 const BoxContainer = styled.div<BoxProps>`
@@ -60,6 +61,7 @@ const BoxContainer = styled.div<BoxProps>`
     background-color: ${(props) => props.backgroundColorOnHovered};
     color: ${(props) => props.colorOnHovered};
   }
+  box-shadow: ${(props) => props.boxShadow};
 `
 
 export const Box = ({
@@ -70,7 +72,7 @@ export const Box = ({
   right,
   width,
   height,
-  backgroundColor = 'white',
+  backgroundColor,
   backgroundColorOnHovered = backgroundColor,
   border = 'none',
   borderRadius,
@@ -90,6 +92,7 @@ export const Box = ({
   margin,
   whiteSpace,
   textOverflow,
+  boxShadow,
 }: BoxProps) => {
   return (
     <BoxContainer
@@ -118,6 +121,7 @@ export const Box = ({
       whiteSpace={whiteSpace}
       onClick={onClick}
       textOverflow={textOverflow}
+      boxShadow={boxShadow}
     >
       {children}
     </BoxContainer>
