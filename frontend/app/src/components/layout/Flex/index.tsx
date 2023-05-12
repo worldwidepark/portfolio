@@ -27,6 +27,7 @@ type FlexProps = {
   overflowY?: string
   fontSize?: string | number
   children?: any
+  flexWrap?: string
 }
 
 const FlexContainer = styled.div<FlexProps>`
@@ -55,6 +56,7 @@ const FlexContainer = styled.div<FlexProps>`
   overflow-x: ${(props) => props.overflowX};
   overflow-y: ${(props) => props.overflowY};
   font-size: ${(props) => props.fontSize};
+  flex-wrap: ${(props) => props.flexWrap};
 `
 
 export const Flex = ({
@@ -83,6 +85,7 @@ export const Flex = ({
   overflowX,
   overflowY,
   fontSize,
+  flexWrap,
 }: FlexProps) => {
   return (
     <FlexContainer
@@ -110,6 +113,7 @@ export const Flex = ({
       overflowX={overflowX}
       overflowY={overflowY}
       fontSize={fontSize}
+      flexWrap={flexWrap}
     >
       {children}
     </FlexContainer>

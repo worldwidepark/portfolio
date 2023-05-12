@@ -33,7 +33,7 @@ type BoxProps = {
 }
 
 const BoxContainer = styled.div<BoxProps>`
-  position: ${(props) => props.display};
+  display: ${(props) => props.display};
   position: ${(props) => props.position};
   top: ${(props) => props.top};
   bottom: ${(props) => props.bottom};
@@ -122,6 +122,7 @@ export const Box = ({
       onClick={onClick}
       textOverflow={textOverflow}
       boxShadow={boxShadow}
+      display={display}
     >
       {children}
     </BoxContainer>

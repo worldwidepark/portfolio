@@ -1,13 +1,7 @@
 import React from 'react'
 import { Box } from '../../layout/Box'
 import { Flex } from '../../layout/Flex'
-import {
-  FaFistRaised,
-  FaBookOpen,
-  FaRegCalendarAlt,
-  FaProjectDiagram,
-  FaRegClock,
-} from 'react-icons/fa'
+import { FaRegCalendarAlt, FaRegClock } from 'react-icons/fa'
 import { Button } from '../../atoms/Button'
 interface MakePresentElementsType {
   element: any
@@ -122,7 +116,7 @@ export const MakePresentElements = ({
             <Box position="absolute" top="330px" left="25px" width="80%">
               {element.urls.map((url, index) => (
                 <Box
-                  color="rgb(246, 208, 66)"
+                  color="rgb(200,200,200)"
                   textOverflow="ellipsis"
                   overflow="hidden"
                   whiteSpace="nowrap"

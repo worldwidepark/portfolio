@@ -50,7 +50,7 @@ export const MakePresentationsList = ({
         padding="20px"
         borderRadius="10px"
         width="90%"
-        margin="auto"
+        margin="0px auto"
       >
         <Box>
           <Img src={userInfo.image} />
@@ -68,12 +68,23 @@ export const MakePresentationsList = ({
           {urlItem}
         </Box>
 
-        <div>
+        <Flex width="300px" flexWrap="wrap">
           {programmingLanguageTags.map((tag) => (
-            <Box key={tag.id}>{tag.name}</Box>
+            <Box
+              margin="5px 0px 0px 10px"
+              padding="5px"
+              fontSize="18px"
+              backgroundColor="rgb(200,255,47)"
+              borderRadius="100px"
+              color="grey"
+              key={tag.id}
+              border="none"
+            >
+              {tag.name}
+            </Box>
           ))}
-        </div>
-        <Box margin="20px 0px 0px 0px" fontSize="14px" fontWeight="bold">
+        </Flex>
+        <Box margin="20px 0px 0px 0px" fontSize="24px" fontWeight="bold">
           総学習時間: {userInfo.combinedTime}h
         </Box>
       </Flex>
@@ -89,6 +100,9 @@ export const MakePresentationsList = ({
         ))}
       </Box>
       <Box width="100%">
+        <Box fontSize="25px" padding="10px" margin="10px 20px">
+          日報
+        </Box>
         {dailyReports.map((element) => (
           <div key={element.id}>
             <MakePresentElements
