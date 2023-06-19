@@ -32,7 +32,7 @@ const userProfile: NextPage = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [editedUserProfileData, setEditedUserProfileData] =
     useState<UserProfileType>({ id: NaN, name: '' })
-  const [preview, setPreview] = useState<string | boolean>('')
+  const [preview, setPreview] = useState<string | boolean>(false)
   const [onEditUserProfile, setOnEditUserProfile] = useState<boolean>(false)
   const { currentUserId } = useContext(AuthContext)
   const [urlItem, setUrlItem] = useState<ReactNode>(<></>)
@@ -161,7 +161,18 @@ const userProfile: NextPage = () => {
 
   return (
     <Layout>
-      <Flex flexDriection="row">
+      <Flex
+        border="1px solid #ccc"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        textAlign="center"
+        padding="20px"
+        borderRadius="10px"
+        width="80%"
+        margin="0px auto"
+        height="90vh"
+      >
         {loading ? (
           <h1>ロード中。。</h1>
         ) : (
@@ -174,6 +185,7 @@ const userProfile: NextPage = () => {
               onChangeFile={onChangeFile}
               onEditImage={onEditImage}
               setOnEditImage={setOnEditImage}
+              setPreview={setPreview}
             />
             <UserProfile
               isCurrentUser={isCurrentUser}

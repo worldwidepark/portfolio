@@ -3,6 +3,7 @@ import { Flex } from '../../layout/Flex'
 import 'react-datepicker/dist/react-datepicker.css'
 import { UrlsInputForms } from '../../molecules/UserProfile/urlsInputForms'
 import { UserProfileType } from '../../../types/types'
+import { Box } from '../../layout/Box'
 
 interface UserProfileProps {
   isCurrentUser: boolean
@@ -74,10 +75,18 @@ export const UserProfile = ({
         </>
       ) : (
         <>
-          <div>{userProfileData.name}</div>
-          <div>{userProfileData.introduce}</div>
-          <div>{userProfileData.occupation}</div>
-          <div>{urlItem}</div>
+          <Box fontSize="24px" fontWeight="bold" margin="0px 0px 10px">
+            {userProfileData.name}
+          </Box>
+          <Box fontSize="16px" margin="0px 0px 10px" height="50px">
+            {userProfileData.introduce}
+          </Box>
+          <Box fontSize="14px" margin="0px 0px 10px">
+            {userProfileData.occupation}
+          </Box>
+          <Box fontSize="24px" margin="0px 0px 10px">
+            {urlItem}
+          </Box>
 
           {isCurrentUser && <button onClick={() => onClickEdit()}>edit</button>}
         </>

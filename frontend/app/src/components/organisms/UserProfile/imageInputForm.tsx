@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { UserProfileType } from '../../../types/types'
+import styled from 'styled-components'
+import { Flex } from '../../layout/Flex'
+import { Box } from '../../layout/Box'
 
 interface ImageInputFormProps {
   isCurrentUser: boolean
@@ -9,7 +12,15 @@ interface ImageInputFormProps {
   onChangeFile: (e: any) => void
   onEditImage: boolean
   setOnEditImage: React.Dispatch<React.SetStateAction<boolean>>
+  setPreview: React.Dispatch<React.SetStateAction<string | boolean>>
 }
+const Img = styled.img`
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  object-fit: cover;
+  margin-bottom: 20px;
+`
 
 export const ImageInputForm = ({
   isCurrentUser,
@@ -19,38 +30,54 @@ export const ImageInputForm = ({
   onChangeFile,
   onEditImage,
   setOnEditImage,
+  setPreview,
 }: ImageInputFormProps) => {
   return (
     <>
       {onEditImage ? (
         <form onSubmit={onSubmitUserProfileImage}>
-          {typeof preview === 'string' ? (
-            <img src={preview} />
-          ) : (
-            <img src={userProfileData.image} />
-          )}
-          <input
-            name="image"
-            type="file"
-            onChange={onChangeFile}
-            accept="image/*"
-          />
-          <button type="submit">編集</button>
-        </form>
-      ) : (
-        <div>
-          <img src={userProfileData.image} />
-          {isCurrentUser && (
+          <Flex flexDirection="column" alignItems="center">
+            {typeof preview === 'string' ? (
+              <>
+                <Img src={preview} />
+                <button type="submit">編集</button>
+              </>
+            ) : (
+              <Img src={userProfileData.image} />
+            )}
+            <input
+              name="image"
+              type="file"
+              onChange={onChangeFile}
+              accept="image/*"
+            />
             <button
               type="button"
               onClick={() => {
-                setOnEditImage(true)
+                setOnEditImage(false)
+                setPreview(false)
               }}
             >
-              プロフィール写真を編集
+              編集を取り消す
             </button>
+          </Flex>
+        </form>
+      ) : (
+        <Flex flexDirection="column" alignItems="center">
+          <Img src={userProfileData.image} />
+          {isCurrentUser && (
+            <Box height="100px">
+              <button
+                type="button"
+                onClick={() => {
+                  setOnEditImage(true)
+                }}
+              >
+                プロフィール写真を編集
+              </button>
+            </Box>
           )}
-        </div>
+        </Flex>
       )}
     </>
   )
